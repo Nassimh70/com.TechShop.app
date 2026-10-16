@@ -126,6 +126,21 @@ public class ProductUnitDao {
         }
     }
 
+    /** Marque un appareil vendu : statut, vente, ligne de vente et date de vente. */
+    public void markSold(long id, int saleId, long saleItemId) throws SQLException {
+        try (Connection c = DatabaseManager.connection();
+             PreparedStatement ps = c.prepareStatement(
+                     "UPDATE product_units SET status = ?, sale_id = ?, sale_item_id = ?, "
+                             + "sold_at = ? WHERE id = ?")) {
+            ps.setString(1, ProductUnit.VENDU);
+            ps.setInt(2, saleId);
+            ps.setLong(3, saleItemId);
+            ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            ps.setLong(5, id);
+            ps.executeUpdate();
+        }
+    }
+
     /** Change le statut d'un appareil (vente, réparation, retour...). */
     public void updateStatus(long id, String status, Integer saleId) throws SQLException {
         try (Connection c = DatabaseManager.connection();

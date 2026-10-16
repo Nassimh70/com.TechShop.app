@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TechShop Manager - module Caisse & Finances (SPEC §4.10).
+  Sessions de caisse : ouverture avec fonds, entrées / sorties, clôture par
+  comptage de coupures, écart et historique.
+  Le corps de l'écran est construit par le contrôleur (design system commun).
+-->
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<VBox styleClass="page-pane" spacing="0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.techshop.controller.CashController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label styleClass="section-title" text="Caisse &amp; Finances"/>
+            <Label styleClass="muted" text="Sessions, encaissements, sorties et clôture"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox fx:id="headerActions" spacing="8" alignment="CENTER_RIGHT"/>
+    </HBox>
+
+    <VBox fx:id="root" spacing="12" VBox.vgrow="ALWAYS"/>
+</VBox>

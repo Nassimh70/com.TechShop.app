@@ -1080,4 +1080,128 @@
     -fx-font-weight: 600;
 }
 
+/* ==================== Point de vente (SPEC §4.3) ======================== */
+.pos-root {
+    -fx-padding: 0 0 4 0;
+}
+
+.pos-left {
+    -fx-min-width: 320px;
+}
+
+.pos-right {
+    -fx-min-width: 340px;
+}
+
+.filters-bar {
+    -fx-padding: 8 16 8 16;
+    -fx-spacing: 8;
+    -fx-border-width: 0 0 1 0;
+}
+
+.filters-bar .date-picker,
+.filters-bar .combo-box {
+    -fx-pref-width: 150px;
+}
+
+.cart-tab {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 4 10 4 10;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.cart-tab-active {
+    -fx-font-weight: bold;
+}
+
+/* Segmenté (modes de paiement, filtres). */
+.segmented .toggle-button {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 6 12 6 12;
+    -fx-cursor: hand;
+}
+
+/* Carte encastrée (résumé panier, encaissement). */
+.card-inset {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-padding: 10 12 10 12;
+    -fx-hgap: 10;
+    -fx-vgap: 6;
+}
+
+.list-row {
+    -fx-padding: 6 4 6 4;
+    -fx-border-width: 0 0 1 0;
+}
+
+.mono {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+}
+
+.money {
+    -fx-font-weight: bold;
+}
+
+.money-total {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.danger-text {
+    -fx-font-weight: bold;
+}
+
+.warning-text {
+    -fx-font-weight: bold;
+}
+
+/* ==================== Caisse (SPEC §4.10) =============================== */
+.cash-count-grid {
+    -fx-padding: 6 0 6 0;
+}
+
+.cash-denom {
+    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-size: 12px;
+}
+
+.cash-denom-total {
+    -fx-font-weight: bold;
+}
+
+.cash-close-summary {
+    -fx-padding: 8 0 8 0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.cash-total-value {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.cash-ecart {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.cash-ecart-ok {
+    -fx-text-fill: #16A34A;
+}
+
+.cash-ecart-plus {
+    -fx-text-fill: #2563EB;
+}
+
+.cash-ecart-moins {
+    -fx-text-fill: #DC2626;
+}
+
+
 

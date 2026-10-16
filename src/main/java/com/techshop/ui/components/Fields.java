@@ -125,7 +125,7 @@ public final class Fields {
 
     // -------------------------------- Interne ---------------------------------
 
-    private static FormField of(String label, javafx.scene.control.Control control, String prompt) {
+    public static FormField of(String label, javafx.scene.control.Control control, String prompt) {
         control.getStyleClass().add("field");
         if (prompt != null && control instanceof TextField tf) {
             tf.setPromptText(prompt);

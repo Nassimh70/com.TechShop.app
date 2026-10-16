@@ -23,6 +23,16 @@ public final class ActivityActions {
     public static final String CHANGEMENT_PRIX = "CHANGEMENT_PRIX";
     /** Génération / impression d'étiquettes code-barres. */
     public static final String ETIQUETTES = "ETIQUETTES";
+    /** Vente enregistrée au point de vente. */
+    public static final String VENTE = "VENTE";
+    /** Retour / remboursement d'une vente. */
+    public static final String REMBOURSEMENT = "REMBOURSEMENT";
+    /** Ouverture d'une session de caisse. */
+    public static final String CAISSE_OUVERTURE = "CAISSE_OUVERTURE";
+    /** Clôture d'une session de caisse. */
+    public static final String CAISSE_CLOTURE = "CAISSE_CLOTURE";
+    /** Entrée ou sortie d'espèces en caisse. */
+    public static final String CAISSE_MOUVEMENT = "CAISSE_MOUVEMENT";
 
     private ActivityActions() {
     }

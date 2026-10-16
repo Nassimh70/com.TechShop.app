@@ -261,3 +261,322 @@ com.techshop.util.ValidationException: Base de données indisponible. Réessayez
 2026-10-16 21:56:43.351 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
 2026-10-16 21:57:01.520 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
 2026-10-16 21:57:24.259 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 22:58:59.956 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 22:59:00.057 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 22:59:00.256 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 22:59:00.875 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 22:59:01.451 INFO  [c.techshop.config.MigrationService] Migration V005__phase4.sql appliquée en 38 ms
+2026-10-16 22:59:01.452 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (1 migration(s) appliquée(s))
+2026-10-16 22:59:01.478 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 22:59:23.058 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:01:35.993 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 23:07:22.399 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 23:07:22.559 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 23:07:22.862 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 23:07:23.647 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:07:24.181 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:07:24.181 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:07:24.198 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 23:12:47.583 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 23:12:47.714 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 23:12:48.012 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 23:12:48.680 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:12:49.217 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:12:49.217 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:12:49.230 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 23:13:36.462 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:13:52.392 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran pos
+java.lang.IllegalStateException: Impossible de charger la vue « screens/pos »
+	at com.techshop.util.Fxmls.load(Fxmls.java:33)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
+	at com.techshop.controller.MainController.lambda$sidebarItem$0(MainController.java:210)
+	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@21.0.5/javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3688)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$MouseHandler.process(Scene.java:3993)
+	at javafx.graphics@21.0.5/javafx.scene.Scene.processMouseEvent(Scene.java:1890)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2708)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+Caused by: javafx.fxml.LoadException: 
+/D:/JavaFx/index/target/classes/fxml/screens/pos.fxml:21
+
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:935)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$InstanceDeclarationElement.processAttribute(FXMLLoader.java:983)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$Element.processStartElement(FXMLLoader.java:230)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processStartElement(FXMLLoader.java:757)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2853)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
+	at com.techshop.util.Fxmls.load(Fxmls.java:30)
+	... 35 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.techshop.controller.PosController
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:933)
+	... 43 common frames omitted
+2026-10-16 23:13:53.853 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran pos
+java.lang.IllegalStateException: Impossible de charger la vue « screens/pos »
+	at com.techshop.util.Fxmls.load(Fxmls.java:33)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
+	at com.techshop.controller.MainController.lambda$sidebarItem$0(MainController.java:210)
+	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@21.0.5/javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3688)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$MouseHandler.process(Scene.java:3993)
+	at javafx.graphics@21.0.5/javafx.scene.Scene.processMouseEvent(Scene.java:1890)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2708)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+Caused by: javafx.fxml.LoadException: 
+/D:/JavaFx/index/target/classes/fxml/screens/pos.fxml:21
+
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:935)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$InstanceDeclarationElement.processAttribute(FXMLLoader.java:983)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$Element.processStartElement(FXMLLoader.java:230)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processStartElement(FXMLLoader.java:757)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2853)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
+	at com.techshop.util.Fxmls.load(Fxmls.java:30)
+	... 35 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.techshop.controller.PosController
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:933)
+	... 43 common frames omitted
+2026-10-16 23:13:54.706 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran sales
+java.lang.IllegalStateException: Impossible de charger la vue « screens/sales »
+	at com.techshop.util.Fxmls.load(Fxmls.java:33)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
+	at com.techshop.controller.MainController.lambda$sidebarItem$0(MainController.java:210)
+	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@21.0.5/javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3688)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$MouseHandler.process(Scene.java:3993)
+	at javafx.graphics@21.0.5/javafx.scene.Scene.processMouseEvent(Scene.java:1890)
+	at javafx.graphics@21.0.5/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2708)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+Caused by: javafx.fxml.LoadException: 
+/D:/JavaFx/index/target/classes/fxml/screens/sales.fxml:13
+
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:935)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$InstanceDeclarationElement.processAttribute(FXMLLoader.java:983)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$Element.processStartElement(FXMLLoader.java:230)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processStartElement(FXMLLoader.java:757)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2853)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
+	at com.techshop.util.Fxmls.load(Fxmls.java:30)
+	... 35 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.techshop.controller.SalesController
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:933)
+	... 43 common frames omitted
+2026-10-16 23:14:52.180 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 23:15:29.263 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:15:29.860 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:15:29.861 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:15:31.174 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:17:20.811 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:17:21.218 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:17:21.220 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:17:22.608 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:17:23.005 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+2026-10-16 23:17:23.008 ERROR [com.techshop.service.SaleService] Enregistrement de la vente impossible
+java.sql.SQLIntegrityConstraintViolationException: (conn=133) Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:297)
+	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
+	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
+	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
+	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:342)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:319)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at com.techshop.dao.SalePaymentDao.insert(SalePaymentDao.java:32)
+	at com.techshop.service.SaleService.repartirReglements(SaleService.java:328)
+	at com.techshop.service.SaleService.lambda$checkout$0(SaleService.java:213)
+	at com.techshop.config.Tx.run(Tx.java:34)
+	at com.techshop.service.SaleService.checkout(SaleService.java:130)
+	at com.techshop.app.SmokeMain.start(SmokeMain.java:69)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-16 23:18:47.149 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:18:47.683 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:18:47.683 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:18:49.109 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:18:49.487 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+2026-10-16 23:18:49.487 ERROR [com.techshop.service.SaleService] Enregistrement de la vente impossible
+java.sql.SQLIntegrityConstraintViolationException: (conn=136) Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:297)
+	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
+	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
+	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
+	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:342)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:319)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at com.techshop.dao.SalePaymentDao.insert(SalePaymentDao.java:32)
+	at com.techshop.service.SaleService.repartirReglements(SaleService.java:328)
+	at com.techshop.service.SaleService.lambda$checkout$0(SaleService.java:213)
+	at com.techshop.config.Tx.run(Tx.java:34)
+	at com.techshop.service.SaleService.checkout(SaleService.java:130)
+	at com.techshop.app.SmokeMain.start(SmokeMain.java:83)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-16 23:19:13.021 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:19:13.600 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:19:13.601 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:19:15.389 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:19:15.893 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+2026-10-16 23:19:15.893 ERROR [com.techshop.service.SaleService] Enregistrement de la vente impossible
+java.sql.SQLIntegrityConstraintViolationException: (conn=139) Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:297)
+	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
+	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
+	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
+	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:342)
+	at org.mariadb.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:319)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at com.techshop.dao.SalePaymentDao.insert(SalePaymentDao.java:32)
+	at com.techshop.service.SaleService.repartirReglements(SaleService.java:328)
+	at com.techshop.service.SaleService.lambda$checkout$0(SaleService.java:213)
+	at com.techshop.config.Tx.run(Tx.java:34)
+	at com.techshop.service.SaleService.checkout(SaleService.java:130)
+	at com.techshop.app.SmokeMain.start(SmokeMain.java:83)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-16 23:22:54.895 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:22:55.347 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:22:55.348 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:22:56.544 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:24:19.189 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:24:19.758 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:24:19.759 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:24:21.005 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:38:00.675 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 23:38:00.852 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 23:38:01.014 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 23:38:01.591 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 23:38:02.081 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 23:38:02.082 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 23:38:02.097 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 23:38:11.995 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 23:41:57.757 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager

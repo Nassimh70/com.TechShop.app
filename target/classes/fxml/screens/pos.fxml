@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TechShop Manager - Point de vente (SPEC §4.3).
+  Recherche / scan code-barres (F2), puces de catégories, grille OU liste de
+  produits, onglets de paniers en attente, panier (quantité +/-, remise par
+  ligne), client (F4), remise globale (F8), totaux et encaissement (F10).
+  Le tableau du panier est construit par le contrôleur.
+-->
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<VBox styleClass="page-pane" spacing="0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      onKeyPressed="#onKeyPressed"
+      fx:controller="com.techshop.controller.PosController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label styleClass="section-title" text="Point de vente"/>
+            <Label styleClass="muted" text="F2 recherche · F4 client · F8 remise · F10 encaisser · Échap vider"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox fx:id="headerActions" spacing="8" alignment="CENTER_RIGHT"/>
+    </HBox>
+
+    <HBox spacing="12" styleClass="pos-root" VBox.vgrow="ALWAYS">
+        <VBox styleClass="pos-left" spacing="10" HBox.hgrow="ALWAYS">
+            <TextField fx:id="searchField" styleClass="field"
+                       promptText="Code-barres / référence / recherche produit... (F2)"/>
+            <FlowPane fx:id="categoryChips" hgap="6" vgap="6"/>
+            <ScrollPane fx:id="gridScroll" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <FlowPane fx:id="productGrid" hgap="10" vgap="10" styleClass="product-grid"/>
+            </ScrollPane>
+        </VBox>
+
+        <VBox styleClass="pos-right" spacing="10">
+            <HBox fx:id="cartTabs" spacing="6" alignment="CENTER_LEFT"/>
+            <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label styleClass="card-title" text="Panier"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="clientLabel" styleClass="muted" text="Client : Comptoir"/>
+                    <Button fx:id="btnClient" styleClass="btn-outline" text="Client (F4)"/>
+                </HBox>
+                <VBox fx:id="cartTableBox" VBox.vgrow="ALWAYS"/>
+            </VBox>
+            <VBox spacing="6" styleClass="card">
+                <GridPane hgap="10" vgap="6">
+                    <Label text="Sous-total" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label fx:id="lblSubtotal" styleClass="money" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label text="Remise globale" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="discountField" styleClass="field" promptText="0,00"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Remise totale" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label fx:id="lblDiscount" styleClass="money" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label text="TOTAL" styleClass="card-title" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <Label fx:id="lblTotal" styleClass="money-total" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                </GridPane>
+            </VBox>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Button fx:id="btnPayer" styleClass="btn-primary" text="Encaisser (F10)"/>
+                <Button fx:id="btnAttente" styleClass="btn-outline" text="Mettre en attente"/>
+                <Button fx:id="btnVider" styleClass="btn-secondary" text="Vider"/>
+            </HBox>
+        </VBox>
+    </HBox>
+</VBox>

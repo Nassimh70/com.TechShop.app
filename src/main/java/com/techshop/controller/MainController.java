@@ -7,8 +7,10 @@ import com.techshop.model.Product;
 import com.techshop.model.Role;
 import com.techshop.model.StockStatus;
 import com.techshop.service.AuthService;
+import com.techshop.service.CashService;
 import com.techshop.service.MenuRegistry;
 import com.techshop.service.NavigationService;
+import com.techshop.service.PermissionDefaults;
 import com.techshop.service.PermissionService;
 import com.techshop.service.SessionContext;
 import com.techshop.service.StockService;
@@ -125,6 +127,8 @@ public class MainController {
     private boolean collapsed = false;
     private int notificationCount = 0;
     private Label bellBadge;
+    private Region cashDot;
+    private Label cashText;
 
     // ---------------------------------------------------------------- initialisation
 
@@ -218,6 +222,7 @@ public class MainController {
     }
 
     private void onScreenChanged(NavItem item) {
+        CashService.get().refreshState();
         if (item == null) {
             pageTitle.setText("TechShop Manager");
             breadcrumb.setText("Accueil");
@@ -283,15 +288,18 @@ public class MainController {
         bellBtn.setTooltip(new Tooltip("Alertes de stock"));
         rafraichirNotifications();
 
-        // Indicateur de caisse (l'état réel viendra du module Caisse)
-        HBox cashContent = new HBox(6, dot());
-        Label cashText = new Label("Caisse fermée");
-        cashContent.getChildren().add(cashText);
+        // Indicateur de caisse (état réel du module Caisse)
+        cashDot = dot();
+        cashText = new Label("Caisse fermée");
+        HBox cashContent = new HBox(6, cashDot, cashText);
         cashContent.setAlignment(Pos.CENTER_LEFT);
         cashChip.setGraphic(cashContent);
         cashChip.setText(null);
         cashChip.setContentDisplay(javafx.scene.control.ContentDisplay.GRAPHIC_ONLY);
-        cashChip.setTooltip(new Tooltip("Aucune session de caisse ouverte (module à venir)"));
+        cashContent.setMouseTransparent(true);
+        rafraichirCaisse();
+        CashService.get().openProperty().addListener((o, a, b) -> rafraichirCaisse());
+        CashService.get().sessionNumberProperty().addListener((o, a, b) -> rafraichirCaisse());
 
         // Menu utilisateur : avatar + nom + rôle
         var user = SessionContext.get().getUser();
@@ -334,8 +342,37 @@ public class MainController {
 
     @FXML
     private void onCashChip(javafx.scene.input.MouseEvent event) {
-        ToastService.get().warning("Caisse fermée",
-                "Aucune session de caisse ouverte. Le module Caisse & Finances arrive dans une prochaine phase.");
+        CashService.get().refreshState();
+        if (CashService.get().isOpen()) {
+            ouvrirModule("cash");
+        } else {
+            if (PermissionService.get().can(PermissionDefaults.M_CASH,
+                    PermissionService.Action.CREATE)) {
+                CashOpenDialog.ouvrir(() -> {
+                    CashService.get().refreshState();
+                    ouvrirModule("cash");
+                });
+            } else {
+                ToastService.get().warning("Caisse fermée",
+                        "Aucune session de caisse ouverte.");
+            }
+        }
+    }
+
+    /** Met à jour la pastille de caisse selon l'état réel (CashService). */
+    private void rafraichirCaisse() {
+        if (cashChip == null || cashText == null) {
+            return;
+        }
+        boolean ouvert = CashService.get().openProperty().get();
+        cashChip.getStyleClass().removeAll("open", "closed");
+        cashChip.getStyleClass().add(ouvert ? "open" : "closed");
+        cashText.setText(ouvert
+                ? "Caisse ouverte"
+                : "Caisse fermée");
+        cashChip.setTooltip(new Tooltip(ouvert
+                ? "Session " + CashService.get().sessionNumberProperty().get() + " ouverte — gérer la caisse"
+                : "Cliquez pour ouvrir une session de caisse"));
     }
 
     @FXML
@@ -562,7 +599,7 @@ public class MainController {
                     item.getIcon(), () -> NavigationService.get().navigate(item)));
         }
         entries.add(new PaletteEntry("Nouvelle vente", "Action rapide", "shopping-cart",
-                () -> ToastService.get().info("Action rapide", "Le point de vente arrive dans la prochaine phase")));
+                () -> ouvrirModule("pos")));
         entries.add(new PaletteEntry("Nouvelle réparation", "Action rapide", "tool",
                 () -> ToastService.get().info("Action rapide", "Le module SAV arrive dans une prochaine phase")));
         entries.add(new PaletteEntry("Ajouter un produit", "Catalogue", "plus-circle",

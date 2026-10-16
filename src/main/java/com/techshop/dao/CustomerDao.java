@@ -112,6 +112,29 @@ public class CustomerDao {
         }
     }
 
+    /** Nombre de clients actifs (indicateur de tableau de bord). */
+    public long countActive() throws SQLException {
+        try (Connection c = DatabaseManager.connection();
+             PreparedStatement ps = c.prepareStatement(
+                     "SELECT COUNT(*) FROM customers WHERE active = 1")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0;
+            }
+        }
+    }
+
+    /** Encours total des dettes clients (somme des soldes positifs). */
+    public BigDecimal totalDebt() throws SQLException {
+        try (Connection c = DatabaseManager.connection();
+             PreparedStatement ps = c.prepareStatement(
+                     "SELECT COALESCE(SUM(balance), 0) FROM customers WHERE balance > 0")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                BigDecimal v = rs.next() ? rs.getBigDecimal(1) : null;
+                return v == null ? BigDecimal.ZERO : v;
+            }
+        }
+    }
+
     private Customer map(ResultSet rs) throws SQLException {
         Customer c = new Customer();
         c.setId(rs.getInt("id"));

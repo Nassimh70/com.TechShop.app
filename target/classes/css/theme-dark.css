@@ -916,3 +916,70 @@
     -fx-text-fill: #F1F5F9;
 }
 
+/* ==================== Ventes & caisse (SPEC §4.3, §4.4, §4.10) ========== */
+.filters-bar {
+    -fx-background-color: #111C2E;
+    -fx-border-color: transparent transparent #263449 transparent;
+}
+
+.card-inset {
+    -fx-background-color: #0B1424;
+    -fx-border-color: #263449;
+}
+
+.list-row {
+    -fx-border-color: transparent transparent #1E2A3E transparent;
+}
+
+.money {
+    -fx-text-fill: #F1F5F9;
+}
+
+.money-total {
+    -fx-text-fill: #A5B4FC;
+}
+
+.danger-text {
+    -fx-text-fill: #F87171;
+}
+
+.warning-text {
+    -fx-text-fill: #FBBF24;
+}
+
+.segmented .toggle-button {
+    -fx-background-color: #111C2E;
+    -fx-border-color: #263449;
+    -fx-text-fill: #CBD5E1;
+}
+
+.segmented .toggle-button:selected {
+    -fx-background-color: #1E2A4A;
+    -fx-border-color: #818CF8;
+    -fx-text-fill: #A5B4FC;
+}
+
+.cart-tab {
+    -fx-background-color: #111C2E;
+    -fx-border-color: #263449;
+    -fx-text-fill: #CBD5E1;
+}
+
+.cart-tab-active {
+    -fx-background-color: #1E2A4A;
+    -fx-border-color: #818CF8;
+    -fx-text-fill: #A5B4FC;
+}
+
+.cash-ecart-ok {
+    -fx-text-fill: #4ADE80;
+}
+
+.cash-ecart-plus {
+    -fx-text-fill: #60A5FA;
+}
+
+.cash-ecart-moins {
+    -fx-text-fill: #F87171;
+}
+

@@ -21,12 +21,11 @@ public final class MenuRegistry {
     public static final String SEC_ADMIN = "ADMINISTRATION";
 
     private static final List<NavItem> ITEMS = List.of(
-            // Tableau de bord : module métier non réalisé -> état « en construction »
-            NavItem.all("dashboard", "Tableau de bord", SEC_OVERVIEW, "home", null),
+            NavItem.all("dashboard", "Tableau de bord", SEC_OVERVIEW, "home", "screens/dashboard"),
 
-            new NavItem("pos", "Point de vente", SEC_SALES, "shopping-cart", null,
+            new NavItem("pos", "Point de vente", SEC_SALES, "shopping-cart", "screens/pos",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
-            new NavItem("sales", "Ventes", SEC_SALES, "shopping-bag", null,
+            new NavItem("sales", "Ventes", SEC_SALES, "shopping-bag", "screens/sales",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
             new NavItem("customers", "Clients", SEC_SALES, "users", null,
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
@@ -40,7 +39,7 @@ public final class MenuRegistry {
             new NavItem("repairs", "SAV / Réparations", SEC_SERVICE, "tool", null,
                     null, java.util.EnumSet.of(Role.ADMIN, Role.TECHNICIEN)),
 
-            new NavItem("cash", "Caisse & Finances", SEC_FINANCE, "briefcase", null,
+            new NavItem("cash", "Caisse & Finances", SEC_FINANCE, "briefcase", "screens/cash",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
 
             new NavItem("reports", "Rapports", SEC_FINANCE, "bar-chart-2", null,
