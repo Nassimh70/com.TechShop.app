@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Created-By: Gradle 6.9.2
+Build-By: runner
+Build-Jdk: 11.0.14 (Azul Systems, Inc. 11.0.14+9-LTS)
+Build-Os: Linux (5.11.0-1028-azure; amd64)
+Build-Date: 2022-03-13
+Build-Time: 12:54:51Z
+Build-Revision: b47e8d3fb95e35a8ea7f3113fe2932db068585ba
+Build-Jdk-Spec: 11
+Implementation-Title: ikonli
+Implementation-Version: 12.3.1
+Implementation-Vendor: Kordamp
+

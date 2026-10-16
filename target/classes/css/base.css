@@ -1,0 +1,1083 @@
+/* ============================================================================
+   TechShop Manager - base.css
+   Styles STRUCTURELS communs (géométrie, typographie de base, forme).
+   Aucune couleur ici : les couleurs sont définies dans theme-light.css
+   et theme-dark.css (jetons : -fx-primary, surfaces, texte, sémantique...).
+   Grille de 8 px. Cartes : rayon 12. Boutons/champs : rayon 8, hauteur 36
+   (compact 30). Dialogues : rayon 16.
+   ========================================================================= */
+
+/* ---------------------------- Racine ---------------------------------- */
+.app-root {
+    -fx-font-size: 13px;
+}
+
+/* ------------------------- Barre latérale ------------------------------ */
+.sidebar {
+    -fx-padding: 0;
+    -fx-border-width: 0 1 0 0;
+    -fx-background-insets: 0;
+}
+
+.sidebar-header {
+    -fx-pref-height: 64px;
+    -fx-padding: 14 12 14 16;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.logo-badge {
+    -fx-pref-width: 36px;
+    -fx-pref-height: 36px;
+    -fx-background-radius: 10px;
+    -fx-alignment: center;
+}
+
+.logo-badge .ikonli-font-icon {
+    -fx-icon-size: 20px;
+}
+
+.app-name {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.app-sub {
+    -fx-font-size: 10px;
+    -fx-letter-spacing: 0.6px;
+}
+
+/* Zone de défilement du menu */
+.nav-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 4 8 4 8;
+}
+
+.nav-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.nav-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 6px;
+    -fx-padding: 0 2 0 0;
+}
+
+.nav-scroll .scroll-bar:vertical .increment-button,
+.nav-scroll .scroll-bar:vertical .decrement-button {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+}
+
+.nav-scroll .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.nav-scroll .scroll-bar:vertical .thumb {
+    -fx-background-radius: 3px;
+}
+
+.nav-box {
+    -fx-padding: 0 0 8 0;
+}
+
+.nav-section {
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+    -fx-padding: 16 0 6 12;
+}
+
+/* Entrée de menu : hauteur 40, rayon 8, barre d'indicateur à gauche */
+.sidebar-item {
+    -fx-pref-height: 40px;
+    -fx-background-radius: 8px;
+    -fx-padding: 0 10 0 12;
+    -fx-spacing: 12;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+}
+
+.sidebar-item .indicator {
+    -fx-pref-width: 3px;
+    -fx-pref-height: 18px;
+    -fx-background-radius: 2px;
+    -fx-background-color: transparent;
+}
+
+.sidebar-item .ikonli-font-icon {
+    -fx-icon-size: 18px;
+}
+
+.sidebar-item-label {
+    -fx-font-size: 13px;
+}
+
+.sidebar-footer {
+    -fx-padding: 12 12 12 16;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-width: 1 0 0 0;
+}
+
+.user-name {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.user-role {
+    -fx-font-size: 10px;
+}
+
+/* État replié : 72 px, icônes seules */
+.sidebar.collapsed {
+    -fx-pref-width: 72px;
+}
+
+.sidebar.collapsed .sidebar-header {
+    -fx-alignment: center;
+    -fx-padding: 14 8;
+}
+
+.sidebar.collapsed .logo-text,
+.sidebar.collapsed .sidebar-item-label,
+.sidebar.collapsed .nav-section,
+.sidebar.collapsed .user-info,
+.sidebar.collapsed .collapse-btn {
+    -fx-opacity: 0;
+    -fx-max-width: 0px;
+}
+
+.sidebar.collapsed .sidebar-item {
+    -fx-alignment: center;
+    -fx-padding: 0;
+}
+
+.sidebar.collapsed .sidebar-item .indicator {
+    -fx-pref-height: 24px;
+}
+
+/* --------------------------- Barre supérieure --------------------------- */
+.topbar {
+    -fx-pref-height: 64px;
+    -fx-padding: 0 24;
+    -fx-border-width: 0 0 1 0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 16;
+}
+
+.page-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.breadcrumb {
+    -fx-font-size: 11px;
+}
+
+.search-trigger {
+    -fx-pref-height: 34px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 0 8 0 10;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+}
+
+.search-trigger .ikonli-font-icon {
+    -fx-icon-size: 15px;
+}
+
+.search-trigger .hint {
+    -fx-font-size: 12px;
+}
+
+.icon-btn {
+    -fx-pref-width: 34px;
+    -fx-pref-height: 34px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.icon-btn .ikonli-font-icon {
+    -fx-icon-size: 17px;
+}
+
+/* Pastille de compteur (cloche) */
+.bell-badge {
+    -fx-min-width: 16px;
+    -fx-pref-height: 16px;
+    -fx-padding: 0 4;
+    -fx-background-radius: 999px;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+/* Indicateur caisse ouverte / fermée */
+.cash-chip {
+    -fx-pref-height: 28px;
+    -fx-background-radius: 999px;
+    -fx-padding: 0 12;
+    -fx-spacing: 6;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.cash-dot {
+    -fx-pref-width: 8px;
+    -fx-pref-height: 8px;
+    -fx-background-radius: 999px;
+}
+
+/* Menu utilisateur */
+.user-menu {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 4 8 4 4;
+    -fx-background-radius: 8px;
+    -fx-spacing: 8;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.user-menu:hover {
+    -fx-background-color: rgba(100, 116, 139, 0.12);
+}
+
+/* --------------------------- Zone de contenu ---------------------------- */
+.content-host {
+    -fx-padding: 0;
+}
+
+.page-pane {
+    -fx-padding: 24;
+}
+
+.page-header {
+    -fx-spacing: 16;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 16 0;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 24 0 8 0;
+}
+
+/* ------------------------------- Cartes -------------------------------- */
+.card {
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+    -fx-padding: 16px;
+}
+
+.card-header {
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 12 0;
+}
+
+.card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.card-subtitle {
+    -fx-font-size: 12px;
+}
+
+/* ------------------------------ Boutons --------------------------------- */
+.btn {
+    -fx-pref-height: 36px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 0 16;
+    -fx-font-size: 13px;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.btn .ikonli-font-icon {
+    -fx-icon-size: 16px;
+}
+
+.btn-compact {
+    -fx-pref-height: 30px;
+    -fx-padding: 0 12;
+    -fx-font-size: 12px;
+}
+
+.btn-icon {
+    -fx-pref-width: 36px;
+    -fx-padding: 0;
+}
+
+.btn-icon.btn-compact {
+    -fx-pref-width: 30px;
+}
+
+.btn:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}
+
+/* ------------------------------- Champs --------------------------------- */
+.field-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.8px;
+}
+
+.field {
+    -fx-pref-height: 36px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 0 12;
+    -fx-font-size: 13px;
+}
+
+.text-area.field {
+    -fx-pref-height: 96px;
+    -fx-padding: 8 12;
+}
+
+.combo-box.field {
+    -fx-padding: 0 8 0 12;
+}
+
+.combo-box.field > .list-cell {
+    -fx-background-color: transparent;
+    -fx-font-size: 13px;
+}
+
+/* Conteneur d'icône + champ (recherche, mot de passe...) */
+.input-wrap {
+    -fx-alignment: CENTER_LEFT;
+}
+
+.input-wrap > .ikonli-font-icon {
+    -fx-icon-size: 15px;
+    -fx-padding: 0 0 0 2;
+}
+
+.field-inline-btn {
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+    -fx-background-radius: 6px;
+    -fx-padding: 0;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.field-inline-btn .ikonli-font-icon {
+    -fx-icon-size: 15px;
+}
+
+.field-msg {
+    -fx-font-size: 11px;
+    -fx-padding: 4 0 0 2;
+}
+
+/* Liste déroulante (popup) */
+.combo-box-popup > .list-view {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-padding: 4;
+}
+
+.combo-popup .list-cell {
+    -fx-background-radius: 6px;
+    -fx-padding: 7 10;
+    -fx-font-size: 13px;
+}
+
+/* -------------------------------- Badges -------------------------------- */
+.badge {
+    -fx-background-radius: 999px;
+    -fx-padding: 3 9;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+/* --------------------------- Carte statistique -------------------------- */
+.stat-card {
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+    -fx-padding: 16px;
+}
+
+.stat-label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.8px;
+}
+
+.stat-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 0 2 0;
+}
+
+.stat-var {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.spark {
+    -fx-min-width: 64px;
+    -fx-pref-height: 32px;
+    -fx-background-radius: 6px;
+}
+
+/* -------------------------------- Tableau ------------------------------- */
+.table-wrap {
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+    -fx-padding: 0;
+}
+
+.data-table {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-table-cell-border-color: transparent;
+}
+
+.data-table .column-header-background {
+    -fx-background-radius: 12 12 0 0;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0 2 0 2;
+}
+
+.data-table .column-header {
+    -fx-background-color: transparent;
+    -fx-pref-height: 40px;
+    -fx-size: 40px;
+}
+
+.data-table .column-header .label {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.6px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.data-table .filler {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.data-table .table-row-cell {
+    -fx-pref-height: 44px;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-insets: 0;
+}
+
+.data-table .table-cell {
+    -fx-padding: 0 12;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-width: 0;
+}
+
+.table-footer {
+    -fx-pref-height: 48px;
+    -fx-padding: 0 16;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-width: 1 0 0 0;
+}
+
+.table-count {
+    -fx-font-size: 12px;
+}
+
+/* ---------------------------- Onglets soulignés -------------------------- */
+.tabs {
+    -fx-padding: 0;
+    -fx-tab-min-height: 38px;
+}
+
+.tabs > .tab-header-area {
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+}
+
+.tabs > .tab-header-area > .tab-header-background {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.tabs > .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0 14;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: transparent;
+}
+
+.tabs > .tab:selected {
+    -fx-border-width: 0 0 2 0;
+}
+
+.tabs .tab .tab-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.tabs > .tab-pane > .tab-content-area {
+    -fx-padding: 16 0 0 0;
+}
+
+/* ---------------------------- Interrupteur ------------------------------ */
+.switch {
+    -fx-pref-width: 40px;
+    -fx-pref-height: 22px;
+    -fx-background-radius: 999px;
+    -fx-border-radius: 999px;
+    -fx-border-width: 1px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.switch-thumb {
+    -fx-pref-width: 16px;
+    -fx-pref-height: 16px;
+    -fx-background-radius: 999px;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.25), 4, 0, 0, 1);
+}
+
+/* ----------------------------- Case à cocher ---------------------------- */
+.check-box {
+    -fx-font-size: 13px;
+}
+
+.check-box > .box {
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-width: 1.5px;
+    -fx-padding: 2px;
+}
+
+.check-box > .box > .mark {
+    -fx-background-color: white;
+}
+
+.check-box > .text {
+    -fx-padding: 0 0 0 8;
+}
+
+/* ----------------------------- Puces de filtre --------------------------- */
+.chip {
+    -fx-pref-height: 28px;
+    -fx-background-radius: 999px;
+    -fx-border-radius: 999px;
+    -fx-border-width: 1px;
+    -fx-padding: 0 12;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+/* -------------------------------- Avatars -------------------------------- */
+.avatar {
+    -fx-background-radius: 999px;
+    -fx-alignment: center;
+}
+
+.avatar-label {
+    -fx-font-weight: bold;
+}
+
+/* ------------------------------ Dialogues -------------------------------- */
+.modal-overlay {
+    -fx-background-color: rgba(15, 23, 42, 0.5);
+}
+
+.modal-card {
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+    -fx-padding: 0;
+}
+
+.modal-header {
+    -fx-padding: 20 24 8 24;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.modal-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.modal-body {
+    -fx-padding: 8 24 16 24;
+}
+
+.modal-msg {
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+}
+
+.modal-footer {
+    -fx-padding: 8 24 20 24;
+    -fx-spacing: 8;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+/* Palette de commandes Ctrl+K */
+.palette-card {
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-width: 1px;
+    -fx-pref-width: 580px;
+    -fx-padding: 0;
+}
+
+.palette-input-wrap {
+    -fx-padding: 12 12 8 12;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.palette-input {
+    -fx-background-radius: 8px;
+    -fx-border-width: 0;
+    -fx-padding: 4 2;
+    -fx-font-size: 15px;
+}
+
+.palette-list {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0 8 8 8;
+}
+
+.palette-item {
+    -fx-padding: 9 12;
+    -fx-background-radius: 8px;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+}
+
+.palette-item .ikonli-font-icon {
+    -fx-icon-size: 16px;
+}
+
+.palette-item-label {
+    -fx-font-size: 13px;
+}
+
+.palette-item-hint {
+    -fx-font-size: 11px;
+}
+
+.palette-footer {
+    -fx-padding: 8 16;
+    -fx-spacing: 12;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* --------------------------------- Toasts -------------------------------- */
+.toast-container {
+    -fx-spacing: 8;
+    -fx-padding: 12;
+}
+
+.toast {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-padding: 12;
+    -fx-pref-width: 340px;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.toast .ikonli-font-icon {
+    -fx-icon-size: 18px;
+}
+
+.toast-title {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.toast-msg {
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+}
+
+.toast-close {
+    -fx-background-radius: 6px;
+    -fx-padding: 2;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+/* ------------------------------ États vides ------------------------------ */
+.empty-state {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+    -fx-padding: 48 24;
+}
+
+.empty-icon {
+    -fx-icon-size: 40px;
+}
+
+.empty-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.empty-msg {
+    -fx-font-size: 12px;
+    -fx-text-alignment: center;
+}
+
+/* ------------------------------ Chargement ------------------------------- */
+.loading-box {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+    -fx-padding: 48;
+}
+
+.loading-label {
+    -fx-font-size: 12px;
+}
+
+/* --------------------------- Raccourcis clavier -------------------------- */
+.keycap {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 2 6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+.keycap-hint {
+    -fx-spacing: 6;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* ------------------------------- Utilitaires ----------------------------- */
+.sep {
+    -fx-pref-height: 1px;
+}
+
+.text-right {
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.muted {
+    -fx-font-size: 12px;
+}
+
+.grow {
+    -fx-hgrow: always;
+}
+
+/* Barres de défilement générales (fines) */
+.scroll-bar:vertical {
+    -fx-pref-width: 8px;
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical > .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical > .thumb {
+    -fx-background-radius: 4px;
+}
+
+.scroll-bar > .increment-button,
+.scroll-bar > .decrement-button {
+    -fx-padding: 0;
+    -fx-opacity: 0;
+}
+
+/* Menus contextuels (cloche, actions par ligne...) */
+.context-menu {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-background-insets: 0;
+    -fx-padding: 6;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.18), 16, 0, 0, 6);
+}
+
+.context-menu > .container {
+    -fx-background-color: transparent;
+}
+
+.menu-item {
+    -fx-padding: 8 12;
+    -fx-background-radius: 6px;
+}
+
+.menu-item > .label {
+    -fx-font-size: 13px;
+}
+
+.menu-item > .accelerator {
+    -fx-font-size: 11px;
+}
+
+.separator > .line {
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 4 0;
+}
+
+/* Indicateur de chargement : arc en rotation */
+.loading-indicator {
+    -fx-alignment: center;
+}
+
+.loading-arc {
+    -fx-stroke-width: 3;
+    -fx-stroke-line-cap: round;
+    -fx-fill: transparent;
+}
+
+.spinner-tech .progress-indicator {
+    -fx-background-color: transparent;
+}
+
+.spinner-tech .progress-indicator > .percentage-capsule {
+    -fx-background-color: transparent;
+    -fx-stroke: transparent;
+}
+
+/* ======================= Écrans d'authentification ====================== */
+/* Connexion, changement de mot de passe obligatoire (SPEC §4.1). */
+.auth-split {
+    -fx-background-color: transparent;
+}
+
+.auth-brand {
+    -fx-padding: 40 44;
+    -fx-spacing: 22;
+    -fx-min-width: 360px;
+    -fx-pref-width: 460px;
+}
+
+.auth-form-side {
+    -fx-padding: 40;
+    -fx-min-width: 460px;
+    -fx-pref-width: 560px;
+    -fx-alignment: center;
+}
+
+.auth-card {
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+    -fx-padding: 32;
+    -fx-spacing: 14;
+}
+
+.auth-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.auth-sub {
+    -fx-font-size: 13px;
+}
+
+.auth-submit {
+    -fx-pref-height: 40px;
+    -fx-font-size: 13px;
+}
+
+.auth-error {
+    -fx-font-size: 12px;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+}
+
+.auth-feature {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.auth-feature .ikonli-font-icon {
+    -fx-icon-size: 16px;
+}
+
+.auth-feature-text {
+    -fx-font-size: 13px;
+}
+
+.auth-logout {
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* ========================== Écran de démarrage ========================== */
+.splash .splash-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.splash .splash-state {
+    -fx-font-size: 12px;
+}
+
+.splash .ikonli-font-icon {
+    -fx-icon-size: 46px;
+}
+
+/* ===================== Erreur de connexion à la base ==================== */
+.conn-card {
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-width: 1px;
+    -fx-padding: 36;
+    -fx-spacing: 12;
+    -fx-alignment: center;
+}
+
+.conn-icon {
+    -fx-background-radius: 999px;
+    -fx-min-width: 72px;
+    -fx-min-height: 72px;
+    -fx-alignment: center;
+}
+
+.conn-icon .ikonli-font-icon {
+    -fx-icon-size: 30px;
+}
+
+.conn-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.conn-msg {
+    -fx-font-size: 13px;
+}
+
+.conn-hint {
+    -fx-font-size: 12px;
+}
+
+/* ==================== Matrice de permissions (utilisateurs) ============= */
+.perm-grid {
+    -fx-padding: 18;
+}
+
+.perm-head {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.perm-module {
+    -fx-font-size: 13px;
+}
+
+.temp-password {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 14;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+}
+
+/* ==================== Produits & stock (SPEC §4.5, §4.6) ================ */
+/* Miniatures de produit (tableau et grille). */
+.product-thumb {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.product-thumb-lg {
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1px;
+    -fx-alignment: center;
+}
+
+/* Grille de produits (vue cartes). */
+.product-grid {
+    -fx-background-color: transparent;
+    -fx-padding: 4;
+}
+
+.product-grid-scroll,
+.product-grid-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.product-tile {
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+    -fx-padding: 12;
+    -fx-spacing: 6;
+    -fx-cursor: hand;
+}
+
+.product-tile-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+}
+
+.product-tile-price {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+/* Marge unitaire (formulaire produit). */
+.marge-value {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Quantité signée (entrée/sortie), écart d'inventaire. */
+.money-pos,
+.money-neg {
+    -fx-font-weight: bold;
+}
+
+/* Nom mis en avant dans une cellule de tableau. */
+.user-fullname {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+

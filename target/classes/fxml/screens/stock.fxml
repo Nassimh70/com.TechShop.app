@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TechShop Manager - module Stock (SPEC §4.6, §6.2).
+  Trois onglets : historique des mouvements, inventaire et appareils (IMEI).
+  Le corps de l'écran est construit par le contrôleur (design system commun).
+-->
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<VBox styleClass="page-pane" spacing="0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.techshop.controller.StockController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label styleClass="section-title" text="Stock"/>
+            <Label styleClass="muted" text="Mouvements, inventaire et appareils suivis par IMEI"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox fx:id="headerActions" spacing="8" alignment="CENTER_RIGHT"/>
+    </HBox>
+
+    <VBox fx:id="root" spacing="12" VBox.vgrow="ALWAYS"/>
+</VBox>

@@ -1,0 +1,263 @@
+2026-10-16 16:21:44.933 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 16:21:45.187 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 16:21:45.801 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 16:21:45.855 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 16:29:39.134 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 16:29:39.286 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 16:29:39.854 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 16:29:40.197 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 16:29:41.284 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran dashboard
+java.lang.IllegalStateException: Vue FXML introuvable : /fxml/screens/dashboard.fxml
+	at com.techshop.util.Fxmls.url(Fxmls.java:21)
+	at com.techshop.util.Fxmls.load(Fxmls.java:29)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
+	at com.techshop.service.NavigationService.navigate(NavigationService.java:61)
+	at com.techshop.controller.MainController.start(MainController.java:145)
+	at com.techshop.app.MainApp.start(MainApp.java:57)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-16 16:29:41.308 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 16:29:42.660 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : Failed to initialize pool: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt — l'application démarre en mode dégradé
+2026-10-16 16:31:17.673 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 16:31:55.235 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 16:31:55.350 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 16:31:55.735 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 16:31:56.000 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 16:31:56.706 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 16:31:58.096 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : Failed to initialize pool: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt — l'application démarre en mode dégradé
+2026-10-16 16:39:41.482 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 16:39:41.601 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 16:39:42.107 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 16:39:42.404 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 16:39:43.235 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 16:39:44.571 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : Failed to initialize pool: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt — l'application démarre en mode dégradé
+2026-10-16 16:40:05.899 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 17:38:30.518 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 17:38:30.682 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 17:38:30.986 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 17:38:31.962 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 17:38:33.228 INFO  [c.techshop.config.MigrationService] Migration V001__schema.sql appliquée en 612 ms
+2026-10-16 17:38:33.281 INFO  [c.techshop.config.MigrationService] Migration V002__initial_data.sql appliquée en 41 ms
+2026-10-16 17:38:33.284 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (2 migration(s) appliquée(s))
+2026-10-16 17:38:33.301 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 17:52:06.114 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 17:52:06.222 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 17:52:06.357 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 17:52:06.982 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 17:52:07.437 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 17:52:07.438 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 17:52:07.529 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 17:53:45.146 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 17:54:11.895 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 17:54:11.988 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 17:54:12.122 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 17:54:12.820 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 17:54:13.315 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 17:54:13.315 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 17:54:13.329 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 17:54:41.138 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 19:10:12.661 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 19:10:12.802 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 19:10:12.803 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 19:10:13.206 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 19:10:15.702 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 19:10:15.702 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 19:10:16.447 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 19:10:16.447 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 19:10:17.065 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 19:10:17.065 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 20:35:55.778 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 20:35:55.831 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 20:35:55.908 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 20:35:56.412 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 20:35:56.893 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 20:35:56.893 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 20:35:56.911 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 20:36:13.874 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 20:50:12.092 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 20:50:12.277 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 20:50:12.573 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 20:50:13.312 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 20:50:13.708 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 20:50:13.708 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 20:50:13.716 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 20:50:39.264 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 21:07:07.066 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:07:07.524 INFO  [c.techshop.config.MigrationService] Migration V004__phase3_data.sql appliquée en 16 ms
+2026-10-16 21:07:07.527 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (1 migration(s) appliquée(s))
+2026-10-16 21:29:42.872 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 21:29:43.072 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 21:29:43.312 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 21:29:43.988 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:29:44.371 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:29:44.372 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:29:44.393 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 21:34:24.151 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:34:57.782 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:34:59.181 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 21:35:21.073 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 21:35:21.269 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 21:35:21.486 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:35:22.210 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:35:22.634 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:35:22.636 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:35:22.662 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 21:35:48.453 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 21:36:27.009 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:36:31.538 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:36:35.757 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:36:36.146 ERROR [com.techshop.service.StockService] Lecture de la synthèse du stock impossible
+java.sql.SQLException: Base de données non initialisée
+	at com.techshop.config.DatabaseManager.connection(DatabaseManager.java:155)
+	at com.techshop.dao.ProductDao.stockValueAtCost(ProductDao.java:151)
+	at com.techshop.service.StockService.summary(StockService.java:217)
+	at com.techshop.controller.MainController.rafraichirNotifications(MainController.java:374)
+	at com.techshop.controller.MainController.buildHeader(MainController.java:284)
+	at com.techshop.controller.MainController.initialize(MainController.java:145)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:72)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at javafx.base@21.0.5/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:270)
+	at javafx.fxml@21.0.5/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:84)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2688)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
+	at OverlayProbe.start(OverlayProbe.java:33)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-16 21:36:36.152 WARN  [c.techshop.controller.MainController] Alertes de stock indisponibles
+com.techshop.util.ValidationException: Base de données indisponible. Réessayez plus tard.
+	at com.techshop.service.StockService.summary(StockService.java:221)
+	at com.techshop.controller.MainController.rafraichirNotifications(MainController.java:374)
+	at com.techshop.controller.MainController.buildHeader(MainController.java:284)
+	at com.techshop.controller.MainController.initialize(MainController.java:145)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:72)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at javafx.base@21.0.5/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:270)
+	at javafx.fxml@21.0.5/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:84)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2688)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
+	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
+	at OverlayProbe.start(OverlayProbe.java:33)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-16 21:36:36.261 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:38:39.680 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:38:44.292 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:38:48.969 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:38:49.148 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:39:09.840 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 21:39:09.964 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 21:39:10.179 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:39:10.934 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:39:11.347 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:39:11.348 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:39:11.370 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 21:39:27.075 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 21:39:34.219 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:40:10.183 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:41:09.091 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 21:41:09.225 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 21:41:09.471 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:41:10.149 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:41:10.584 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:41:10.584 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:41:10.603 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 21:41:38.126 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:41:38.621 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:41:38.622 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:41:39.313 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:41:39.891 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:42:08.841 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:42:30.693 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-16 21:42:36.355 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:42:48.186 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:42:48.660 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:42:48.661 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:42:49.258 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:42:49.727 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:43:54.317 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:43:54.639 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:43:54.640 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:43:55.039 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:43:55.435 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:45:16.464 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:45:16.917 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:45:16.918 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:45:17.569 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:45:18.212 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:45:44.334 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 21:49:19.491 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:49:19.917 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:49:19.918 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:49:20.399 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:49:20.732 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:50:01.794 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 21:50:01.959 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 21:50:02.182 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:50:02.941 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:50:03.526 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:50:03.530 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:50:03.547 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 21:50:14.909 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:50:15.209 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:50:15.210 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:50:15.670 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:50:16.044 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:50:50.482 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:50:50.911 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:50:50.912 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:50:51.397 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:50:51.951 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:54:20.052 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:54:20.520 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:54:20.520 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:54:21.013 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:54:21.469 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:54:56.042 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:54:56.460 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:54:56.461 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:54:56.929 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:54:57.436 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:55:33.756 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:55:40.044 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:55:43.585 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:55:48.394 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:55:48.496 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:56:08.388 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-16 21:56:41.821 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-16 21:56:41.989 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-16 21:56:42.166 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-16 21:56:42.770 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-16 21:56:43.334 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-16 21:56:43.335 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-16 21:56:43.351 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-16 21:57:01.520 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-16 21:57:24.259 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager

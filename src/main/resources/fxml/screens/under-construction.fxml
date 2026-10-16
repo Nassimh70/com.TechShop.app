@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Écran générique des modules non encore réalisés (« Module en cours de construction »). -->
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<ScrollPane fitToWidth="true" fitToHeight="true"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.techshop.controller.UnderConstructionController">
+    <content>
+        <VBox fx:id="content" styleClass="page-pane"/>
+    </content>
+</ScrollPane>
