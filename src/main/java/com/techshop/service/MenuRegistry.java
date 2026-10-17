@@ -42,12 +42,12 @@ public final class MenuRegistry {
             new NavItem("cash", "Caisse & Finances", SEC_FINANCE, "briefcase", "screens/cash",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
 
-            new NavItem("reports", "Rapports", SEC_FINANCE, "bar-chart-2", null,
+            new NavItem("reports", "Rapports", SEC_FINANCE, "bar-chart-2", "screens/reports",
                     null, java.util.EnumSet.of(Role.ADMIN)),
 
             new NavItem("users", "Utilisateurs", SEC_ADMIN, "user-check", "screens/users",
                     null, java.util.EnumSet.of(Role.ADMIN)),
-            new NavItem("settings", "Paramètres", SEC_ADMIN, "settings", "screens/under-construction",
+            new NavItem("settings", "Paramètres", SEC_ADMIN, "settings", "screens/settings",
                     null, java.util.EnumSet.of(Role.ADMIN)),
             NavItem.all("design-system", "Design system", SEC_ADMIN, "grid", "screens/design-system")
     );

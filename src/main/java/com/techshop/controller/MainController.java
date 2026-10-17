@@ -10,12 +10,12 @@ import com.techshop.model.StockStatus;
 import com.techshop.service.AuthService;
 import com.techshop.service.CashService;
 import com.techshop.service.MenuRegistry;
-import com.techshop.service.NavigationService;
-import com.techshop.service.PermissionDefaults;
 import com.techshop.service.PermissionService;
-import com.techshop.service.RepairService;
 import com.techshop.service.SessionContext;
+import com.techshop.service.PermissionDefaults;
+import com.techshop.service.RepairService;
 import com.techshop.service.StockService;
+import com.techshop.service.NavigationService;
 import com.techshop.ui.Icons;
 import com.techshop.ui.components.Avatar;
 import com.techshop.ui.components.DialogService;
@@ -640,14 +640,42 @@ public class MainController {
     /** Entrées de la palette : écrans du menu + actions rapides (SPEC §2). */
     private List<PaletteEntry> buildPaletteEntries() {
         List<PaletteEntry> entries = new ArrayList<>();
-        for (NavItem item : PermissionService.get().visibleItems(SessionContext.get().getRole())) {
+        Role r = SessionContext.get().getRole();
+        for (NavItem item : PermissionService.get().visibleItems(r)) {
             entries.add(new PaletteEntry(item.getTitle(), "Écran · " + sectionLabel(item.getSection()),
                     item.getIcon(), () -> NavigationService.get().navigate(item)));
         }
+
+        // Recherche dynamique : Produits, Clients, Ventes, Réparations
+        try {
+            com.techshop.dao.ProductDao pdao = new com.techshop.dao.ProductDao();
+            for (var pr : pdao.search(com.techshop.dao.ProductDao.Filter.all(), "name", true, 6, 0)) {
+                entries.add(new PaletteEntry(pr.getName(), "Produit · " + pr.getRef() + " · " + com.techshop.util.Format.money(pr.getSalePrice()),
+                        "box", () -> ouvrirModule("products")));
+            }
+            com.techshop.dao.CustomerDao cdao = new com.techshop.dao.CustomerDao();
+            for (var c : cdao.search(new com.techshop.dao.CustomerDao.Filter("", null, null))) {
+                String hint = "Client · " + (c.getPhone() == null ? "—" : c.getPhone()) + " · Solde " + com.techshop.util.Format.money(c.getBalance());
+                entries.add(new PaletteEntry(c.getFullName(), hint, "users", () -> ouvrirModule("customers")));
+            }
+            com.techshop.service.SaleService ss = com.techshop.service.SaleService.get();
+            for (var s : ss.history(new com.techshop.dao.SaleDao.Filter(null, null, null, null, null, null, null), 0, 6).items()) {
+                entries.add(new PaletteEntry(s.getNumber(), "Vente · " + com.techshop.util.Format.date(s.getSaleDate().toLocalDate()) + " · " + com.techshop.util.Format.money(s.getTotal()),
+                        "shopping-bag", () -> ouvrirModule("sales")));
+            }
+            com.techshop.dao.RepairTicketDao rdao = new com.techshop.dao.RepairTicketDao();
+            for (var rt : rdao.search(null, 6, 0)) {
+                entries.add(new PaletteEntry(rt.getNumber(), "SAV · " + rt.deviceLabel() + " · " + rt.customerLabel(),
+                        "tool", () -> com.techshop.controller.RepairsController.openTicket(rt.getId())));
+            }
+        } catch (Exception ex) {
+            log.warn("Palette : recherche dynamique impossible", ex);
+        }
+
         entries.add(new PaletteEntry("Nouvelle vente", "Action rapide", "shopping-cart",
                 () -> ouvrirModule("pos")));
         entries.add(new PaletteEntry("Nouvelle réparation", "Action rapide", "tool",
-                () -> ToastService.get().info("Action rapide", "Le module SAV arrive dans une prochaine phase")));
+                () -> com.techshop.controller.RepairDepositDialog.ouvrir(null)));
         entries.add(new PaletteEntry("Ajouter un produit", "Catalogue", "plus-circle",
                 () -> ouvrirModule("products")));
         entries.add(new PaletteEntry("Réception de stock", "Catalogue & stock", "download",

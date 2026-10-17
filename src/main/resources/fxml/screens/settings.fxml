@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox styleClass="page-pane" spacing="0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.techshop.controller.SettingsController">
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label styleClass="section-title" text="Paramètres"/>
+            <Label styleClass="muted" text="Magasin, TVA, numérotation, impression, seuils, apparence, sauvegarde"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox spacing="8" alignment="CENTER_RIGHT">
+            <Button fx:id="btnSave" onAction="#onSave" text="Enregistrer" styleClass="btn-primary"/>
+        </HBox>
+    </HBox>
+    <TabPane fx:id="tabs" VBox.vgrow="ALWAYS">
+        <Tab text="Magasin" closable="false">
+            <VBox spacing="10" style="-fx-padding:12;">
+                <GridPane hgap="8" vgap="8">
+                    <columnConstraints><ColumnConstraints minWidth="120"/><ColumnConstraints hgrow="ALWAYS"/></columnConstraints>
+                    <Label text="Nom du magasin"/><TextField fx:id="tfStoreName" GridPane.columnIndex="1"/>
+                    <Label text="Adresse"/><TextField fx:id="tfStoreAddr" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Téléphone"/><TextField fx:id="tfStorePhone" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label text="Email"/><TextField fx:id="tfStoreEmail" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Label text="NIF/RC (facultatif)"/><TextField fx:id="tfStoreTaxId" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+        <Tab text="Ventes/TVA" closable="false">
+            <VBox spacing="10" style="-fx-padding:12;">
+                <CheckBox fx:id="cbTva" text="Activer TVA"/>
+                <GridPane hgap="8" vgap="8">
+                    <columnConstraints><ColumnConstraints minWidth="120"/><ColumnConstraints hgrow="ALWAYS"/></columnConstraints>
+                    <Label text="Taux TVA (%)"/><TextField fx:id="tfTvaRate" GridPane.columnIndex="1"/>
+                    <Label text="Afficher TVA sur ticket"/><CheckBox fx:id="cbShowTvaTicket" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+        <Tab text="Numérotation" closable="false">
+            <VBox spacing="10" style="-fx-padding:12;">
+                <GridPane hgap="8" vgap="8">
+                    <columnConstraints><ColumnConstraints minWidth="120"/><ColumnConstraints hgrow="ALWAYS"/></columnConstraints>
+                    <Label text="Préfixe vente"/><TextField fx:id="tfPrefixSale" GridPane.columnIndex="1"/>
+                    <Label text="Préfixe SAV"/><TextField fx:id="tfPrefixSav" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Prochain numéro"/><TextField fx:id="tfNextNum" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+        <Tab text="Impression" closable="false">
+            <VBox spacing="10" style="-fx-padding:12;">
+                <CheckBox fx:id="cbPrintAuto" text="Impression auto ticket de caisse"/>
+                <CheckBox fx:id="cbPrintLogo" text="Imprimer logo sur documents"/>
+                <Button fx:id="btnChooseLogo" text="Choisir logo" onAction="#onChooseLogo"/>
+                <Label fx:id="lblLogo" text="Aucun logo sélectionné"/>
+            </VBox>
+        </Tab>
+        <Tab text="Seuils/Alertes" closable="false">
+            <VBox spacing="10" style="-fx-padding:12;">
+                <GridPane hgap="8" vgap="8">
+                    <columnConstraints><ColumnConstraints minWidth="120"/><ColumnConstraints hgrow="ALWAYS"/></columnConstraints>
+                    <Label text="Seuil rupture"/><TextField fx:id="tfMinStock" GridPane.columnIndex="1"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+        <Tab text="Apparence" closable="false">
+            <VBox spacing="10" style="-fx-padding:12;">
+                <CheckBox fx:id="cbDark" text="Thème sombre"/>
+            </VBox>
+        </Tab>
+        <Tab text="Sauvegarde/Restoration" closable="false">
+            <VBox spacing="10" style="-fx-padding:12;">
+                <Label text="Chemin mysqldump/mysql (XAMPP par défaut : C:\xampp\mysql\bin)"/>
+                <HBox spacing="8"><TextField fx:id="tfMysqlBin" HBox.hgrow="ALWAYS"/><Button text="Parcourir" onAction="#onBrowseBin"/></HBox>
+                <CheckBox fx:id="cbAutoBackup" text="Sauvegarde auto à la fermeture"/>
+                <HBox spacing="8"><Button text="Sauvegarder maintenant" onAction="#onBackupNow"/><Button text="Restaurer depuis fichier .sql" onAction="#onRestore"/></HBox>
+                <Label fx:id="lblBackup" styleClass="muted"/>
+            </VBox>
+        </Tab>
+        <Tab text="À propos" closable="false">
+            <VBox spacing="8" style="-fx-padding:12;">
+                <Label text="TechShop Manager v1.0.0"/>
+                <Label text="JavaFX 21 + MySQL + HikariCP"/>
+                <Label text="© 2026"/>
+            </VBox>
+        </Tab>
+    </TabPane>
+</VBox>

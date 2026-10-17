@@ -1,0 +1,23 @@
+# Dépendances / compilation
+target/
+*.class
+
+# Configuration locale (exemple fourni : db.properties.example)
+src/main/resources/config/db.properties
+config/db.properties
+db.properties
+
+# Logs
+logs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+Thumbs.db
+.DS_Store

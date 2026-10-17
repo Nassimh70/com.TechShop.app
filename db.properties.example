@@ -1,0 +1,8 @@
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/techshop?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+db.user=root
+db.password=
+pool.maxSize=20
+pool.minIdle=5
+pool.idleTimeoutMs=600000
+pool.connectionTimeoutMs=30000

@@ -156,4 +156,82 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Packaging Windows : mvn -Pjpackage package
+             Nécessite un JDK complet (pas seulement JRE) avec jpackage disponible. -->
+        <profile>
+            <id>jpackage</id>
+            <build>
+                <plugins>
+                    <!-- Copie des dépendances pour jpackage (application classpath) -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.6.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-deps</id>
+                                <phase>prepare-package</phase>
+                                <goals><goal>copy-dependencies</goal></goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/deps</outputDirectory>
+                                    <includeScope>runtime</includeScope>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Copie du jar principal à côté des dépendances -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-main-jar</id>
+                                <phase>verify</phase>
+                                <goals><goal>copy-resources</goal></goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/deps</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}</directory>
+                                            <includes><include>${project.build.finalName}.jar</include></includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.panteleyev</groupId>
+                        <artifactId>jpackage-maven-plugin</artifactId>
+                        <version>1.6.5</version>
+                        <configuration>
+                            <name>TechShopManager</name>
+                            <vendor>TechShop</vendor>
+                            <appVersion>1.0.0</appVersion>
+                            <type>MSI</type>
+                            <input>${project.build.directory}/deps</input>
+                            <dest>${project.build.directory}/dist</dest>
+                            <mainJar>${project.build.finalName}.jar</mainJar>
+                            <mainClass>com.techshop.app.MainApp</mainClass>
+                            <!-- Options JavaFX / ouverture de modules (classpath) -->
+                            <javaOptions>
+                                <option>--add-opens</option>
+                                <option>java.base/java.lang=ALL-UNNAMED</option>
+                            </javaOptions>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jpackage</id>
+                                <phase>verify</phase>
+                                <goals><goal>jpackage</goal></goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
