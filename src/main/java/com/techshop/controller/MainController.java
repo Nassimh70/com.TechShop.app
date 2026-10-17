@@ -4,6 +4,7 @@ import com.techshop.app.AppShell;
 import com.techshop.config.ThemeManager;
 import com.techshop.model.NavItem;
 import com.techshop.model.Product;
+import com.techshop.model.RepairTicket;
 import com.techshop.model.Role;
 import com.techshop.model.StockStatus;
 import com.techshop.service.AuthService;
@@ -12,6 +13,7 @@ import com.techshop.service.MenuRegistry;
 import com.techshop.service.NavigationService;
 import com.techshop.service.PermissionDefaults;
 import com.techshop.service.PermissionService;
+import com.techshop.service.RepairService;
 import com.techshop.service.SessionContext;
 import com.techshop.service.StockService;
 import com.techshop.ui.Icons;
@@ -382,7 +384,7 @@ public class MainController {
         if (alertes.isEmpty()) {
             menu.getItems().add(notificationItem("check-circle", "Aucune alerte de stock"));
         } else {
-            int max = Math.min(8, alertes.size());
+            int max = Math.min(6, alertes.size());
             for (int i = 0; i < max; i++) {
                 Product p = alertes.get(i);
                 boolean rupture = p.stockStatus() == StockStatus.OUT;
@@ -398,13 +400,51 @@ public class MainController {
                 menu.getItems().add(notificationItem("more-horizontal",
                         "… et " + (alertes.size() - max) + " autre(s)"));
             }
+        }
+
+        // Alertes SAV (SPEC §4.9) : appareils prêts à livrer et dossiers en retard.
+        List<RepairTicket> prets = new ArrayList<>();
+        List<RepairTicket> retards = new ArrayList<>();
+        try {
+            prets.addAll(RepairService.get().readyForPickup());
+            retards.addAll(RepairService.get().late());
+        } catch (RuntimeException e) {
+            log.warn("Alertes SAV indisponibles", e);
+        }
+        if (!prets.isEmpty() || !retards.isEmpty()) {
             menu.getItems().add(new SeparatorMenuItem());
         }
+        int maxSav = 4;
+        for (int i = 0; i < Math.min(maxSav, prets.size()); i++) {
+            RepairTicket t = prets.get(i);
+            MenuItem item = notificationItem("check-circle",
+                    t.getNumber() + " — " + t.deviceLabel() + " prêt à livrer");
+            item.setOnAction(e -> RepairsController.openTicket(t.getId()));
+            menu.getItems().add(item);
+        }
+        int restants = prets.size() - maxSav;
+        for (int i = 0; i < Math.min(maxSav, retards.size()); i++) {
+            RepairTicket t = retards.get(i);
+            MenuItem item = notificationItem("clock",
+                    t.getNumber() + " — en retard de " + t.lateDays() + " j (" + t.customerLabel() + ")");
+            item.setOnAction(e -> RepairsController.openTicket(t.getId()));
+            menu.getItems().add(item);
+        }
+        if (restants > 0) {
+            menu.getItems().add(notificationItem("more-horizontal",
+                    "… et " + restants + " autre(s) dossier(s) prêt(s)"));
+        }
+        if (retards.size() > maxSav) {
+            menu.getItems().add(notificationItem("more-horizontal",
+                    "… et " + (retards.size() - maxSav) + " autre(s) en retard"));
+        }
+
+        menu.getItems().add(new SeparatorMenuItem());
         menu.getItems().add(notificationItem("check", "Tout marquer comme lu"));
         menu.show(bellBtn, javafx.geometry.Side.BOTTOM, 0, 4);
     }
 
-    /** Recalcule le compteur de la cloche à partir des alertes de stock. */
+    /** Recalcule le compteur de la cloche : alertes de stock + SAV à suivre. */
     private void rafraichirNotifications() {
         int alertes = 0;
         try {
@@ -412,6 +452,12 @@ public class MainController {
             alertes = (int) (s.low() + s.out());
         } catch (RuntimeException e) {
             log.warn("Alertes de stock indisponibles", e);
+        }
+        try {
+            alertes += RepairService.get().readyForPickup().size();
+            alertes += RepairService.get().late().size();
+        } catch (RuntimeException e) {
+            log.warn("Alertes SAV indisponibles", e);
         }
         notificationCount = alertes;
         if (bellBadge != null) {

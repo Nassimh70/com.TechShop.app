@@ -44,7 +44,7 @@ public final class MigrationService {
     private static final Pattern NOM = Pattern.compile("V\\d+__[A-Za-z0-9_-]+\\.sql");
     /** Repli si le classpath n'expose pas le répertoire (JAR packagé). */
     private static final List<String> REPLI = List.of("V001__schema.sql", "V002__initial_data.sql",
-            "V003__product_seed.sql", "V004__phase3_data.sql", "V005__phase4.sql");
+            "V003__product_seed.sql", "V004__phase3_data.sql", "V005__phase4.sql", "V006__phase5.sql");
 
     public record Applied(String version, String description, long millis) {
     }

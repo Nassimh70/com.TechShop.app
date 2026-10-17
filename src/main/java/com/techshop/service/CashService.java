@@ -259,6 +259,32 @@ public final class CashService {
         }
     }
 
+    /**
+     * Enregistre un encaissement espèces lié à une réparation (acompte ou solde),
+     * appelé par le RepairService dans la même transaction. Aucun contrôle de
+     * droit ici.
+     */
+    public void recordRepairCash(int sessionId, int repairId, BigDecimal cashAmount, Integer userId) {
+        if (cashAmount == null || cashAmount.signum() <= 0) {
+            return;
+        }
+        try {
+            CashMovement m = new CashMovement();
+            m.setCashSessionId(sessionId);
+            m.setType(CashMovementType.ENTREE.name());
+            m.setAmount(cashAmount);
+            m.setReason("Encaissement réparation");
+            m.setReferenceType("REPAIR");
+            m.setReferenceId(repairId);
+            m.setUserId(userId == null ? 0 : userId);
+            m.setMovementDate(LocalDateTime.now());
+            movements.insert(m);
+        } catch (SQLException e) {
+            throw new ValidationException("Encaissement de la réparation en caisse impossible : "
+                    + e.getMessage());
+        }
+    }
+
     // ---------------------------------------------------------------- lectures
 
     /** Synthèse calculée d'une session (attendus, ventes). */

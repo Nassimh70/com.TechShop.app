@@ -88,6 +88,11 @@ final class FakeDb {
     private final class FakeProductDao extends ProductDao {
 
         @Override
+        public Optional<Product> findById(int id) {
+            return Optional.ofNullable(products.get(id));
+        }
+
+        @Override
         public Optional<Product> lockForUpdate(int id) {
             Product p = products.get(id);
             if (p == null) {

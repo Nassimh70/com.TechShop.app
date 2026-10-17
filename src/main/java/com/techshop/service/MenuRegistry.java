@@ -27,7 +27,7 @@ public final class MenuRegistry {
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
             new NavItem("sales", "Ventes", SEC_SALES, "shopping-bag", "screens/sales",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
-            new NavItem("customers", "Clients", SEC_SALES, "users", null,
+            new NavItem("customers", "Clients", SEC_SALES, "users", "screens/customers",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.VENDEUR)),
 
             NavItem.all("products", "Produits", SEC_CATALOG, "box", "screens/products"),
@@ -36,7 +36,7 @@ public final class MenuRegistry {
             new NavItem("purchases", "Achats & Fournisseurs", SEC_CATALOG, "truck", null,
                     null, java.util.EnumSet.of(Role.ADMIN)),
 
-            new NavItem("repairs", "SAV / Réparations", SEC_SERVICE, "tool", null,
+            new NavItem("repairs", "SAV / Réparations", SEC_SERVICE, "tool", "screens/repairs",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.TECHNICIEN)),
 
             new NavItem("cash", "Caisse & Finances", SEC_FINANCE, "briefcase", "screens/cash",

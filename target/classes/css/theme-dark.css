@@ -983,3 +983,141 @@
     -fx-text-fill: #F87171;
 }
 
+/* ==================== Atelier / SAV (SPEC §4.9) ========================= */
+.kanban-col {
+    -fx-background-color: #0B1424;
+    -fx-border-color: #263449;
+}
+
+.kanban-col.drop-target {
+    -fx-border-color: #818CF8;
+    -fx-background-color: #1E2A4A;
+}
+
+.kanban-col-header {
+    -fx-border-color: transparent transparent #263449 transparent;
+}
+
+.kanban-col-title {
+    -fx-text-fill: #F1F5F9;
+}
+
+.kanban-card {
+    -fx-background-color: #111C2E;
+    -fx-border-color: #263449;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 8, 0, 0, 2);
+}
+
+.kanban-card:hover {
+    -fx-border-color: #818CF8;
+    -fx-effect: dropshadow(gaussian, rgba(129, 140, 248, 0.25), 12, 0, 0, 3);
+}
+
+.kanban-card-number {
+    -fx-text-fill: #64748B;
+}
+
+.kanban-card-client {
+    -fx-text-fill: #F1F5F9;
+}
+
+.kanban-card-device {
+    -fx-text-fill: #CBD5E1;
+}
+
+.kanban-card-fault {
+    -fx-text-fill: #94A3B8;
+}
+
+.kanban-card-date {
+    -fx-text-fill: #94A3B8;
+}
+
+.kanban-card-late {
+    -fx-text-fill: #F87171;
+}
+
+.kanban-card-amount {
+    -fx-text-fill: #A5B4FC;
+}
+
+.kanban-empty {
+    -fx-text-fill: #64748B;
+}
+
+.sheet-header {
+    -fx-background-color: #0B1424;
+    -fx-border-color: #263449;
+}
+
+.sheet-number,
+.sheet-client {
+    -fx-text-fill: #F1F5F9;
+}
+
+.sheet-device {
+    -fx-text-fill: #94A3B8;
+}
+
+.sheet-stat {
+    -fx-text-fill: #A5B4FC;
+}
+
+.timeline-dot {
+    -fx-background-color: #818CF8;
+}
+
+.timeline-line {
+    -fx-background-color: #263449;
+}
+
+.timeline-status {
+    -fx-text-fill: #F1F5F9;
+}
+
+.photo-card {
+    -fx-background-color: #111C2E;
+    -fx-border-color: #263449;
+}
+
+.photo-name {
+    -fx-text-fill: #F1F5F9;
+}
+
+.total-label,
+.total-value {
+    -fx-text-fill: #F1F5F9;
+}
+
+.debt-amount {
+    -fx-text-fill: #F87171;
+}
+
+.deliver-amount {
+    -fx-text-fill: #A5B4FC;
+}
+
+.wizard-step {
+    -fx-background-color: #1E293B;
+    -fx-text-fill: #94A3B8;
+}
+
+.wizard-step.active {
+    -fx-background-color: #1E2A4A;
+    -fx-text-fill: #A5B4FC;
+}
+
+.wizard-step.done {
+    -fx-background-color: rgba(74, 222, 128, 0.16);
+    -fx-text-fill: #4ADE80;
+}
+
+.wizard-arrow {
+    -fx-text-fill: #64748B;
+}
+
+.wizard-title,
+.wizard-value {
+    -fx-text-fill: #F1F5F9;
+}
+

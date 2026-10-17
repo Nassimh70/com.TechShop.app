@@ -5,6 +5,7 @@ import com.techshop.dao.ProductDao;
 import com.techshop.dao.SaleDao;
 import com.techshop.model.CashSession;
 import com.techshop.model.Product;
+import com.techshop.model.RepairTicket;
 import com.techshop.model.Sale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,9 @@ public final class DashboardService {
                                 List<SaleDao.TopProduct> topProducts, List<Sale> recentSales,
                                 List<Product> alerts, BigDecimal stockValue, long productCount,
                                 long lowStock, long outOfStock, boolean cashOpen,
-                                BigDecimal cashExpected, String cashNumber) {
+                                BigDecimal cashExpected, String cashNumber,
+                                long activeRepairs, List<RepairTicket> readyRepairs,
+                                List<RepairTicket> lateRepairs) {
 
         /** Valeur maximale de la courbe (échelle). */
         public BigDecimal weekMax() {
@@ -136,8 +139,21 @@ public final class DashboardService {
             }
         }
 
+        // Indicateurs SAV (SPEC §4.9) : dossiers en cours, prêts à livrer, en retard.
+        long activeRepairs = 0;
+        List<RepairTicket> readyRepairs = new ArrayList<>();
+        List<RepairTicket> lateRepairs = new ArrayList<>();
+        try {
+            activeRepairs = RepairService.get().countActive();
+            readyRepairs = RepairService.get().readyForPickup();
+            lateRepairs = RepairService.get().late();
+        } catch (RuntimeException e) {
+            log.warn("Indicateurs SAV indisponibles", e);
+        }
+
         return new DashboardData(todaySales, todayCount, todayProfit, avgBasket, weekTotal, weekCount,
                 monthTotal, totalDebt, customerCount, week, breakdown, top, recent, alerts, stockValue,
-                productCount, lowStock, outOfStock, cashOpen, cashExpected, cashNumber);
+                productCount, lowStock, outOfStock, cashOpen, cashExpected, cashNumber,
+                activeRepairs, readyRepairs, lateRepairs);
     }
 }

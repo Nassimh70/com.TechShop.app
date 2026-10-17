@@ -33,6 +33,16 @@ public final class ActivityActions {
     public static final String CAISSE_CLOTURE = "CAISSE_CLOTURE";
     /** Entrée ou sortie d'espèces en caisse. */
     public static final String CAISSE_MOUVEMENT = "CAISSE_MOUVEMENT";
+    /** Dépôt / modification d'un dossier de réparation. */
+    public static final String REPARATION = "REPARATION";
+    /** Changement de statut d'un dossier de réparation. */
+    public static final String REPARATION_STATUT = "REPARATION_STATUT";
+    /** Pièce consommée sur un dossier ou main d'œuvre ajustée. */
+    public static final String REPARATION_PIECE = "REPARATION_PIECE";
+    /** Acompte ou règlement d'une réparation. */
+    public static final String REPARATION_PAIEMENT = "REPARATION_PAIEMENT";
+    /** Notification client simulée. */
+    public static final String NOTIFICATION_CLIENT = "NOTIFICATION_CLIENT";
 
     private ActivityActions() {
     }

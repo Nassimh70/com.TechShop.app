@@ -2,6 +2,7 @@ package com.techshop.controller;
 
 import com.techshop.dao.SaleDao;
 import com.techshop.model.Product;
+import com.techshop.model.RepairTicket;
 import com.techshop.model.Sale;
 import com.techshop.service.CashService;
 import com.techshop.service.DashboardService;
@@ -55,6 +56,8 @@ public class DashboardController {
         ajouterCarte("Valeur du stock", Format.money(d.stockValue()), d.productCount() + " références");
         ajouterCarte("Caisse", d.cashOpen() ? "Ouverte" : "Fermée",
                 d.cashOpen() ? d.cashNumber() + " · " + Format.money(d.cashExpected()) : "aucune session");
+        ajouterCarte("SAV en cours", String.valueOf(d.activeRepairs()),
+                d.readyRepairs().size() + " prêt(s) · " + d.lateRepairs().size() + " en retard");
 
         leftPane.getChildren().clear();
         leftPane.getChildren().add(carteVentes(d));
@@ -63,7 +66,62 @@ public class DashboardController {
 
         rightPane.getChildren().clear();
         rightPane.getChildren().add(carteAlertes(d));
+        rightPane.getChildren().add(carteSav(d));
         rightPane.getChildren().add(carteCaisse(d));
+    }
+
+    private Region carteSav(DashboardService.DashboardData d) {
+        VBox carte = carte("SAV / Réparations");
+        if (d.readyRepairs().isEmpty() && d.lateRepairs().isEmpty()) {
+            carte.getChildren().add(Badge.of("Aucune urgence", Badge.BadgeType.SUCCESS));
+            return carte;
+        }
+        int max = 3;
+        int affiches = 0;
+        for (RepairTicket t : d.readyRepairs()) {
+            if (affiches++ >= max) {
+                break;
+            }
+            carte.getChildren().add(ligneSav(t, Badge.of("Prêt à livrer", Badge.BadgeType.SUCCESS)));
+        }
+        for (RepairTicket t : d.lateRepairs()) {
+            if (affiches++ >= max) {
+                break;
+            }
+            carte.getChildren().add(ligneSav(t, Badge.of(t.lateDays() + " j de retard",
+                    Badge.BadgeType.DANGER)));
+        }
+        int restants = d.readyRepairs().size() + d.lateRepairs().size() - Math.min(max, affiches);
+        if (restants > 0) {
+            Label plus = new Label("… et " + restants + " autre(s) dossier(s) à suivre");
+            plus.getStyleClass().add("muted");
+            carte.getChildren().add(plus);
+        }
+        Button ouvrir = Buttons.secondary("Ouvrir l'atelier", "tool");
+        ouvrir.setOnAction(e -> {
+            var nav = com.techshop.service.NavigationService.get();
+            var items = com.techshop.service.PermissionService.get()
+                    .visibleItems(com.techshop.service.SessionContext.get().getRole());
+            items.stream().filter(i -> "repairs".equals(i.getId())).findFirst().ifPresent(nav::navigate);
+        });
+        carte.getChildren().add(ouvrir);
+        return carte;
+    }
+
+    private Region ligneSav(RepairTicket t, Badge statut) {
+        HBox ligne = new HBox(8);
+        ligne.setAlignment(Pos.CENTER_LEFT);
+        Label num = new Label(t.getNumber());
+        num.getStyleClass().add("mono");
+        Label info = new Label(t.deviceLabel() + " · " + t.customerLabel());
+        info.getStyleClass().add("muted");
+        Region sp = new Region();
+        HBox.setHgrow(sp, Priority.ALWAYS);
+        ligne.getChildren().addAll(num, info, sp, statut);
+        ligne.getStyleClass().add("list-row");
+        ligne.setCursor(javafx.scene.Cursor.HAND);
+        ligne.setOnMouseClicked(e -> RepairsController.openTicket(t.getId()));
+        return ligne;
     }
 
     private Region carteVentes(DashboardService.DashboardData d) {

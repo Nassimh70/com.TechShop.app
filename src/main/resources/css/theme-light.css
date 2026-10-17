@@ -992,3 +992,141 @@
     -fx-text-fill: #DC2626;
 }
 
+/* ==================== Atelier / SAV (SPEC §4.9) ========================= */
+.kanban-col {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #E2E8F0;
+}
+
+.kanban-col.drop-target {
+    -fx-border-color: #4F46E5;
+    -fx-background-color: #EEF2FF;
+}
+
+.kanban-col-header {
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+}
+
+.kanban-col-title {
+    -fx-text-fill: #0F172A;
+}
+
+.kanban-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2E8F0;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.05), 8, 0, 0, 2);
+}
+
+.kanban-card:hover {
+    -fx-border-color: #4F46E5;
+    -fx-effect: dropshadow(gaussian, rgba(79, 70, 229, 0.16), 12, 0, 0, 3);
+}
+
+.kanban-card-number {
+    -fx-text-fill: #94A3B8;
+}
+
+.kanban-card-client {
+    -fx-text-fill: #0F172A;
+}
+
+.kanban-card-device {
+    -fx-text-fill: #475569;
+}
+
+.kanban-card-fault {
+    -fx-text-fill: #64748B;
+}
+
+.kanban-card-date {
+    -fx-text-fill: #64748B;
+}
+
+.kanban-card-late {
+    -fx-text-fill: #DC2626;
+}
+
+.kanban-card-amount {
+    -fx-text-fill: #4F46E5;
+}
+
+.kanban-empty {
+    -fx-text-fill: #94A3B8;
+}
+
+.sheet-header {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #E2E8F0;
+}
+
+.sheet-number,
+.sheet-client {
+    -fx-text-fill: #0F172A;
+}
+
+.sheet-device {
+    -fx-text-fill: #475569;
+}
+
+.sheet-stat {
+    -fx-text-fill: #4F46E5;
+}
+
+.timeline-dot {
+    -fx-background-color: #4F46E5;
+}
+
+.timeline-line {
+    -fx-background-color: #E2E8F0;
+}
+
+.timeline-status {
+    -fx-text-fill: #0F172A;
+}
+
+.photo-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2E8F0;
+}
+
+.photo-name {
+    -fx-text-fill: #0F172A;
+}
+
+.total-label,
+.total-value {
+    -fx-text-fill: #0F172A;
+}
+
+.debt-amount {
+    -fx-text-fill: #DC2626;
+}
+
+.deliver-amount {
+    -fx-text-fill: #4F46E5;
+}
+
+.wizard-step {
+    -fx-background-color: #F1F5F9;
+    -fx-text-fill: #64748B;
+}
+
+.wizard-step.active {
+    -fx-background-color: #EEF2FF;
+    -fx-text-fill: #4F46E5;
+}
+
+.wizard-step.done {
+    -fx-background-color: #DCFCE7;
+    -fx-text-fill: #16A34A;
+}
+
+.wizard-arrow {
+    -fx-text-fill: #94A3B8;
+}
+
+.wizard-title,
+.wizard-value {
+    -fx-text-fill: #0F172A;
+}
+

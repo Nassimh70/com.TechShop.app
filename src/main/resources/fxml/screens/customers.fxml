@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="page-pane" spacing="0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.techshop.controller.CustomersController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label styleClass="section-title" text="Clients"/>
+            <Label styleClass="muted" text="Coordonnées, historique des achats, réparations et règlements"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox fx:id="headerActions" spacing="8" alignment="CENTER_RIGHT"/>
+    </HBox>
+
+    <HBox styleClass="filters-bar" spacing="8" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" styleClass="field" promptText="Rechercher (nom, code, téléphone, email…)"/>
+        <CheckBox fx:id="debtFilter" styleClass="check" text="Avec dette uniquement"/>
+        <CheckBox fx:id="inactifsFilter" styleClass="check" text="Inclure les inactifs"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="compteur" styleClass="muted"/>
+    </HBox>
+
+    <StackPane fx:id="root" VBox.vgrow="ALWAYS"/>
+</VBox>

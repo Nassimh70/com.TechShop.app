@@ -1,473 +1,11 @@
-2026-10-16 16:21:44.933 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 16:21:45.187 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 16:21:45.801 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 16:21:45.855 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 16:29:39.134 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 16:29:39.286 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 16:29:39.854 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 16:29:40.197 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 16:29:41.284 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran dashboard
-java.lang.IllegalStateException: Vue FXML introuvable : /fxml/screens/dashboard.fxml
-	at com.techshop.util.Fxmls.url(Fxmls.java:21)
-	at com.techshop.util.Fxmls.load(Fxmls.java:29)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:61)
-	at com.techshop.controller.MainController.start(MainController.java:145)
-	at com.techshop.app.MainApp.start(MainApp.java:57)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-2026-10-16 16:29:41.308 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 16:29:42.660 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : Failed to initialize pool: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt — l'application démarre en mode dégradé
-2026-10-16 16:31:17.673 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 16:31:55.235 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 16:31:55.350 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 16:31:55.735 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 16:31:56.000 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 16:31:56.706 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 16:31:58.096 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : Failed to initialize pool: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt — l'application démarre en mode dégradé
-2026-10-16 16:39:41.482 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 16:39:41.601 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 16:39:42.107 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 16:39:42.404 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 16:39:43.235 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 16:39:44.571 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : Failed to initialize pool: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt — l'application démarre en mode dégradé
-2026-10-16 16:40:05.899 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 17:38:30.518 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 17:38:30.682 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 17:38:30.986 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 17:38:31.962 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 17:38:33.228 INFO  [c.techshop.config.MigrationService] Migration V001__schema.sql appliquée en 612 ms
-2026-10-16 17:38:33.281 INFO  [c.techshop.config.MigrationService] Migration V002__initial_data.sql appliquée en 41 ms
-2026-10-16 17:38:33.284 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (2 migration(s) appliquée(s))
-2026-10-16 17:38:33.301 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 17:52:06.114 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 17:52:06.222 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 17:52:06.357 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 17:52:06.982 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 17:52:07.437 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 17:52:07.438 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 17:52:07.529 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 17:53:45.146 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 17:54:11.895 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 17:54:11.988 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 17:54:12.122 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 17:54:12.820 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 17:54:13.315 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 17:54:13.315 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 17:54:13.329 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 17:54:41.138 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 19:10:12.661 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 19:10:12.802 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 19:10:12.803 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 19:10:13.206 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 19:10:15.702 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 19:10:15.702 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 19:10:16.447 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 19:10:16.447 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 19:10:17.065 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 19:10:17.065 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 20:35:55.778 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 20:35:55.831 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 20:35:55.908 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 20:35:56.412 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 20:35:56.893 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 20:35:56.893 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 20:35:56.911 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 20:36:13.874 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 20:50:12.092 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 20:50:12.277 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 20:50:12.573 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 20:50:13.312 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 20:50:13.708 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 20:50:13.708 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 20:50:13.716 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 20:50:39.264 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 21:07:07.066 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:07:07.524 INFO  [c.techshop.config.MigrationService] Migration V004__phase3_data.sql appliquée en 16 ms
-2026-10-16 21:07:07.527 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (1 migration(s) appliquée(s))
-2026-10-16 21:29:42.872 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 21:29:43.072 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 21:29:43.312 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 21:29:43.988 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:29:44.371 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:29:44.372 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:29:44.393 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 21:34:24.151 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:34:57.782 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:34:59.181 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 21:35:21.073 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 21:35:21.269 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 21:35:21.486 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:35:22.210 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:35:22.634 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:35:22.636 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:35:22.662 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 21:35:48.453 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 21:36:27.009 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:36:31.538 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:36:35.757 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:36:36.146 ERROR [com.techshop.service.StockService] Lecture de la synthèse du stock impossible
-java.sql.SQLException: Base de données non initialisée
-	at com.techshop.config.DatabaseManager.connection(DatabaseManager.java:155)
-	at com.techshop.dao.ProductDao.stockValueAtCost(ProductDao.java:151)
-	at com.techshop.service.StockService.summary(StockService.java:217)
-	at com.techshop.controller.MainController.rafraichirNotifications(MainController.java:374)
-	at com.techshop.controller.MainController.buildHeader(MainController.java:284)
-	at com.techshop.controller.MainController.initialize(MainController.java:145)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:72)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at javafx.base@21.0.5/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:270)
-	at javafx.fxml@21.0.5/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:84)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2688)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
-	at OverlayProbe.start(OverlayProbe.java:33)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-2026-10-16 21:36:36.152 WARN  [c.techshop.controller.MainController] Alertes de stock indisponibles
-com.techshop.util.ValidationException: Base de données indisponible. Réessayez plus tard.
-	at com.techshop.service.StockService.summary(StockService.java:221)
-	at com.techshop.controller.MainController.rafraichirNotifications(MainController.java:374)
-	at com.techshop.controller.MainController.buildHeader(MainController.java:284)
-	at com.techshop.controller.MainController.initialize(MainController.java:145)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:72)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at javafx.base@21.0.5/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:270)
-	at javafx.fxml@21.0.5/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:84)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2688)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
-	at OverlayProbe.start(OverlayProbe.java:33)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-2026-10-16 21:36:36.261 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:38:39.680 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:38:44.292 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:38:48.969 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:38:49.148 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:39:09.840 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 21:39:09.964 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 21:39:10.179 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:39:10.934 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:39:11.347 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:39:11.348 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:39:11.370 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 21:39:27.075 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 21:39:34.219 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:40:10.183 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:41:09.091 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 21:41:09.225 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 21:41:09.471 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:41:10.149 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:41:10.584 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:41:10.584 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:41:10.603 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 21:41:38.126 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:41:38.621 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:41:38.622 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:41:39.313 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:41:39.891 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:42:08.841 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:42:30.693 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
-2026-10-16 21:42:36.355 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:42:48.186 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:42:48.660 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:42:48.661 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:42:49.258 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:42:49.727 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:43:54.317 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:43:54.639 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:43:54.640 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:43:55.039 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:43:55.435 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:45:16.464 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:45:16.917 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:45:16.918 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:45:17.569 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:45:18.212 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:45:44.334 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 21:49:19.491 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:49:19.917 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:49:19.918 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:49:20.399 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:49:20.732 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:50:01.794 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 21:50:01.959 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 21:50:02.182 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:50:02.941 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:50:03.526 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:50:03.530 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:50:03.547 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 21:50:14.909 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:50:15.209 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:50:15.210 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:50:15.670 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:50:16.044 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:50:50.482 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:50:50.911 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:50:50.912 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:50:51.397 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:50:51.951 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:54:20.052 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:54:20.520 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:54:20.520 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:54:21.013 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:54:21.469 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:54:56.042 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:54:56.460 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:54:56.461 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:54:56.929 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:54:57.436 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:55:33.756 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:55:40.044 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:55:43.585 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:55:48.394 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:55:48.496 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:56:08.388 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 21:56:41.821 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 21:56:41.989 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 21:56:42.166 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 21:56:42.770 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 21:56:43.334 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 21:56:43.335 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 21:56:43.351 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 21:57:01.520 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 21:57:24.259 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 22:58:59.956 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 22:59:00.057 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 22:59:00.256 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 22:59:00.875 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 22:59:01.451 INFO  [c.techshop.config.MigrationService] Migration V005__phase4.sql appliquée en 38 ms
-2026-10-16 22:59:01.452 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (1 migration(s) appliquée(s))
-2026-10-16 22:59:01.478 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 22:59:23.058 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:01:35.993 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 23:07:22.399 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 23:07:22.559 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 23:07:22.862 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 23:07:23.647 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:07:24.181 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:07:24.181 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:07:24.198 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 23:12:47.583 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 23:12:47.714 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 23:12:48.012 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 23:12:48.680 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:12:49.217 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:12:49.217 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:12:49.230 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 23:13:36.462 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:13:52.392 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran pos
-java.lang.IllegalStateException: Impossible de charger la vue « screens/pos »
-	at com.techshop.util.Fxmls.load(Fxmls.java:33)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
-	at com.techshop.controller.MainController.lambda$sidebarItem$0(MainController.java:210)
-	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
-	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
-	at javafx.base@21.0.5/javafx.event.Event.fireEvent(Event.java:198)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3688)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$MouseHandler.process(Scene.java:3993)
-	at javafx.graphics@21.0.5/javafx.scene.Scene.processMouseEvent(Scene.java:1890)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2708)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.View.notifyMouse(View.java:937)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-Caused by: javafx.fxml.LoadException: 
-/D:/JavaFx/index/target/classes/fxml/screens/pos.fxml:21
-
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:935)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$InstanceDeclarationElement.processAttribute(FXMLLoader.java:983)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$Element.processStartElement(FXMLLoader.java:230)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processStartElement(FXMLLoader.java:757)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2853)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
-	at com.techshop.util.Fxmls.load(Fxmls.java:30)
-	... 35 common frames omitted
-Caused by: java.lang.ClassNotFoundException: com.techshop.controller.PosController
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:933)
-	... 43 common frames omitted
-2026-10-16 23:13:53.853 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran pos
-java.lang.IllegalStateException: Impossible de charger la vue « screens/pos »
-	at com.techshop.util.Fxmls.load(Fxmls.java:33)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
-	at com.techshop.controller.MainController.lambda$sidebarItem$0(MainController.java:210)
-	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
-	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
-	at javafx.base@21.0.5/javafx.event.Event.fireEvent(Event.java:198)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3688)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$MouseHandler.process(Scene.java:3993)
-	at javafx.graphics@21.0.5/javafx.scene.Scene.processMouseEvent(Scene.java:1890)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2708)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.View.notifyMouse(View.java:937)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-Caused by: javafx.fxml.LoadException: 
-/D:/JavaFx/index/target/classes/fxml/screens/pos.fxml:21
-
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:935)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$InstanceDeclarationElement.processAttribute(FXMLLoader.java:983)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$Element.processStartElement(FXMLLoader.java:230)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processStartElement(FXMLLoader.java:757)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2853)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
-	at com.techshop.util.Fxmls.load(Fxmls.java:30)
-	... 35 common frames omitted
-Caused by: java.lang.ClassNotFoundException: com.techshop.controller.PosController
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:933)
-	... 43 common frames omitted
-2026-10-16 23:13:54.706 ERROR [c.techshop.service.NavigationService] Échec de chargement de l'écran sales
-java.lang.IllegalStateException: Impossible de charger la vue « screens/sales »
-	at com.techshop.util.Fxmls.load(Fxmls.java:33)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:84)
-	at com.techshop.service.NavigationService.navigate(NavigationService.java:55)
-	at com.techshop.controller.MainController.lambda$sidebarItem$0(MainController.java:210)
-	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
-	at javafx.base@21.0.5/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
-	at javafx.base@21.0.5/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
-	at javafx.base@21.0.5/javafx.event.Event.fireEvent(Event.java:198)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3688)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$MouseHandler.process(Scene.java:3993)
-	at javafx.graphics@21.0.5/javafx.scene.Scene.processMouseEvent(Scene.java:1890)
-	at javafx.graphics@21.0.5/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2708)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
-	at javafx.graphics@21.0.5/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.View.notifyMouse(View.java:937)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
-	at java.base/java.lang.Thread.run(Thread.java:1447)
-Caused by: javafx.fxml.LoadException: 
-/D:/JavaFx/index/target/classes/fxml/screens/sales.fxml:13
-
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2722)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:935)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$InstanceDeclarationElement.processAttribute(FXMLLoader.java:983)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$Element.processStartElement(FXMLLoader.java:230)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processStartElement(FXMLLoader.java:757)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.processStartElement(FXMLLoader.java:2853)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2649)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2563)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader.load(FXMLLoader.java:2531)
-	at com.techshop.util.Fxmls.load(Fxmls.java:30)
-	... 35 common frames omitted
-Caused by: java.lang.ClassNotFoundException: com.techshop.controller.SalesController
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
-	at javafx.fxml@21.0.5/javafx.fxml.FXMLLoader$ValueElement.processAttribute(FXMLLoader.java:933)
-	... 43 common frames omitted
-2026-10-16 23:14:52.180 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
-2026-10-16 23:15:29.263 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:15:29.860 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:15:29.861 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:15:31.174 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:17:20.811 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:17:21.218 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:17:21.220 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:17:22.608 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:17:23.005 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
-2026-10-16 23:17:23.008 ERROR [com.techshop.service.SaleService] Enregistrement de la vente impossible
-java.sql.SQLIntegrityConstraintViolationException: (conn=133) Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
+2026-10-17 00:08:14.107 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-17 00:08:14.296 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-17 00:08:14.531 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 00:08:15.234 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 00:08:15.791 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1136-21S01: Column count doesn't match value count at row 7
+2026-10-17 00:08:15.798 ERROR [c.techshop.config.MigrationService] Échec de l'instruction du script V006__phase5.sql : INSERT INTO repair_tickets (number, customer_id, device_type, brand, model, serial_or_imei, device_password, accessories…
+2026-10-17 00:08:15.799 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : (conn=152) Column count doesn't match value count at row 7
+java.sql.SQLIntegrityConstraintViolationException: (conn=152) Column count doesn't match value count at row 7
 	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:297)
 	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
 	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
@@ -475,87 +13,139 @@ java.sql.SQLIntegrityConstraintViolationException: (conn=133) Cannot add or upda
 	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
 	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
 	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:342)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:319)
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
-	at com.techshop.dao.SalePaymentDao.insert(SalePaymentDao.java:32)
-	at com.techshop.service.SaleService.repartirReglements(SaleService.java:328)
-	at com.techshop.service.SaleService.lambda$checkout$0(SaleService.java:213)
-	at com.techshop.config.Tx.run(Tx.java:34)
-	at com.techshop.service.SaleService.checkout(SaleService.java:130)
-	at com.techshop.app.SmokeMain.start(SmokeMain.java:69)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at org.mariadb.jdbc.Statement.executeInternal(Statement.java:1035)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:1016)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:194)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:119)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeUpdate(HikariProxyStatement.java)
+	at com.techshop.config.MigrationService.executer(MigrationService.java:156)
+	at com.techshop.config.MigrationService.apply(MigrationService.java:72)
+	at com.techshop.config.DatabaseManager.init(DatabaseManager.java:173)
+	at com.techshop.app.AppShell.lambda$bootstrap$0(AppShell.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:1447)
-2026-10-16 23:18:47.149 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:18:47.683 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:18:47.683 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:18:49.109 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:18:49.487 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
-2026-10-16 23:18:49.487 ERROR [com.techshop.service.SaleService] Enregistrement de la vente impossible
-java.sql.SQLIntegrityConstraintViolationException: (conn=136) Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
-	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:297)
+2026-10-17 00:08:21.293 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1060-42S21: Duplicate column name 'quoted_amount'
+2026-10-17 00:08:21.293 ERROR [c.techshop.config.MigrationService] Échec de l'instruction du script V006__phase5.sql : ALTER TABLE repair_tickets ADD COLUMN quoted_amount DECIMAL(12,2) NOT NULL DEFAULT 0.00 COMMENT 'Devis estime' AFTER dia…
+2026-10-17 00:08:21.294 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : (conn=155) Duplicate column name 'quoted_amount'
+java.sql.SQLSyntaxErrorException: (conn=155) Duplicate column name 'quoted_amount'
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:289)
 	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
 	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
 	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
 	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
 	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
 	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:342)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:319)
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
-	at com.techshop.dao.SalePaymentDao.insert(SalePaymentDao.java:32)
-	at com.techshop.service.SaleService.repartirReglements(SaleService.java:328)
-	at com.techshop.service.SaleService.lambda$checkout$0(SaleService.java:213)
-	at com.techshop.config.Tx.run(Tx.java:34)
-	at com.techshop.service.SaleService.checkout(SaleService.java:130)
-	at com.techshop.app.SmokeMain.start(SmokeMain.java:83)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at org.mariadb.jdbc.Statement.executeInternal(Statement.java:1035)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:1016)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:194)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:119)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeUpdate(HikariProxyStatement.java)
+	at com.techshop.config.MigrationService.executer(MigrationService.java:156)
+	at com.techshop.config.MigrationService.apply(MigrationService.java:72)
+	at com.techshop.config.DatabaseManager.init(DatabaseManager.java:173)
+	at com.techshop.app.AppShell.lambda$bootstrap$0(AppShell.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:1447)
-2026-10-16 23:19:13.021 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:19:13.600 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:19:13.601 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:19:15.389 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:19:15.893 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
-2026-10-16 23:19:15.893 ERROR [com.techshop.service.SaleService] Enregistrement de la vente impossible
-java.sql.SQLIntegrityConstraintViolationException: (conn=139) Cannot add or update a child row: a foreign key constraint fails (`techshop`.`sale_payments`, CONSTRAINT `fk_sale_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`))
-	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:297)
+2026-10-17 00:08:23.274 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1060-42S21: Duplicate column name 'quoted_amount'
+2026-10-17 00:08:23.276 ERROR [c.techshop.config.MigrationService] Échec de l'instruction du script V006__phase5.sql : ALTER TABLE repair_tickets ADD COLUMN quoted_amount DECIMAL(12,2) NOT NULL DEFAULT 0.00 COMMENT 'Devis estime' AFTER dia…
+2026-10-17 00:08:23.277 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : (conn=157) Duplicate column name 'quoted_amount'
+java.sql.SQLSyntaxErrorException: (conn=157) Duplicate column name 'quoted_amount'
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:289)
 	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
 	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
 	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
 	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
 	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
 	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:93)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:342)
-	at org.mariadb.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:319)
-	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
-	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
-	at com.techshop.dao.SalePaymentDao.insert(SalePaymentDao.java:32)
-	at com.techshop.service.SaleService.repartirReglements(SaleService.java:328)
-	at com.techshop.service.SaleService.lambda$checkout$0(SaleService.java:213)
-	at com.techshop.config.Tx.run(Tx.java:34)
-	at com.techshop.service.SaleService.checkout(SaleService.java:130)
-	at com.techshop.app.SmokeMain.start(SmokeMain.java:83)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
-	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at org.mariadb.jdbc.Statement.executeInternal(Statement.java:1035)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:1016)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:194)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:119)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeUpdate(HikariProxyStatement.java)
+	at com.techshop.config.MigrationService.executer(MigrationService.java:156)
+	at com.techshop.config.MigrationService.apply(MigrationService.java:72)
+	at com.techshop.config.DatabaseManager.init(DatabaseManager.java:173)
+	at com.techshop.app.AppShell.lambda$bootstrap$0(AppShell.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-17 00:08:24.722 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1060-42S21: Duplicate column name 'quoted_amount'
+2026-10-17 00:08:24.722 ERROR [c.techshop.config.MigrationService] Échec de l'instruction du script V006__phase5.sql : ALTER TABLE repair_tickets ADD COLUMN quoted_amount DECIMAL(12,2) NOT NULL DEFAULT 0.00 COMMENT 'Devis estime' AFTER dia…
+2026-10-17 00:08:24.723 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : (conn=159) Duplicate column name 'quoted_amount'
+java.sql.SQLSyntaxErrorException: (conn=159) Duplicate column name 'quoted_amount'
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:289)
+	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
+	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
+	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
+	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
+	at org.mariadb.jdbc.Statement.executeInternal(Statement.java:1035)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:1016)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:194)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:119)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeUpdate(HikariProxyStatement.java)
+	at com.techshop.config.MigrationService.executer(MigrationService.java:156)
+	at com.techshop.config.MigrationService.apply(MigrationService.java:72)
+	at com.techshop.config.DatabaseManager.init(DatabaseManager.java:173)
+	at com.techshop.app.AppShell.lambda$bootstrap$0(AppShell.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1447)
+2026-10-17 00:08:29.661 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-17 00:09:23.457 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 00:09:23.961 WARN  [o.m.jdbc.message.server.ErrorPacket] Error: 1060-42S21: Duplicate column name 'quoted_amount'
+2026-10-17 00:09:23.967 ERROR [c.techshop.config.MigrationService] Échec de l'instruction du script V006__phase5.sql : ALTER TABLE repair_tickets ADD COLUMN quoted_amount DECIMAL(12,2) NOT NULL DEFAULT 0.00 COMMENT 'Devis estime' AFTER dia…
+2026-10-17 00:09:23.968 ERROR [com.techshop.config.DatabaseManager] Base de données indisponible : (conn=161) Duplicate column name 'quoted_amount'
+java.sql.SQLSyntaxErrorException: (conn=161) Duplicate column name 'quoted_amount'
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:289)
+	at org.mariadb.jdbc.export.ExceptionFactory.create(ExceptionFactory.java:378)
+	at org.mariadb.jdbc.message.ClientMessage.readPacket(ClientMessage.java:172)
+	at org.mariadb.jdbc.client.impl.StandardClient.readPacket(StandardClient.java:915)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResults(StandardClient.java:854)
+	at org.mariadb.jdbc.client.impl.StandardClient.readResponse(StandardClient.java:773)
+	at org.mariadb.jdbc.client.impl.StandardClient.execute(StandardClient.java:697)
+	at org.mariadb.jdbc.Statement.executeInternal(Statement.java:1035)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:1016)
+	at org.mariadb.jdbc.Statement.executeUpdate(Statement.java:194)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeUpdate(ProxyStatement.java:119)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.executeUpdate(HikariProxyStatement.java)
+	at com.techshop.config.MigrationService.executer(MigrationService.java:156)
+	at com.techshop.config.MigrationService.apply(MigrationService.java:72)
+	at com.techshop.config.DatabaseManager.init(DatabaseManager.java:173)
+	at com.techshop.app.SmokeMain.main(SmokeMain.java:12)
+2026-10-17 00:14:01.500 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 00:14:02.234 INFO  [c.techshop.config.MigrationService] Migration V006__phase5.sql appliquée en 57 ms
+2026-10-17 00:14:02.239 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (1 migration(s) appliquée(s))
+2026-10-17 00:14:32.661 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-17 00:14:32.814 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-17 00:14:33.133 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 00:14:33.951 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 00:14:34.459 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-17 00:14:34.460 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-17 00:14:34.478 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-17 00:14:47.151 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-17 00:15:03.496 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-17 00:15:17.897 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 00:16:16.474 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-17 00:35:13.750 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-17 00:35:13.938 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-17 00:35:14.235 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 00:35:14.976 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 00:35:15.395 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-17 00:35:15.396 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-17 00:35:15.406 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-17 00:36:33.419 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-17 00:37:46.815 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-17 00:57:40.270 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-17 00:57:40.321 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-17 00:57:40.459 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 00:57:40.786 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 00:57:41.047 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-17 00:57:41.048 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-17 00:57:41.051 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-17 01:02:51.079 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 01:02:51.228 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-17 01:02:51.228 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-17 01:02:51.233 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-17 01:02:51.315 ERROR [com.techshop.app.UiSmoke] SMOKE FAIL
+java.lang.IllegalStateException: Connexion admin : Identifiant ou mot de passe incorrect. 4 tentative(s) avant blocage.
+	at com.techshop.app.UiSmoke.run(UiSmoke.java:67)
+	at com.techshop.app.UiSmoke.lambda$start$2(UiSmoke.java:54)
 	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
 	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
 	at javafx.graphics@21.0.5/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
@@ -563,20 +153,37 @@ java.sql.SQLIntegrityConstraintViolationException: (conn=139) Cannot add or upda
 	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
 	at javafx.graphics@21.0.5/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
 	at java.base/java.lang.Thread.run(Thread.java:1447)
-2026-10-16 23:22:54.895 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:22:55.347 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:22:55.348 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:22:56.544 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:24:19.189 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:24:19.758 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:24:19.759 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:24:21.005 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:38:00.675 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
-2026-10-16 23:38:00.852 INFO  [com.techshop.util.Fonts] Police Inter chargée
-2026-10-16 23:38:01.014 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
-2026-10-16 23:38:01.591 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
-2026-10-16 23:38:02.081 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
-2026-10-16 23:38:02.082 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
-2026-10-16 23:38:02.097 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
-2026-10-16 23:38:11.995 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
-2026-10-16 23:41:57.757 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
+2026-10-17 01:07:59.196 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 01:07:59.378 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-17 01:07:59.378 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-17 01:07:59.384 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-17 01:07:59.481 INFO  [com.techshop.app.UiSmoke] SMOKE OK connexion technicien : tech1 (TECHNICIEN)
+2026-10-17 01:07:59.484 INFO  [com.techshop.app.UiSmoke] SMOKE OK menu technicien = [dashboard, products, stock, repairs, design-system]
+2026-10-17 01:08:00.254 INFO  [com.techshop.app.UiSmoke] SMOKE OK chargement de tous les FXML du menu
+2026-10-17 01:08:00.282 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-17 01:08:00.810 INFO  [com.techshop.app.UiSmoke] SMOKE OK navigation dashboard
+2026-10-17 01:08:00.828 INFO  [com.techshop.app.UiSmoke] SMOKE OK navigation customers
+2026-10-17 01:08:00.851 INFO  [com.techshop.app.UiSmoke] SMOKE OK navigation repairs
+2026-10-17 01:08:00.881 INFO  [com.techshop.app.UiSmoke] SMOKE OK navigation stock
+2026-10-17 01:08:00.895 INFO  [com.techshop.app.UiSmoke] SMOKE OK navigation sales
+2026-10-17 01:08:00.931 INFO  [com.techshop.app.UiSmoke] SMOKE OK fiche réparation R-000022
+2026-10-17 01:08:00.942 INFO  [com.techshop.app.UiSmoke] SMOKE OK assistant de dépôt
+2026-10-17 01:08:00.943 INFO  [com.techshop.app.UiSmoke] SMOKE DONE
+2026-10-17 01:09:34.782 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-17 01:09:34.831 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-17 01:09:34.903 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 01:09:35.267 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 01:09:35.534 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-17 01:09:35.535 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-17 01:09:35.547 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-17 09:40:20.667 INFO  [com.techshop.app.MainApp] Démarrage de TechShop Manager
+2026-10-17 09:40:20.722 INFO  [com.techshop.util.Fonts] Police Inter chargée
+2026-10-17 09:40:20.801 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 09:40:21.150 INFO  [com.techshop.config.AppConfig] Configuration embarquée /config/db.properties utilisée
+2026-10-17 09:40:21.420 INFO  [c.techshop.config.MigrationService] Schéma à jour : aucune migration à appliquer
+2026-10-17 09:40:21.421 INFO  [com.techshop.config.DatabaseManager] Base « techshop » prête (0 migration(s) appliquée(s))
+2026-10-17 09:40:21.434 INFO  [c.techshop.service.PermissionService] Permissions chargées depuis la base (3 rôle(s))
+2026-10-17 09:40:39.482 INFO  [c.techshop.controller.MainController] Initialisation de la fenêtre principale
+2026-10-17 09:46:29.828 INFO  [com.techshop.config.ThemeManager] Thème appliqué : DARK
+2026-10-17 09:46:40.192 INFO  [com.techshop.config.ThemeManager] Thème appliqué : LIGHT
+2026-10-17 09:46:47.567 INFO  [com.techshop.app.MainApp] Arrêt de TechShop Manager
