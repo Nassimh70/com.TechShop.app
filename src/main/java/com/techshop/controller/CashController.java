@@ -189,7 +189,9 @@ public class CashController {
         table.getStyleClass().add("data-table");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         VBox.setVgrow(table, Priority.ALWAYS);
-        table.setPlaceholder(new Label("Aucun mouvement pour cette session."));
+        Label videMouvements = new Label("Aucun mouvement pour cette session.");
+        videMouvements.getStyleClass().add("muted");
+        table.setPlaceholder(videMouvements);
 
         TableColumn<CashMovement, CashMovement> cType = new TableColumn<>("Type");
         cType.setMinWidth(90);
@@ -255,7 +257,9 @@ public class CashController {
         table.getStyleClass().add("data-table");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         table.setPrefHeight(220);
-        table.setPlaceholder(new Label("Aucune session de caisse."));
+        Label videSessions = new Label("Aucune session de caisse.");
+        videSessions.getStyleClass().add("muted");
+        table.setPlaceholder(videSessions);
 
         TableColumn<CashSession, String> cNum = new TableColumn<>("Session");
         cNum.setMinWidth(120);

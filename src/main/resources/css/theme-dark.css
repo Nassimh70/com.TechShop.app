@@ -462,6 +462,12 @@
     -fx-border-color: transparent transparent #1E293B transparent;
 }
 
+/* Texte des cellules : sans couleur explicite, Modena garde un texte sombre
+   (#333) qui devient illisible sur le fond nuit du tableau. */
+.data-table .table-cell {
+    -fx-text-fill: #F1F5F9;
+}
+
 .data-table .table-row-cell:hover {
     -fx-background-color: #16223A;
 }
@@ -496,6 +502,10 @@
 .cell-money {
     -fx-text-fill: #F1F5F9;
     -fx-font-weight: bold;
+}
+
+.cell-text {
+    -fx-text-fill: #F1F5F9;
 }
 
 /* ---------------------------- Onglets soulignés --------------------------- */
@@ -1105,7 +1115,7 @@
     -fx-text-fill: #F1F5F9;
 }
 
-.debt-amount {
+.data-table .debt-amount {
     -fx-text-fill: #F87171;
 }
 

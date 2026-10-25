@@ -316,6 +316,7 @@ public class ProductsController {
                     return;
                 }
                 Label quantite = new Label(Format.intStr(p.getQuantity()));
+                quantite.getStyleClass().add("cell-text");
                 Badge badge = Badge.of(p.stockStatus().getLabel(), badgeDe(p.stockStatus()));
                 HBox boite = new HBox(8, quantite, badge);
                 boite.setAlignment(Pos.CENTER_LEFT);

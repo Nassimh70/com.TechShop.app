@@ -81,7 +81,9 @@ public final class PaymentDialog {
         TableView<Ligne> table = new TableView<>(lignes);
         table.getStyleClass().add("data-table");
         table.setPrefHeight(130);
-        table.setPlaceholder(new Label("Aucun règlement ajouté."));
+        Label videReglements = new Label("Aucun règlement ajouté.");
+        videReglements.getStyleClass().add("muted");
+        table.setPlaceholder(videReglements);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
         TableColumn<Ligne, String> cMode = new TableColumn<>("Mode");

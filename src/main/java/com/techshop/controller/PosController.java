@@ -427,6 +427,7 @@ public class PosController {
                 moins.setOnAction(e -> changerQuantite(l, l.quantite() - 1));
                 plus.setOnAction(e -> changerQuantite(l, l.quantite() + 1));
                 Label q = new Label(String.valueOf(l.quantite()));
+                q.getStyleClass().add("cell-text");
                 q.setMinWidth(20);
                 q.setAlignment(Pos.CENTER);
                 HBox box = new HBox(4, moins, q, plus);

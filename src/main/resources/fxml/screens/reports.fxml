@@ -38,7 +38,7 @@
         <TabPane fx:id="tabs" VBox.vgrow="ALWAYS">
             <Tab text="Tableau" closable="false">
                 <VBox spacing="8">
-                    <TableView fx:id="table" VBox.vgrow="ALWAYS"/>
+                    <TableView fx:id="table" styleClass="data-table" VBox.vgrow="ALWAYS"/>
                 </VBox>
             </Tab>
             <Tab text="Graphiques" closable="false">

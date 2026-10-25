@@ -464,6 +464,10 @@
     -fx-border-color: transparent transparent #F1F5F9 transparent;
 }
 
+.data-table .table-cell {
+    -fx-text-fill: #0F172A;
+}
+
 .data-table .table-row-cell:hover {
     -fx-background-color: #F8FAFC;
 }
@@ -499,6 +503,10 @@
 .cell-money {
     -fx-text-fill: #0F172A;
     -fx-font-weight: bold;
+}
+
+.cell-text {
+    -fx-text-fill: #0F172A;
 }
 
 /* ---------------------------- Onglets soulignés --------------------------- */
@@ -1114,7 +1122,7 @@
     -fx-text-fill: #0F172A;
 }
 
-.debt-amount {
+.data-table .debt-amount {
     -fx-text-fill: #DC2626;
 }
 
