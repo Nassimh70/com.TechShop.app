@@ -35,7 +35,7 @@ FROM roles r
 CROSS JOIN (
     SELECT 'dashboard' AS module UNION ALL SELECT 'pos' UNION ALL SELECT 'sales'
     UNION ALL SELECT 'customers' UNION ALL SELECT 'products' UNION ALL SELECT 'stock'
-    UNION ALL SELECT 'purchases' UNION ALL SELECT 'repairs' UNION ALL SELECT 'cash'
+    UNION ALL SELECT 'repairs' UNION ALL SELECT 'cash'
     UNION ALL SELECT 'reports' UNION ALL SELECT 'users' UNION ALL SELECT 'settings'
 ) m
 WHERE r.code = 'ADMIN';
@@ -97,5 +97,4 @@ INSERT INTO settings (cle, valeur, groupe, type) VALUES
     ('apparence.font_size', '13', 'apparence', 'INT'),
     ('numbering.sale.prefix', 'V', 'ventes', 'STRING'),
     ('numbering.repair.prefix', 'R', 'service', 'STRING'),
-    ('numbering.purchase.prefix', 'A', 'achats', 'STRING'),
     ('numbering.cash.prefix', 'C', 'caisse', 'STRING');

@@ -80,19 +80,21 @@
 }
 
 .nav-box {
-    -fx-padding: 0 0 8 0;
+    -fx-padding: 0;
 }
 
 .nav-section {
     -fx-font-size: 10px;
     -fx-font-weight: bold;
     -fx-letter-spacing: 1px;
-    -fx-padding: 16 0 6 12;
+    -fx-padding: 4 0 2 12;
 }
 
-/* Entrée de menu : hauteur 40, rayon 8, barre d'indicateur à gauche */
+/* Entrée de menu : hauteur 32, rayon 8, barre d'indicateur à gauche.
+   Hauteur compacte pour que tous les modules (dont Administration) restent
+   visibles sans défilement sur un écran 1366x768. */
 .sidebar-item {
-    -fx-pref-height: 40px;
+    -fx-pref-height: 32px;
     -fx-background-radius: 8px;
     -fx-padding: 0 10 0 12;
     -fx-spacing: 12;
@@ -102,7 +104,7 @@
 
 .sidebar-item .indicator {
     -fx-pref-width: 3px;
-    -fx-pref-height: 18px;
+    -fx-pref-height: 16px;
     -fx-background-radius: 2px;
     -fx-background-color: transparent;
 }

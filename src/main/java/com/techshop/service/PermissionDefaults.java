@@ -21,7 +21,6 @@ public final class PermissionDefaults {
     public static final String M_CUSTOMERS = "customers";
     public static final String M_PRODUCTS = "products";
     public static final String M_STOCK = "stock";
-    public static final String M_PURCHASES = "purchases";
     public static final String M_REPAIRS = "repairs";
     public static final String M_CASH = "cash";
     public static final String M_REPORTS = "reports";
@@ -31,7 +30,7 @@ public final class PermissionDefaults {
     /** Ordre d'affichage des modules dans la matrice. */
     public static final java.util.List<String> MODULES = java.util.List.of(
             M_DASHBOARD, M_POS, M_SALES, M_CUSTOMERS, M_PRODUCTS, M_STOCK,
-            M_PURCHASES, M_REPAIRS, M_CASH, M_REPORTS, M_USERS, M_SETTINGS);
+            M_REPAIRS, M_CASH, M_REPORTS, M_USERS, M_SETTINGS);
 
     private PermissionDefaults() {
     }

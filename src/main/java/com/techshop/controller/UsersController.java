@@ -309,7 +309,6 @@ public class UsersController {
             case "customers" -> "Clients";
             case "products" -> "Produits";
             case "stock" -> "Stock";
-            case "purchases" -> "Achats & fournisseurs";
             case "repairs" -> "SAV / Réparations";
             case "cash" -> "Caisse & finances";
             case "reports" -> "Rapports";

@@ -33,9 +33,6 @@ public final class MenuRegistry {
             NavItem.all("products", "Produits", SEC_CATALOG, "box", "screens/products"),
             NavItem.all("stock", "Stock", SEC_CATALOG, "layers", "screens/stock"),
 
-            new NavItem("purchases", "Achats & Fournisseurs", SEC_CATALOG, "truck", null,
-                    null, java.util.EnumSet.of(Role.ADMIN)),
-
             new NavItem("repairs", "SAV / Réparations", SEC_SERVICE, "tool", "screens/repairs",
                     null, java.util.EnumSet.of(Role.ADMIN, Role.TECHNICIEN)),
 

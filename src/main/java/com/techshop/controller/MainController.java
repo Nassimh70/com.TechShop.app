@@ -25,6 +25,7 @@ import com.techshop.util.Format;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -39,6 +40,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -82,6 +84,8 @@ public class MainController {
     private StackPane logoBadge;
     @FXML
     private Button collapseBtn;
+    @FXML
+    private ScrollPane navScroll;
     @FXML
     private VBox navBox;
     @FXML
@@ -220,7 +224,34 @@ public class MainController {
         Node node = navNodes.get(id);
         if (node != null) {
             node.getStyleClass().add("active");
+            scrollIntoView(node);
         }
+    }
+
+    /** Fait défiler le menu pour que l'entrée active soit toujours visible. */
+    private void scrollIntoView(Node node) {
+        if (navScroll == null) {
+            return;
+        }
+        Platform.runLater(() -> {
+            double viewport = navScroll.getViewportBounds().getHeight();
+            double max = navBox.getHeight() - viewport;
+            if (max <= 0) {
+                return;
+            }
+            double top = node.getBoundsInParent().getMinY();
+            double bottom = node.getBoundsInParent().getMaxY();
+            double current = navScroll.getVvalue() * max;
+            double target = current;
+            if (top < current) {
+                target = top;
+            } else if (bottom > current + viewport) {
+                target = bottom - viewport;
+            }
+            if (target != current) {
+                navScroll.setVvalue(Math.max(0, Math.min(1, target / max)));
+            }
+        });
     }
 
     private void onScreenChanged(NavItem item) {
