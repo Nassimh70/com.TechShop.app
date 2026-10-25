@@ -47,9 +47,10 @@
     -fx-letter-spacing: 0.6px;
 }
 
-/* Zone de défilement du menu */
+/* Zone de défilement du menu.
+   Ne pas mettre -fx-background: transparent ici : JavaFX dérive la couleur
+   du texte par défaut des labels de cette valeur (elle deviendrait blanche). */
 .nav-scroll {
-    -fx-background: transparent;
     -fx-background-color: transparent;
     -fx-padding: 4 8 4 8;
 }
@@ -267,10 +268,12 @@
 }
 
 /* Défilement interne des pages longues (tableau de bord) : fond transparent
-   pour rester sur le fond de l'application, sans cadre ni marge parasite. */
+   pour rester sur le fond de l'application, sans cadre ni marge parasite.
+   Important : -fx-background doit rester une couleur réelle (définie par le
+   thème) et non « transparent », sinon JavaFX calcule un texte de label blanc,
+   ce qui rend les noms de produits invisibles sur les cartes claires. */
 .page-scroll {
     -fx-background-color: transparent;
-    -fx-background: transparent;
     -fx-padding: 0;
 }
 
@@ -528,41 +531,42 @@
 }
 
 /* ---------------------------- Onglets soulignés -------------------------- */
-.tabs {
+.tab-pane {
     -fx-padding: 0;
     -fx-tab-min-height: 38px;
 }
 
-.tabs > .tab-header-area {
+.tab-pane > .tab-header-area {
     -fx-padding: 0;
     -fx-background-insets: 0;
 }
 
-.tabs > .tab-header-area > .tab-header-background {
+.tab-pane > .tab-header-area > .tab-header-background {
     -fx-background-color: transparent;
     -fx-border-width: 0 0 1 0;
 }
 
-.tabs > .tab {
+.tab-pane .tab {
     -fx-background-color: transparent;
     -fx-background-radius: 0;
-    -fx-padding: 0 14;
+    -fx-padding: 0 10;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
     -fx-border-width: 0 0 2 0;
     -fx-border-color: transparent;
 }
 
-.tabs > .tab:selected {
+.tab-pane .tab:selected {
     -fx-border-width: 0 0 2 0;
 }
 
-.tabs .tab .tab-label {
+.tab-pane .tab .tab-label {
     -fx-font-size: 13px;
     -fx-font-weight: bold;
 }
 
-.tabs > .tab-pane > .tab-content-area {
+.tab-pane > .tab-content-area {
+    -fx-background-color: transparent;
     -fx-padding: 16 0 0 0;
 }
 

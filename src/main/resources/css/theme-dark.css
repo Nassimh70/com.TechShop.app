@@ -12,6 +12,9 @@
 /* ------------------------------- Racine --------------------------------- */
 .app-root {
     -fx-background-color: #0B1120;
+    /* Couleur de référence pour les contrôles sans style explicite (labels
+       nus, éléments .mono...) : JavaFX en dérive leur couleur de texte. */
+    -fx-background: #0B1120;
     -fx-text-fill: #F1F5F9;
 }
 
@@ -496,28 +499,41 @@
 }
 
 /* ---------------------------- Onglets soulignés --------------------------- */
-.tabs > .tab-header-area > .tab-header-background {
+.tab-pane > .tab-header-area > .tab-header-background {
     -fx-border-color: transparent transparent #263449 transparent;
 }
 
-.tabs > .tab {
+.tab-pane .tab {
     -fx-border-color: transparent;
 }
 
-.tabs > .tab:selected {
+.tab-pane .tab:selected {
     -fx-border-color: transparent transparent #6366F1 transparent;
 }
 
-.tabs .tab .tab-label {
+.tab-pane .tab .tab-label {
     -fx-text-fill: #94A3B8;
 }
 
-.tabs > .tab:selected .tab-label {
+.tab-pane .tab:selected .tab-label {
     -fx-text-fill: #A5B4FC;
 }
 
-.tabs > .tab:hover .tab-label {
+.tab-pane .tab:hover .tab-label {
     -fx-text-fill: #F1F5F9;
+}
+
+/* Textes des formulaires de la page Paramètres (labels sans classe) */
+.settings-tabs .label {
+    -fx-text-fill: #F1F5F9;
+}
+
+.settings-tabs .check-box {
+    -fx-text-fill: #F1F5F9;
+}
+
+.settings-tabs .muted {
+    -fx-text-fill: #94A3B8;
 }
 
 /* ----------------------------- Interrupteur ------------------------------- */
