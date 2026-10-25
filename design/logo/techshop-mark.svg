@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TechShop Manager — icône d'application. Source vectorielle éditable. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img">
+  <title>TechShop Manager</title>
+  <defs>
+    <linearGradient id="mark-bg" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#7477F7"/>
+      <stop offset="0.52" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#3730A3"/>
+    </linearGradient>
+    <radialGradient id="mark-light" cx="0.26" cy="0.12" r="0.78">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".23"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mark-shade" x1="0" y1="0.49" x2="0" y2="1">
+      <stop offset="0" stop-color="#0C0A3C" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0C0A3C" stop-opacity=".13"/>
+    </linearGradient>
+    <clipPath id="mark-clip">
+      <rect width="512" height="512" rx="116"/>
+    </clipPath>
+    <mask id="mark-mask">
+      <rect width="512" height="512" fill="#FFFFFF"/>
+      <rect x="241" y="326" width="30" height="6" rx="3" fill="#000000"/>
+    </mask>
+
+  </defs>
+  <g clip-path="url(#mark-clip)">
+    <rect width="512" height="512" rx="116" fill="url(#mark-bg)"/>
+    <rect width="512" height="512" rx="116" fill="url(#mark-light)"/>
+    <rect width="512" height="512" rx="116" fill="url(#mark-shade)"/>
+  </g>
+  <rect x="2.2" y="2.2" width="507.6" height="507.6" rx="113.8"
+        fill="none" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="2.4"/>
+  <path d="M154 132 H358 A38 38 0 0 1 358 208 H296 V350 A30 30 0 0 1 266 380 H246 A30 30 0 0 1 216 350 V208 H154 A38 38 0 0 1 154 132 Z" fill="#FFFFFF" mask="url(#mark-mask)"/>
+</svg>

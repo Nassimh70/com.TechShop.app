@@ -16,6 +16,7 @@ import com.techshop.service.PermissionDefaults;
 import com.techshop.service.RepairService;
 import com.techshop.service.StockService;
 import com.techshop.service.NavigationService;
+import com.techshop.ui.Branding;
 import com.techshop.ui.Icons;
 import com.techshop.ui.components.Avatar;
 import com.techshop.ui.components.DialogService;
@@ -169,7 +170,7 @@ public class MainController {
         navNodes.clear();
         navLabels.clear();
 
-        logoBadge.getChildren().setAll(Icons.feather("smartphone", 20));
+        Branding.mount(logoBadge, 36);
         collapseBtn.setGraphic(Icons.feather(collapsed ? "chevron-right" : "chevron-left", 16));
         collapseBtn.setTooltip(new Tooltip(collapsed ? "Déplier le menu" : "Replier le menu"));
 

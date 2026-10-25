@@ -212,6 +212,7 @@
                             <vendor>TechShop</vendor>
                             <appVersion>1.0.0</appVersion>
                             <type>MSI</type>
+                            <icon>${project.basedir}/src/main/resources/images/brand/techshop.ico</icon>
                             <input>${project.build.directory}/deps</input>
                             <dest>${project.build.directory}/dist</dest>
                             <mainJar>${project.build.finalName}.jar</mainJar>

@@ -4,7 +4,7 @@ import com.techshop.config.DatabaseManager;
 import com.techshop.config.ThemeManager;
 import com.techshop.controller.MainController;
 import com.techshop.service.PermissionService;
-import com.techshop.ui.Icons;
+import com.techshop.ui.Branding;
 import com.techshop.ui.components.LoadingIndicator;
 import com.techshop.util.Fonts;
 import com.techshop.util.Fxmls;
@@ -46,6 +46,7 @@ public final class AppShell {
         ThemeManager.apply(scene);
 
         stage.setTitle("TechShop Manager");
+        Branding.applyIcons(stage);
         stage.setMinWidth(1180);
         stage.setMinHeight(700);
         stage.setScene(scene);
@@ -87,7 +88,7 @@ public final class AppShell {
         Label etat = new Label("Préparation de la base de données…");
         etat.getStyleClass().add("splash-state");
 
-        VBox box = new VBox(18, Icons.feather("smartphone", 46), titre, spinner, etat);
+        VBox box = new VBox(18, Branding.mark(72), titre, spinner, etat);
         box.setAlignment(Pos.CENTER);
 
         StackPane root = new StackPane(box);

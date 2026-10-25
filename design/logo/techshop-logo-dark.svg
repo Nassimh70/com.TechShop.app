@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TechShop Manager — logo horizontal sombre. Source vectorielle éditable. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="915" height="232" viewBox="0 0 915 232" role="img">
+  <title>TechShop Manager — logo horizontal sombre</title>
+  <defs>
+    <linearGradient id="lock-bg" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#7477F7"/>
+      <stop offset="0.52" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#3730A3"/>
+    </linearGradient>
+    <radialGradient id="lock-light" cx="0.26" cy="0.12" r="0.78">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".23"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lock-shade" x1="0" y1="0.49" x2="0" y2="1">
+      <stop offset="0" stop-color="#0C0A3C" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0C0A3C" stop-opacity=".13"/>
+    </linearGradient>
+    <clipPath id="lock-clip">
+      <rect width="512" height="512" rx="116"/>
+    </clipPath>
+    <mask id="lock-mask">
+      <rect width="512" height="512" fill="#FFFFFF"/>
+      <rect x="241" y="326" width="30" height="6" rx="3" fill="#000000"/>
+    </mask>
+
+  </defs>
+  <g transform="translate(16 16)">
+    <g transform="translate(0 12) scale(0.34375)">
+      <g clip-path="url(#lock-clip)">
+        <rect width="512" height="512" rx="116" fill="url(#lock-bg)"/>
+        <rect width="512" height="512" rx="116" fill="url(#lock-light)"/>
+        <rect width="512" height="512" rx="116" fill="url(#lock-shade)"/>
+      </g>
+      <rect x="2.2" y="2.2" width="507.6" height="507.6" rx="113.8"
+            fill="none" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="2.4"/>
+      <path d="M154 132 H358 A38 38 0 0 1 358 208 H296 V350 A30 30 0 0 1 266 380 H246 A30 30 0 0 1 216 350 V208 H154 A38 38 0 0 1 154 132 Z" fill="#FFFFFF" mask="url(#lock-mask)"/>
+    </g>
+    <text x="200" y="100" font-family="Inter, 'Segoe UI', Arial, sans-serif"
+          font-size="68" font-weight="700" fill="#F8FAFC">TechShop</text>
+    <text x="555.19" y="100" font-family="Inter, 'Segoe UI', Arial, sans-serif"
+          font-size="68" font-weight="500" fill="#A5B4FC">Manager</text>
+    <text x="202" y="150" font-family="Inter, 'Segoe UI', Arial, sans-serif"
+          font-size="17" font-weight="500" letter-spacing="3.4" fill="#94A3B8">GESTION COMMERCIALE</text>
+  </g>
+</svg>

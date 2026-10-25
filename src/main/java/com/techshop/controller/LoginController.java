@@ -2,6 +2,7 @@ package com.techshop.controller;
 
 import com.techshop.app.AppShell;
 import com.techshop.service.AuthService;
+import com.techshop.ui.Branding;
 import com.techshop.ui.Icons;
 import com.techshop.ui.Overlays;
 import com.techshop.ui.components.Buttons;
@@ -42,7 +43,7 @@ public class LoginController {
         // Toasts/dialogues sur le calque de l'écran (ex. messages d'erreur)
         Overlays.attach(overlayHost);
 
-        brandIcon.getChildren().setAll(Icons.feather("smartphone", 26));
+        Branding.mount(brandIcon, 36);
         construireArguments();
         construireFormulaire();
 

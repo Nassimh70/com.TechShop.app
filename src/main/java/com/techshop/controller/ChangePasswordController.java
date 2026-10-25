@@ -4,6 +4,7 @@ import com.techshop.app.AppShell;
 import com.techshop.model.User;
 import com.techshop.service.AuthService;
 import com.techshop.service.SessionContext;
+import com.techshop.ui.Branding;
 import com.techshop.ui.Icons;
 import com.techshop.ui.Overlays;
 import com.techshop.ui.components.Buttons;
@@ -43,7 +44,7 @@ public class ChangePasswordController {
     @FXML
     private void initialize() {
         Overlays.attach(overlayHost);
-        brandIcon.getChildren().setAll(Icons.feather("lock", 26));
+        Branding.mount(brandIcon, 36);
 
         champActuel = Fields.password("Mot de passe actuel");
         champNouveau = Fields.password("Nouveau mot de passe");
