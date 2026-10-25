@@ -1,5 +1,6 @@
 package com.techshop.controller;
 
+import com.techshop.model.Customer;
 import com.techshop.model.PaymentMethod;
 import com.techshop.service.SaleService;
 import com.techshop.ui.components.Buttons;
@@ -37,17 +38,24 @@ import java.util.function.Supplier;
  * Encaissement de la vente (SPEC §4.3) : composition des règlements (Espèces,
  * Carte, Virement, Crédit / partiel), pavé numérique, calcul en direct de
  * « payé / restant / rendu » et retour de la liste des
- * {@link SaleService.PaymentLine}. Le crédit (reste dû) exige un client : la
- * règle est vérifiée par le {@link SaleService}.
+ * {@link SaleService.PaymentLine}. Le crédit (reste dû) exige un client : le
+ * dialogue permet de le sélectionner, et la règle reste vérifiée par le
+ * {@link SaleService}.
  */
 public final class PaymentDialog {
 
     private PaymentDialog() {
     }
 
-    public static void ouvrir(BigDecimal total, Consumer<List<SaleService.PaymentLine>> callback) {
+    /** Client rattaché à la vente et règlements saisis. */
+    public record Result(Customer customer, List<SaleService.PaymentLine> payments) {
+    }
+
+    public static void ouvrir(BigDecimal total, Customer client, Consumer<Result> callback) {
         if (total == null || total.signum() <= 0) {
-            callback.accept(List.of());
+            if (callback != null) {
+                callback.accept(new Result(client, List.of()));
+            }
             return;
         }
 
@@ -126,18 +134,48 @@ public final class PaymentDialog {
         resume.add(renduL, 1, 3);
         resume.getStyleClass().add("card-inset");
 
-        Label infoCredit = new Label("Le crédit (reste dû) exige un client rattaché à la vente.");
-        infoCredit.getStyleClass().add("muted");
-        infoCredit.setWrapText(true);
-        infoCredit.setManaged(false);
-        infoCredit.setVisible(false);
+        Customer[] clientRef = {client};
+        Label clientLabel = new Label();
+        clientLabel.setMaxWidth(Double.MAX_VALUE);
+        clientLabel.setWrapText(true);
+        Label clientError = new Label();
+        clientError.getStyleClass().add("field-error-msg");
+        clientError.setWrapText(true);
+        clientError.setManaged(false);
+        clientError.setVisible(false);
+        Button choisirClient = com.techshop.ui.components.Buttons.outline("Choisir un client", "users");
+        Runnable majClient = () -> {
+            clientLabel.getStyleClass().removeAll("muted", "danger-text");
+            if (clientRef[0] == null) {
+                clientLabel.setText("Aucun client sélectionné (obligatoire pour le crédit).");
+                clientLabel.getStyleClass().add("danger-text");
+                choisirClient.setText("Choisir un client");
+            } else {
+                clientLabel.setText(clientRef[0].getFullName() + "  ·  " + clientRef[0].getCode());
+                clientLabel.getStyleClass().add("muted");
+                choisirClient.setText("Changer");
+                clientError.setVisible(false);
+                clientError.setManaged(false);
+            }
+        };
+        majClient.run();
+        choisirClient.setOnAction(e -> CustomerPickerDialog.ouvrir(sel -> {
+            clientRef[0] = sel;
+            majClient.run();
+        }));
+        HBox creditRow = new HBox(8, new Label("Client :"), clientLabel, choisirClient);
+        creditRow.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(clientLabel, Priority.ALWAYS);
+        VBox creditBox = new VBox(6, creditRow, clientError);
+        creditBox.setManaged(false);
+        creditBox.setVisible(false);
 
         mode.selectedToggleProperty().addListener((o, a, b) -> {
             boolean isEsp = b == esp;
             recu.setVisible(isEsp);
             recu.setManaged(isEsp);
-            infoCredit.setVisible(b == credit);
-            infoCredit.setManaged(b == credit);
+            creditBox.setVisible(b == credit);
+            creditBox.setManaged(b == credit);
         });
 
         Button ajouter = com.techshop.ui.components.Buttons.outline("Ajouter ce règlement", "plus");
@@ -200,7 +238,7 @@ public final class PaymentDialog {
         };
         GridPane pave = construirePave(cible);
 
-        VBox centre = new VBox(10, modeBar, montant, recu, infoCredit, actions, pave, table, resume);
+        VBox centre = new VBox(10, modeBar, montant, recu, creditBox, actions, pave, table, resume);
         centre.setPrefWidth(440);
 
         Button annuler = com.techshop.ui.components.Buttons.secondary("Annuler");
@@ -214,13 +252,23 @@ public final class PaymentDialog {
 
         annuler.setOnAction(e -> handle.close());
         valider.setOnAction(e -> {
+            BigDecimal reste = total.subtract(payeCourant[0]);
+            if (reste.signum() > 0 && clientRef[0] == null) {
+                creditBox.setVisible(true);
+                creditBox.setManaged(true);
+                clientError.setText("Sélectionnez un client : une vente avec un reste à payer "
+                        + "doit être rattachée à un client.");
+                clientError.setVisible(true);
+                clientError.setManaged(true);
+                return;
+            }
             List<SaleService.PaymentLine> out = new ArrayList<>();
             for (Ligne l : lignes) {
                 out.add(new SaleService.PaymentLine(l.method(), l.amount()));
             }
             handle.close();
             if (callback != null) {
-                callback.accept(out);
+                callback.accept(new Result(clientRef[0], out));
             }
         });
         valider.setDefaultButton(true);

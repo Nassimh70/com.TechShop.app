@@ -605,11 +605,13 @@ public class PosController {
         }
 
         final Panier enCours = panierActif();
-        PaymentDialog.ouvrir(total, paiements -> {
+        PaymentDialog.ouvrir(total, client, result -> {
+            var venteClient = result.customer();
+            List<SaleService.PaymentLine> paiements = result.payments();
             List<SaleService.CheckoutLine> lignes = enCours.lignes.stream().map(l ->
                     new SaleService.CheckoutLine(l.produit(), l.quantite(), l.unitId(), l.imei(),
                             l.prixUnitaire(), l.remiseLigne(), l.garantieMois())).toList();
-            Integer cid = client == null ? null : client.getId();
+            Integer cid = venteClient == null ? null : venteClient.getId();
             SaleService.CheckoutRequest req = new SaleService.CheckoutRequest(cid, lignes,
                     enCours.remiseGlobale, paiements, null);
             try {
