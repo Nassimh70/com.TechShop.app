@@ -266,6 +266,22 @@
     -fx-padding: 24;
 }
 
+/* Défilement interne des pages longues (tableau de bord) : fond transparent
+   pour rester sur le fond de l'application, sans cadre ni marge parasite. */
+.page-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.page-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.page-scroll:focused {
+    -fx-background-insets: 0;
+}
+
 .page-header {
     -fx-spacing: 16;
     -fx-alignment: CENTER_LEFT;

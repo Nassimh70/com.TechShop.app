@@ -152,6 +152,12 @@ public class MainController {
         nav.init(contentHost);
         nav.setOnScreenChanged(this::onScreenChanged);
 
+        // Une page plus haute que la fenêtre ne doit jamais étirer la coque :
+        // sinon le StackPane racine recentre la fenêtre et tout l'écran défile
+        // vers le haut. Le défilement est géré par les vues elles-mêmes.
+        contentHost.setMinSize(0, 0);
+        contentHost.setAlignment(Pos.TOP_LEFT);
+
         buildSidebar();
         buildHeader();
         wireRolePreview();

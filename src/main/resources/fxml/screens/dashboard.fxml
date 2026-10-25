@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -19,11 +20,17 @@
         <HBox fx:id="headerActions" spacing="8" alignment="CENTER_RIGHT"/>
     </HBox>
 
-    <VBox spacing="12" VBox.vgrow="ALWAYS">
-        <FlowPane fx:id="statsPane" hgap="12" vgap="12"/>
-        <HBox spacing="12" VBox.vgrow="ALWAYS">
-            <VBox fx:id="leftPane" spacing="12" HBox.hgrow="ALWAYS"/>
-            <VBox fx:id="rightPane" spacing="12" minWidth="360" prefWidth="380"/>
-        </HBox>
-    </VBox>
+    <!-- Le corps défile : le tableau de bord est plus haut que la fenêtre. -->
+    <ScrollPane styleClass="page-scroll" fitToWidth="true" hbarPolicy="NEVER"
+                vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
+        <content>
+            <VBox spacing="12">
+                <FlowPane fx:id="statsPane" hgap="12" vgap="12"/>
+                <HBox spacing="12">
+                    <VBox fx:id="leftPane" spacing="12" HBox.hgrow="ALWAYS"/>
+                    <VBox fx:id="rightPane" spacing="12" minWidth="360" prefWidth="380"/>
+                </HBox>
+            </VBox>
+        </content>
+    </ScrollPane>
 </VBox>
