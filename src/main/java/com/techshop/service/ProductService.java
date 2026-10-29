@@ -108,7 +108,10 @@ public final class ProductService {
         PermissionService.get().check(PermissionDefaults.M_PRODUCTS, PermissionService.Action.CREATE);
         valider(p);
         try {
-            return Tx.run(() -> creerInterne(p));
+            return Tx.run(() -> {
+                verifierDoublon(p);
+                return creerInterne(p);
+            });
         } catch (SQLException e) {
             log.error("Création de produit impossible", e);
             throw new ValidationException("Base de données indisponible. Réessayez plus tard.");
@@ -349,6 +352,63 @@ public final class ProductService {
         p.setQuantity(quantite);
         creerInterne(p);
         return false;
+    }
+
+    /** Refuse la création si un produit identique existe déjà (toutes les infos utiles). */
+    private void verifierDoublon(Product p) throws SQLException {
+        String nom = p.getName() == null ? "" : p.getName().trim();
+        if (nom.isEmpty()) {
+            return;
+        }
+        for (Product existant : products.findByName(nom)) {
+            if (memeProduit(existant, p)) {
+                throw new ValidationException("name",
+                        "Ce produit existe déjà (« " + existant.getName() + " », réf. "
+                                + existant.getRef() + "). Modifiez au moins une information "
+                                + "(description, marque, catégorie, prix, garantie…) pour l'ajouter "
+                                + "comme nouveau produit.");
+            }
+        }
+    }
+
+    /**
+     * Deux produits sont identiques lorsque toutes leurs informations
+     * descriptives et commerciales concordent. La référence et le code-barres
+     * (générés automatiquement), l'image, le stock et le statut actif ne font
+     * pas partie de l'identité du produit.
+     */
+    static boolean memeProduit(Product a, Product b) {
+        return a != null && b != null
+                && memeTexte(a.getName(), b.getName())
+                && memeTexte(a.getDescription(), b.getDescription())
+                && java.util.Objects.equals(a.getCategoryId(), b.getCategoryId())
+                && java.util.Objects.equals(a.getBrandId(), b.getBrandId())
+                && memeTexte(a.getUnit(), b.getUnit())
+                && memeMontant(a.getPurchasePrice(), b.getPurchasePrice())
+                && memeMontant(a.getSalePrice(), b.getSalePrice())
+                && memeMontant(a.getVatRate(), b.getVatRate())
+                && a.getAlertThreshold() == b.getAlertThreshold()
+                && a.getWarrantyMonths() == b.getWarrantyMonths()
+                && a.isTrackImei() == b.isTrackImei();
+    }
+
+    private static boolean memeTexte(String a, String b) {
+        return normaliserTexte(a).equals(normaliserTexte(b));
+    }
+
+    private static String normaliserTexte(String s) {
+        if (s == null) {
+            return "";
+        }
+        return Normalizer.normalize(s, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
+    }
+
+    private static boolean memeMontant(BigDecimal a, BigDecimal b) {
+        BigDecimal x = a == null ? BigDecimal.ZERO : a;
+        BigDecimal y = b == null ? BigDecimal.ZERO : b;
+        return x.compareTo(y) == 0;
     }
 
     /** Insertion interne (référence + code-barres générés, quantité → mouvement). */

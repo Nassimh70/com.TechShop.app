@@ -285,6 +285,33 @@ public final class CashService {
         }
     }
 
+    /**
+     * Enregistre un encaissement espèces d'une dette client, appelé par
+     * {@link CustomerPaymentService} dans la même transaction. Aucun contrôle
+     * de droit ici.
+     */
+    public void recordCustomerCash(int sessionId, int paymentId, BigDecimal cashAmount,
+                                   Integer userId) {
+        if (cashAmount == null || cashAmount.signum() <= 0) {
+            return;
+        }
+        try {
+            CashMovement m = new CashMovement();
+            m.setCashSessionId(sessionId);
+            m.setType(CashMovementType.ENTREE.name());
+            m.setAmount(cashAmount);
+            m.setReason("Encaissement dette client");
+            m.setReferenceType("CUSTOMER_PAYMENT");
+            m.setReferenceId(paymentId);
+            m.setUserId(userId == null ? 0 : userId);
+            m.setMovementDate(LocalDateTime.now());
+            movements.insert(m);
+        } catch (SQLException e) {
+            throw new ValidationException("Encaissement de la dette en caisse impossible : "
+                    + e.getMessage());
+        }
+    }
+
     // ---------------------------------------------------------------- lectures
 
     /** Synthèse calculée d'une session (attendus, ventes). */

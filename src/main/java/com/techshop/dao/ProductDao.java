@@ -72,6 +72,24 @@ public class ProductDao {
         }
     }
 
+    /**
+     * Produits portant le même nom (la collation MySQL ignore la casse et les
+     * accents). Sert au contrôle de doublon avant création.
+     */
+    public List<Product> findByName(String name) throws SQLException {
+        try (Connection c = DatabaseManager.connection();
+             PreparedStatement ps = c.prepareStatement(SELECT + "WHERE p.name = ? ORDER BY p.id")) {
+            ps.setString(1, name == null ? "" : name.trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                List<Product> liste = new ArrayList<>();
+                while (rs.next()) {
+                    liste.add(map(rs));
+                }
+                return liste;
+            }
+        }
+    }
+
     /** Liste paginée selon les filtres, triée sur une colonne autorisée. */
     public List<Product> search(Filter f, String sortKey, boolean asc, int limit, int offset)
             throws SQLException {

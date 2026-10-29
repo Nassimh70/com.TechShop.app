@@ -1,12 +1,16 @@
 package com.techshop.controller;
 
+import com.techshop.dao.CustomerDao;
 import com.techshop.dao.CustomerPaymentDao;
 import com.techshop.dao.SaleDao;
 import com.techshop.model.Customer;
 import com.techshop.model.CustomerPayment;
+import com.techshop.model.PaymentMethod;
 import com.techshop.model.RepairPayment;
 import com.techshop.model.RepairTicket;
 import com.techshop.model.Sale;
+import com.techshop.service.PermissionDefaults;
+import com.techshop.service.PermissionService;
 import com.techshop.service.RepairService;
 import com.techshop.service.SaleService;
 import com.techshop.ui.components.Avatar;
@@ -35,14 +39,15 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Fiche client (SPEC §4.7) : coordonnées, historique des achats, dossiers de
- * réparation et paiements (règlements de dettes). Lecture seule : les actions
- * restent portées par chaque écran listé.
+ * réparation et paiements (règlements de dettes). Les règlements peuvent être
+ * encaissés (partiel ou total) et leur date corrigée depuis cet écran.
  */
 public final class CustomerDetailDialog {
 
@@ -51,6 +56,8 @@ public final class CustomerDetailDialog {
 
     public static void ouvrir(Customer client, Runnable onDone) {
         Customer c = client;
+        boolean peutEncaisser = PermissionService.get()
+                .can(PermissionDefaults.M_CUSTOMERS, PermissionService.Action.EDIT);
 
         Label nom = new Label(c.getFullName());
         nom.getStyleClass().add("sheet-client");
@@ -61,6 +68,14 @@ public final class CustomerDetailDialog {
         HBox tete = new HBox(10, Avatar.of(c.getFullName(), 34), new VBox(3, nom, sousTitre));
         tete.setAlignment(Pos.CENTER_LEFT);
 
+        DialogService.ModalHandle[] handleRef = new DialogService.ModalHandle[1];
+        Runnable rafraichir = () -> {
+            if (handleRef[0] != null) {
+                handleRef[0].close();
+            }
+            rouvrir(c.getId(), onDone);
+        };
+
         TabPane onglets = new TabPane();
         onglets.getStyleClass().add("repair-tabs");
         onglets.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -70,26 +85,41 @@ public final class CustomerDetailDialog {
                 new Tab("Coordonnées", defile(coordonnees(c))),
                 new Tab("Achats", defile(achats(c))),
                 new Tab("Réparations", defile(reparations(c))),
-                new Tab("Paiements", defile(paiements(c))));
+                new Tab("Paiements", defile(paiements(c, peutEncaisser, rafraichir))));
 
         VBox corps = new VBox(12, tete, onglets);
         corps.setPrefWidth(760);
 
+        boolean avecDette = c.getBalance().signum() > 0;
+        Button regler = Buttons.primary("Encaisser un règlement", "credit-card");
+        regler.setVisible(peutEncaisser && avecDette);
+        regler.setManaged(peutEncaisser && avecDette);
+        regler.setOnAction(e -> DebtPaymentDialog.ouvrir(c, rafraichir));
+
         Button fermer = Buttons.secondary("Fermer");
         Region espace = new Region();
         HBox.setHgrow(espace, Priority.ALWAYS);
-        HBox pied = new HBox(espace, fermer);
+        HBox pied = new HBox(8, espace, regler, fermer);
         pied.getStyleClass().add("modal-footer");
 
         VBox carte = DialogService.get().card("Fiche client", "user", corps, pied);
         carte.setPrefWidth(800);
-        DialogService.ModalHandle handle = DialogService.get().custom(carte, false);
+        handleRef[0] = DialogService.get().custom(carte, false);
         fermer.setOnAction(e -> {
-            handle.close();
+            handleRef[0].close();
             if (onDone != null) {
                 onDone.run();
             }
         });
+    }
+
+    /** Recharge la fiche après un règlement (solde et historique à jour). */
+    private static void rouvrir(int customerId, Runnable onDone) {
+        try {
+            new CustomerDao().byId(customerId).ifPresent(c -> ouvrir(c, onDone));
+        } catch (SQLException ignored) {
+            // fiche laissée telle quelle si la base est indisponible
+        }
     }
 
     // ------------------------------------------------------------- coordonnées
@@ -218,7 +248,7 @@ public final class CustomerDetailDialog {
     private record ReglS(String dossier, LocalDateTime date, String mode, BigDecimal montant) {
     }
 
-    private static Node paiements(Customer c) {
+    private static Node paiements(Customer c, boolean peutEncaisser, Runnable rafraichir) {
         // 1) Règlements de dettes (customer_payments)
         List<CustomerPayment> dettes = new ArrayList<>();
         try {
@@ -240,7 +270,8 @@ public final class CustomerDetailDialog {
         TableColumn<CustomerPayment, String> dMode = new TableColumn<>("Mode");
         dMode.setMinWidth(100);
         dMode.setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(
-                d.getValue().getPaymentMethod() == null ? "—" : d.getValue().getPaymentMethod().name()));
+                d.getValue().getPaymentMethod() == null ? "—"
+                        : PaymentMethod.libelle(d.getValue().getPaymentMethod().name())));
         TableColumn<CustomerPayment, String> dMontant = new TableColumn<>("Montant");
         dMontant.setMinWidth(120);
         dMontant.setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(Format.money(d.getValue().getAmount())));
@@ -252,7 +283,28 @@ public final class CustomerDetailDialog {
         dUser.setMinWidth(130);
         dUser.setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(
                 d.getValue().getUsername() == null ? "—" : d.getValue().getUsername()));
-        tableDettes.getColumns().setAll(dDate, dMode, dMontant, dNote, dUser);
+        if (peutEncaisser) {
+            TableColumn<CustomerPayment, CustomerPayment> dAct = new TableColumn<>("");
+            dAct.setMinWidth(52);
+            dAct.setMaxWidth(52);
+            dAct.setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(d.getValue()));
+            dAct.setCellFactory(col -> new TableCell<>() {
+                @Override protected void updateItem(CustomerPayment p, boolean empty) {
+                    super.updateItem(p, empty);
+                    setText(null);
+                    setGraphic(null);
+                    if (empty || p == null) {
+                        return;
+                    }
+                    Button modif = Buttons.iconCompact("edit-2", "Modifier la date du règlement");
+                    modif.setOnAction(e -> DebtPaymentDialog.modifier(p, rafraichir));
+                    setGraphic(modif);
+                }
+            });
+            tableDettes.getColumns().setAll(dDate, dMode, dMontant, dNote, dUser, dAct);
+        } else {
+            tableDettes.getColumns().setAll(dDate, dMode, dMontant, dNote, dUser);
+        }
 
         // 2) Acomptes et soldes encaissés sur les dossiers SAV
         ObservableList<ReglS> reglSav = FXCollections.observableArrayList();
@@ -284,12 +336,24 @@ public final class CustomerDetailDialog {
                 Format.money(d.getValue().montant())));
         tableSav.getColumns().setAll(sDossier, sDate, sMode, sMontant);
 
+        BigDecimal totalRegle = dettes.stream().map(CustomerPayment::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
         VBox recap = new VBox(2,
                 ligne("Solde dû actuel", Format.money(c.getBalance())),
+                ligne("Total réglé sur les dettes", Format.money(totalRegle)),
                 ligne("Total encaissé au SAV", Format.money(totalSav)));
         recap.getStyleClass().add("card-inset");
 
-        return new VBox(14, titre("Règlements de dettes"), tableDettes,
+        Button nouveau = Buttons.outline("Encaisser un règlement", "credit-card");
+        nouveau.setVisible(peutEncaisser && c.getBalance().signum() > 0);
+        nouveau.setManaged(peutEncaisser && c.getBalance().signum() > 0);
+        nouveau.setOnAction(e -> DebtPaymentDialog.ouvrir(c, rafraichir));
+        Region espace = new Region();
+        HBox.setHgrow(espace, Priority.ALWAYS);
+        HBox teteDettes = new HBox(8, titre("Règlements de dettes"), espace, nouveau);
+        teteDettes.setAlignment(Pos.CENTER_LEFT);
+
+        return new VBox(14, teteDettes, tableDettes,
                 titre("Acomptes & soldes SAV"), tableSav, recap);
     }
 

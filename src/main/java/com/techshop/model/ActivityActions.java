@@ -41,6 +41,8 @@ public final class ActivityActions {
     public static final String REPARATION_PIECE = "REPARATION_PIECE";
     /** Acompte ou règlement d'une réparation. */
     public static final String REPARATION_PAIEMENT = "REPARATION_PAIEMENT";
+    /** Encaissement (partiel ou total) d'une dette client. */
+    public static final String ENCAISSEMENT_DETTE = "ENCAISSEMENT_DETTE";
     /** Notification client simulée. */
     public static final String NOTIFICATION_CLIENT = "NOTIFICATION_CLIENT";
 

@@ -110,8 +110,8 @@ public class CustomersController {
         cSolde.setCellFactory(colonneMontant());
 
         TableColumn<Customer, Customer> cAct = new TableColumn<>("");
-        cAct.setMinWidth(120);
-        cAct.setMaxWidth(150);
+        cAct.setMinWidth(150);
+        cAct.setMaxWidth(190);
         cAct.setCellValueFactory(d -> new ReadOnlyObjectWrapper<>(d.getValue()));
         cAct.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(Customer c, boolean empty) {
@@ -125,7 +125,15 @@ public class CustomersController {
                 fiche.setOnAction(e -> ouvrirFiche(c));
                 Button modif = Buttons.iconCompact("edit-2", "Modifier");
                 modif.setOnAction(e -> modifier(c));
-                HBox box = new HBox(6, fiche, modif);
+                HBox box = new HBox(6, fiche);
+                if (c.getBalance().signum() > 0
+                        && PermissionService.get().can(PermissionDefaults.M_CUSTOMERS,
+                                PermissionService.Action.EDIT)) {
+                    Button regler = Buttons.iconCompact("credit-card", "Encaisser un règlement");
+                    regler.setOnAction(e -> DebtPaymentDialog.ouvrir(c, CustomersController.this::charger));
+                    box.getChildren().add(regler);
+                }
+                box.getChildren().add(modif);
                 box.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
                 setGraphic(box);
             }

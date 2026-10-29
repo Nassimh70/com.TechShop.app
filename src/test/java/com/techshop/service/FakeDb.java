@@ -3,6 +3,7 @@ package com.techshop.service;
 import com.techshop.dao.CashMovementDao;
 import com.techshop.dao.CashSessionDao;
 import com.techshop.dao.CustomerDao;
+import com.techshop.dao.CustomerPaymentDao;
 import com.techshop.dao.ProductDao;
 import com.techshop.dao.ProductUnitDao;
 import com.techshop.dao.SaleDao;
@@ -12,6 +13,8 @@ import com.techshop.dao.SaleReturnDao;
 import com.techshop.dao.StockMovementDao;
 import com.techshop.model.CashMovement;
 import com.techshop.model.CashSession;
+import com.techshop.model.Customer;
+import com.techshop.model.CustomerPayment;
 import com.techshop.model.Product;
 import com.techshop.model.ProductUnit;
 import com.techshop.model.Sale;
@@ -42,6 +45,9 @@ final class FakeDb {
     final List<StockMovement> movements = new ArrayList<>();
     final Map<Long, ProductUnit> units = new LinkedHashMap<>();
     final Map<Integer, BigDecimal> balances = new HashMap<>();
+    final Map<Integer, Customer> clients = new LinkedHashMap<>();
+    final List<CustomerPayment> customerPayments = new ArrayList<>();
+    final int[] customerPaymentSeq = {0};
     final Map<Integer, Sale> sales = new LinkedHashMap<>();
     final int[] saleSeq = {0};
     final long[] saleNumber = {0};
@@ -68,6 +74,7 @@ final class FakeDb {
     final SalePaymentDao paymentDao = new FakePaymentDao();
     final SaleReturnDao returnDao = new FakeReturnDao();
     final CustomerDao customerDao = new FakeCustomerDao();
+    final CustomerPaymentDao customerPaymentDao = new FakeCustomerPaymentDao();
     final CashSessionDao cashSessionDao = new FakeCashSessionDao();
     final CashMovementDao cashMovementDao = new FakeCashMovementDao();
 
@@ -312,8 +319,45 @@ final class FakeDb {
     private final class FakeCustomerDao extends CustomerDao {
 
         @Override
+        public Optional<Customer> byId(int id) {
+            Customer client = clients.get(id);
+            if (client == null) {
+                return Optional.empty();
+            }
+            if (balances.containsKey(id)) {
+                client.setBalance(balances.get(id));
+            }
+            return Optional.of(client);
+        }
+
+        @Override
         public void updateBalance(int id, BigDecimal delta) throws SQLException {
             balances.merge(id, delta, BigDecimal::add);
+        }
+    }
+
+    private final class FakeCustomerPaymentDao extends CustomerPaymentDao {
+
+        @Override
+        public int insert(CustomerPayment p) {
+            int id = ++customerPaymentSeq[0];
+            p.setId(id);
+            customerPayments.add(p);
+            return id;
+        }
+
+        @Override
+        public Optional<CustomerPayment> byId(int id) {
+            return customerPayments.stream().filter(p -> p.getId() == id).findFirst();
+        }
+
+        @Override
+        public void updateDate(int id, LocalDateTime paymentDate, String note) {
+            customerPayments.stream().filter(p -> p.getId() == id).findFirst()
+                    .ifPresent(p -> {
+                        p.setPaymentDate(paymentDate);
+                        p.setNote(note);
+                    });
         }
     }
 

@@ -7,12 +7,20 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerPaymentDao {
+
+    private static final String SELECT = "SELECT cp.id, cp.customer_id, c.full_name customer_name, "
+            + "cp.amount, cp.payment_method, cp.payment_date, cp.cash_session_id, cp.note, "
+            + "cp.user_id, u.username FROM customer_payments cp "
+            + "JOIN customers c ON c.id = cp.customer_id "
+            + "JOIN users u ON u.id = cp.user_id ";
+
     public record Filter(Integer customerId, LocalDateTime from, LocalDateTime to) {}
 
     public List<CustomerPayment> search(Filter f) throws SQLException {
-        StringBuilder sql = new StringBuilder("SELECT cp.id, cp.customer_id, c.full_name customer_name, cp.amount, cp.payment_method, cp.payment_date, cp.cash_session_id, cp.note, cp.user_id, u.username FROM customer_payments cp JOIN customers c ON c.id=cp.customer_id JOIN users u ON u.id=cp.user_id WHERE 1=1 ");
+        StringBuilder sql = new StringBuilder(SELECT).append("WHERE 1=1 ");
         List<Object> params = new ArrayList<>();
         if (f != null) {
             if (f.customerId() != null) {
@@ -36,6 +44,30 @@ public class CustomerPaymentDao {
                 List<CustomerPayment> list = new ArrayList<>();
                 while (rs.next()) list.add(map(rs));
                 return list;
+            }
+        }
+    }
+
+    public Optional<CustomerPayment> byId(int id) throws SQLException {
+        try (Connection c = DatabaseManager.connection();
+             PreparedStatement ps = c.prepareStatement(SELECT + "WHERE cp.id = ?")) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? Optional.of(map(rs)) : Optional.empty();
+            }
+        }
+    }
+
+    /** Corrige la date (et la note) d'un règlement déjà enregistré. */
+    public void updateDate(int id, LocalDateTime paymentDate, String note) throws SQLException {
+        String sql = "UPDATE customer_payments SET payment_date = ?, note = ? WHERE id = ?";
+        try (Connection c = DatabaseManager.connection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setTimestamp(1, Timestamp.valueOf(paymentDate));
+            ps.setString(2, note);
+            ps.setInt(3, id);
+            if (ps.executeUpdate() == 0) {
+                throw new SQLException("Règlement client introuvable");
             }
         }
     }
