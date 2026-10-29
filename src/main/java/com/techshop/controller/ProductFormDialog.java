@@ -21,8 +21,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -102,7 +104,7 @@ public final class ProductFormDialog {
         onglets.getStyleClass().add("tabs");
         onglets.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         onglets.setPrefWidth(540);
-        onglets.setPrefHeight(430);
+        onglets.setPrefHeight(470);
         onglets.getTabs().setAll(
                 onglet("Général", construireGeneral()),
                 onglet("Prix", construirePrix()),
@@ -147,7 +149,11 @@ public final class ProductFormDialog {
     }
 
     private Tab onglet(String titre, Region contenu) {
-        Tab tab = new Tab(titre, contenu);
+        ScrollPane defilement = new ScrollPane(contenu);
+        defilement.setFitToWidth(true);
+        defilement.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        defilement.getStyleClass().add("dialog-scroll");
+        Tab tab = new Tab(titre, defilement);
         tab.setClosable(false);
         return tab;
     }
@@ -197,6 +203,10 @@ public final class ProductFormDialog {
         FormField fUnite = new FormField("Unité", cUnite, cUnite);
 
         fDescription = Fields.area("Description", "Caractéristiques, couleur, capacité…");
+        fDescription.styledControl().getStyleClass().add("text-area-description");
+        if (fDescription.styledControl() instanceof TextArea zone) {
+            zone.setPrefRowCount(6);
+        }
 
         VBox contenu = new VBox(12, fNom, fRef, ligneCode, fCategorie, fMarque, fUnite,
                 fDescription, construireBlocImage());

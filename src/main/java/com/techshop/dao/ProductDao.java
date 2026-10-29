@@ -79,7 +79,7 @@ public class ProductDao {
     public List<Product> findByName(String name) throws SQLException {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(SELECT + "WHERE p.name = ? ORDER BY p.id")) {
-            ps.setString(1, name == null ? "" : name.trim());
+            ps.setString(1, name == null ? "" : name.trim().replaceAll("\\s+", " "));
             try (ResultSet rs = ps.executeQuery()) {
                 List<Product> liste = new ArrayList<>();
                 while (rs.next()) {

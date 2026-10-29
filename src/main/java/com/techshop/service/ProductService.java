@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Gestion du catalogue produits (SPEC §4.5, §6.1) : recherche filtrée et
@@ -354,9 +355,9 @@ public final class ProductService {
         return false;
     }
 
-    /** Refuse la création si un produit identique existe déjà (toutes les infos utiles). */
+    /** Refuse la création si un produit avec le même nom, la même description et la même marque existe. */
     private void verifierDoublon(Product p) throws SQLException {
-        String nom = p.getName() == null ? "" : p.getName().trim();
+        String nom = p.getName() == null ? "" : p.getName().trim().replaceAll("\\s+", " ");
         if (nom.isEmpty()) {
             return;
         }
@@ -364,32 +365,25 @@ public final class ProductService {
             if (memeProduit(existant, p)) {
                 throw new ValidationException("name",
                         "Ce produit existe déjà (« " + existant.getName() + " », réf. "
-                                + existant.getRef() + "). Modifiez au moins une information "
-                                + "(description, marque, catégorie, prix, garantie…) pour l'ajouter "
-                                + "comme nouveau produit.");
+                                + existant.getRef() + "). Pour l'ajouter comme nouveau produit, "
+                                + "modifiez la description ou la marque.");
             }
         }
     }
 
     /**
-     * Deux produits sont identiques lorsque toutes leurs informations
-     * descriptives et commerciales concordent. La référence et le code-barres
-     * (générés automatiquement), l'image, le stock et le statut actif ne font
-     * pas partie de l'identité du produit.
+     * Deux produits sont identiques lorsque leur nom, leur description et leur
+     * marque concordent. La catégorie, l'unité, la garantie, le suivi IMEI, les
+     * prix, la TVA et le seuil d'alerte sont volontairement ignorés : ce sont
+     * des informations de classement ou de gestion qui peuvent varier sans que
+     * le produit change. La référence et le code-barres sont générés
+     * automatiquement et ne font pas partie de l'identité.
      */
     static boolean memeProduit(Product a, Product b) {
         return a != null && b != null
                 && memeTexte(a.getName(), b.getName())
                 && memeTexte(a.getDescription(), b.getDescription())
-                && java.util.Objects.equals(a.getCategoryId(), b.getCategoryId())
-                && java.util.Objects.equals(a.getBrandId(), b.getBrandId())
-                && memeTexte(a.getUnit(), b.getUnit())
-                && memeMontant(a.getPurchasePrice(), b.getPurchasePrice())
-                && memeMontant(a.getSalePrice(), b.getSalePrice())
-                && memeMontant(a.getVatRate(), b.getVatRate())
-                && a.getAlertThreshold() == b.getAlertThreshold()
-                && a.getWarrantyMonths() == b.getWarrantyMonths()
-                && a.isTrackImei() == b.isTrackImei();
+                && Objects.equals(a.getBrandId(), b.getBrandId());
     }
 
     private static boolean memeTexte(String a, String b) {
@@ -403,12 +397,6 @@ public final class ProductService {
         return Normalizer.normalize(s, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "")
                 .trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
-    }
-
-    private static boolean memeMontant(BigDecimal a, BigDecimal b) {
-        BigDecimal x = a == null ? BigDecimal.ZERO : a;
-        BigDecimal y = b == null ? BigDecimal.ZERO : b;
-        return x.compareTo(y) == 0;
     }
 
     /** Insertion interne (référence + code-barres générés, quantité → mouvement). */

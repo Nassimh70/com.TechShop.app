@@ -376,6 +376,11 @@
     -fx-padding: 8 12;
 }
 
+/* Description produit : plus de place pour saisir les caractéristiques. */
+.text-area.field.text-area-description {
+    -fx-pref-height: 150px;
+}
+
 .combo-box.field {
     -fx-padding: 0 8 0 12;
 }
