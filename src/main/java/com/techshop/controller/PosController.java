@@ -128,6 +128,17 @@ public class PosController {
         client = null;
 
         btnClient.setOnAction(e -> choisirClient());
+        // La largeur du champ doit suivre celle du panneau gauche, sans être
+        // réduite par la largeur minimale du tableau lorsque le catalogue est
+        // volumineux.
+        searchField.setMaxWidth(Double.MAX_VALUE);
+        searchField.setMinWidth(0);
+        categoryChips.setMaxWidth(Double.MAX_VALUE);
+        categoryChips.setMinWidth(0);
+        gridScroll.setMaxWidth(Double.MAX_VALUE);
+        gridScroll.setMinWidth(0);
+        productGrid.setMaxWidth(Double.MAX_VALUE);
+        productGrid.setMinWidth(0);
         discountField.textProperty().addListener((o, a, v) -> {
             if (majAuto) {
                 return;

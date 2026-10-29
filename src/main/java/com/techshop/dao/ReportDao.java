@@ -65,7 +65,13 @@ public class ReportDao {
     }
 
     public List<StockMv> stockMovements(LocalDate from, LocalDate to) throws SQLException {
-        String sql = "SELECT p.name,p.ref, COALESCE(SUM(CASE WHEN sm.type='IN' THEN sm.qty ELSE 0 END),0) inq, COALESCE(SUM(CASE WHEN sm.type='OUT' THEN sm.qty ELSE 0 END),0) outq, p.stock_qty bal FROM stock_movements sm JOIN products p ON p.id=sm.product_id WHERE DATE(sm.moved_at) BETWEEN ? AND ? GROUP BY p.id,p.name,p.ref,p.stock_qty ORDER BY p.name";
+        String sql = "SELECT p.name,p.ref, "
+                + "COALESCE(SUM(CASE WHEN sm.type='ENTREE' THEN sm.quantity ELSE 0 END),0) inq, "
+                + "COALESCE(SUM(CASE WHEN sm.type IN ('SORTIE','VENTE','PERTE') "
+                + "THEN ABS(sm.quantity) ELSE 0 END),0) outq, p.quantity bal "
+                + "FROM stock_movements sm JOIN products p ON p.id=sm.product_id "
+                + "WHERE DATE(sm.movement_date) BETWEEN ? AND ? "
+                + "GROUP BY p.id,p.name,p.ref,p.quantity ORDER BY p.name";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setDate(1, Date.valueOf(from));
             ps.setDate(2, Date.valueOf(to));
@@ -80,7 +86,9 @@ public class ReportDao {
     }
 
     public List<RepSum> repairsSummary(LocalDate from, LocalDate to) throws SQLException {
-        String sql = "SELECT rt.status, COUNT(*) c, COALESCE(SUM(rt.quoted_amount),0) q, COALESCE(SUM(rt.final_amount),0) f FROM repair_tickets rt WHERE DATE(rt.created_at) BETWEEN ? AND ? GROUP BY rt.status ORDER BY c DESC";
+        String sql = "SELECT rt.status, COUNT(*) c, COALESCE(SUM(rt.quoted_amount),0) q, "
+                + "COALESCE(SUM(rt.total),0) f FROM repair_tickets rt "
+                + "WHERE DATE(rt.created_at) BETWEEN ? AND ? GROUP BY rt.status ORDER BY c DESC";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setDate(1, Date.valueOf(from));
             ps.setDate(2, Date.valueOf(to));
@@ -110,7 +118,25 @@ public class ReportDao {
     }
 
     public List<FinPoint> financesDaily(LocalDate from, LocalDate to) throws SQLException {
-        String sql = "SELECT d.dt, COALESCE(inv.inm,0) inm, COALESCE(outv.outm,0) outm, COALESCE(inv.inm,0)-COALESCE(outv.outm,0) net FROM (SELECT DATE(s.sale_date) dt, SUM(s.total) inm FROM sales s WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY dt) inv LEFT JOIN (SELECT DATE(cm.moved_at) dt, SUM(CASE WHEN cm.type='SORTIE' THEN cm.amount ELSE 0 END) outm FROM cash_movements cm WHERE cm.session_id IN (SELECT id FROM cash_sessions cs WHERE DATE(cs.opened_at) BETWEEN ? AND ?) AND cm.type='SORTIE' GROUP BY dt) outv ON inv.dt=outv.dt UNION SELECT outv.dt, COALESCE(inv.inm,0), COALESCE(outv.outm,0), COALESCE(inv.inm,0)-COALESCE(outv.outm,0) FROM (SELECT DATE(cm.moved_at) dt, SUM(CASE WHEN cm.type='SORTIE' THEN cm.amount ELSE 0 END) outm FROM cash_movements cm WHERE cm.session_id IN (SELECT id FROM cash_sessions cs WHERE DATE(cs.opened_at) BETWEEN ? AND ?) AND cm.type='SORTIE' GROUP BY dt) outv LEFT JOIN (SELECT DATE(s.sale_date) dt, SUM(s.total) inm FROM sales s WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY dt) inv ON outv.dt=inv.dt WHERE inv.dt IS NULL ORDER BY dt";
+        String sql = "SELECT d.dt, COALESCE(inv.inm,0) inm, COALESCE(outv.outm,0) outm, "
+                + "COALESCE(inv.inm,0)-COALESCE(outv.outm,0) net "
+                + "FROM (SELECT DATE(s.sale_date) dt, SUM(s.total) inm FROM sales s "
+                + "WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY dt) inv "
+                + "LEFT JOIN (SELECT DATE(cm.movement_date) dt, "
+                + "SUM(CASE WHEN cm.type='SORTIE' THEN cm.amount ELSE 0 END) outm "
+                + "FROM cash_movements cm WHERE cm.cash_session_id IN "
+                + "(SELECT id FROM cash_sessions cs WHERE DATE(cs.opened_at) BETWEEN ? AND ?) "
+                + "AND cm.type='SORTIE' GROUP BY dt) outv ON inv.dt=outv.dt "
+                + "UNION SELECT outv.dt, COALESCE(inv.inm,0), COALESCE(outv.outm,0), "
+                + "COALESCE(inv.inm,0)-COALESCE(outv.outm,0) "
+                + "FROM (SELECT DATE(cm.movement_date) dt, "
+                + "SUM(CASE WHEN cm.type='SORTIE' THEN cm.amount ELSE 0 END) outm "
+                + "FROM cash_movements cm WHERE cm.cash_session_id IN "
+                + "(SELECT id FROM cash_sessions cs WHERE DATE(cs.opened_at) BETWEEN ? AND ?) "
+                + "AND cm.type='SORTIE' GROUP BY dt) outv "
+                + "LEFT JOIN (SELECT DATE(s.sale_date) dt, SUM(s.total) inm FROM sales s "
+                + "WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY dt) inv ON outv.dt=inv.dt "
+                + "WHERE inv.dt IS NULL ORDER BY dt";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setDate(1, Date.valueOf(from));
             ps.setDate(2, Date.valueOf(to));

@@ -98,10 +98,14 @@ public final class CustomerPaymentService {
                 p.setCashSessionId(session == null ? null : session.getId());
                 p.setNote(note == null || note.isBlank() ? null : note.trim());
                 p.setUserId(uid);
+                if (!customers.decreaseBalance(customerId, valeur)) {
+                    throw new ValidationException(
+                            "La dette a changé. Rechargez le client puis réessayez.");
+                }
+                client.setBalance(dette.subtract(valeur));
+
                 int id = payments.insert(p);
                 p.setId(id);
-
-                customers.updateBalance(customerId, valeur.negate());
 
                 if (session != null && methode == CustomerPayment.Method.ESPECES) {
                     cash.recordCustomerCash(session.getId(), id, valeur, uid);

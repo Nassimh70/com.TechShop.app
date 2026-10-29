@@ -30,12 +30,17 @@
     </HBox>
 
     <HBox spacing="12" styleClass="pos-root" VBox.vgrow="ALWAYS">
-        <VBox styleClass="pos-left" spacing="10" HBox.hgrow="ALWAYS">
-            <TextField fx:id="searchField" styleClass="field"
+        <VBox styleClass="pos-left" spacing="10" minWidth="0" maxWidth="1.7976931348623157E308"
+              HBox.hgrow="ALWAYS">
+            <TextField fx:id="searchField" maxWidth="1.7976931348623157E308" minWidth="0"
+                       styleClass="field"
                        promptText="Code-barres / référence / recherche produit... (F2)"/>
-            <FlowPane fx:id="categoryChips" hgap="6" vgap="6"/>
-            <ScrollPane fx:id="gridScroll" fitToWidth="true" VBox.vgrow="ALWAYS">
-                <FlowPane fx:id="productGrid" hgap="10" vgap="10" styleClass="product-grid"/>
+            <FlowPane fx:id="categoryChips" hgap="6" vgap="6" minWidth="0"
+                      maxWidth="1.7976931348623157E308"/>
+            <ScrollPane fx:id="gridScroll" fitToWidth="true" minWidth="0"
+                        maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                <FlowPane fx:id="productGrid" hgap="10" vgap="10" minWidth="0"
+                          maxWidth="1.7976931348623157E308" styleClass="product-grid"/>
             </ScrollPane>
         </VBox>
 

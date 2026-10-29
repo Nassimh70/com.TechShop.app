@@ -59,19 +59,34 @@ class CustomerPaymentServiceTest {
     @Test
     @DisplayName("Règlement partiel : dette diminuée, paiement daté et caisse alimentée")
     void reglementPartiel() {
-        client(1, "5000.00");
+        client(1, "3000.00");
 
-        var p = service.encaisser(1, new BigDecimal("2000"),
+        var p = service.encaisser(1, new BigDecimal("500"),
                 LocalDateTime.now(), "ESPECES", "versement");
 
-        assertEquals(0, new BigDecimal("3000.00").compareTo(db.balances.get(1)));
+        assertEquals(0, new BigDecimal("2500.00").compareTo(db.balances.get(1)));
         assertEquals(1, db.customerPayments.size());
-        assertEquals(0, new BigDecimal("2000.00").compareTo(p.getAmount()));
+        assertEquals(0, new BigDecimal("500.00").compareTo(p.getAmount()));
         assertNotNull(p.getCashSessionId(), "règlement du jour lié à la caisse ouverte");
         assertEquals(1, db.cashMovements.size());
         assertEquals(CashMovementType.ENTREE.name(), db.cashMovements.get(0).getType());
-        assertEquals(0, new BigDecimal("2000.00")
+        assertEquals(0, new BigDecimal("500.00")
                 .compareTo(db.cashMovements.get(0).getAmount()));
+    }
+
+    @Test
+    @DisplayName("Deux règlements partiels diminuent la dette progressivement")
+    void plusieursReglementsPartiels() {
+        Customer c = client(5, "3000.00");
+
+        service.encaisser(c.getId(), new BigDecimal("500"),
+                LocalDateTime.now(), "ESPECES", null);
+        assertEquals(0, new BigDecimal("2500.00").compareTo(db.balances.get(5)));
+
+        service.encaisser(c.getId(), new BigDecimal("500"),
+                LocalDateTime.now(), "ESPECES", null);
+        assertEquals(0, new BigDecimal("2000.00").compareTo(db.balances.get(5)));
+        assertEquals(2, db.customerPayments.size());
     }
 
     @Test

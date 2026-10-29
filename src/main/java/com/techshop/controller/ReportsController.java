@@ -71,7 +71,13 @@ public class ReportsController {
 
     @FXML
     void onPrint() {
-        ToastService.get().info("Impression", "Impression ...");
+        try {
+            File f = ExportUtil.print(table, "rapport-a-imprimer.pdf");
+            ToastService.get().success("Impression",
+                    "Rapport envoyé à l'imprimante. PDF : " + f.getName());
+        } catch (Exception e) {
+            ToastService.get().error("Impression", e.getMessage());
+        }
     }
 
     private void runReport() {

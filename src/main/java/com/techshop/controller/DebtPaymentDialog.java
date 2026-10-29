@@ -56,7 +56,9 @@ public final class DebtPaymentDialog {
         entete.getStyleClass().add("card-inset");
 
         FormField montant = Fields.number("Montant encaissé", "0,00");
-        montant.setValue(Format.moneyShort(dette));
+        // Ne jamais proposer toute la dette par défaut : un règlement partiel
+        // doit être saisi explicitement pour éviter un paiement total accidentel.
+        montant.setValue("0,00");
 
         DatePicker date = new DatePicker(LocalDate.now());
         date.getStyleClass().add("field");

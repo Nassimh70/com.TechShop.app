@@ -334,6 +334,16 @@ final class FakeDb {
         public void updateBalance(int id, BigDecimal delta) throws SQLException {
             balances.merge(id, delta, BigDecimal::add);
         }
+
+        @Override
+        public boolean decreaseBalance(int id, BigDecimal amount) {
+            BigDecimal balance = balances.get(id);
+            if (balance == null || balance.compareTo(amount) < 0) {
+                return false;
+            }
+            balances.put(id, balance.subtract(amount));
+            return true;
+        }
     }
 
     private final class FakeCustomerPaymentDao extends CustomerPaymentDao {

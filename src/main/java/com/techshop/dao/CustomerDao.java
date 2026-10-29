@@ -112,6 +112,23 @@ public class CustomerDao {
         }
     }
 
+    /**
+     * Déduit un règlement du solde de manière atomique.
+     *
+     * @return {@code true} si le client existe et disposait encore du montant
+     */
+    public boolean decreaseBalance(int id, BigDecimal amount) throws SQLException {
+        String sql = "UPDATE customers SET balance = balance - ? "
+                + "WHERE id = ? AND balance >= ?";
+        try (Connection c = DatabaseManager.connection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setBigDecimal(1, amount);
+            ps.setInt(2, id);
+            ps.setBigDecimal(3, amount);
+            return ps.executeUpdate() == 1;
+        }
+    }
+
     /** Nombre de clients actifs (indicateur de tableau de bord). */
     public long countActive() throws SQLException {
         try (Connection c = DatabaseManager.connection();
