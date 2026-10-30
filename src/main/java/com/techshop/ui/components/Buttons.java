@@ -64,6 +64,10 @@ public final class Buttons {
         return build(text, "btn-ghost", iconFeather);
     }
 
+    public static Button link(String text) {
+        return build(text, "btn-ghost");
+    }
+
     /** Bouton carré icône seule (36 px). */
     public static Button icon(String iconFeather, String tooltip) {
         Button b = new Button();

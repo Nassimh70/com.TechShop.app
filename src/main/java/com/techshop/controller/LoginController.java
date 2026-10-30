@@ -2,10 +2,12 @@ package com.techshop.controller;
 
 import com.techshop.app.AppShell;
 import com.techshop.service.AuthService;
+import com.techshop.service.SetupService;
 import com.techshop.ui.Branding;
 import com.techshop.ui.Icons;
 import com.techshop.ui.Overlays;
 import com.techshop.ui.components.Buttons;
+import com.techshop.ui.components.DialogService;
 import com.techshop.ui.components.Fields;
 import com.techshop.ui.components.FormField;
 import javafx.application.Platform;
@@ -37,11 +39,13 @@ public class LoginController {
     private FormField champIdentifiant;
     private FormField champMotDePasse;
     private Button boutonConnexion;
+    private Button boutonRecuperation;
 
     @FXML
     private void initialize() {
         // Toasts/dialogues sur le calque de l'écran (ex. messages d'erreur)
         Overlays.attach(overlayHost);
+        DialogService.get().init(overlayHost);
 
         Branding.mount(brandIcon, 36);
         construireArguments();
@@ -77,7 +81,38 @@ public class LoginController {
         boutonConnexion.setDefaultButton(true);
         boutonConnexion.setOnAction(e -> seConnecter());
 
-        formBox.getChildren().addAll(champIdentifiant, champMotDePasse, boutonConnexion);
+        boutonRecuperation = Buttons.link("Mot de passe oublié ?");
+        boutonRecuperation.setOnAction(e -> recupererMotDePasse());
+        formBox.getChildren().addAll(champIdentifiant, champMotDePasse,
+                boutonConnexion, boutonRecuperation);
+    }
+
+    private void recupererMotDePasse() {
+        FormField cle = Fields.text("Clé de récupération", "XXXXXX-XXXXXX-XXXXXX-XXXXXX");
+        FormField nouveau = Fields.password("Nouveau mot de passe");
+        FormField confirmation = Fields.password("Confirmation");
+        VBox corps = new VBox(12, cle, nouveau, confirmation);
+        DialogService.get().form("Récupération hors ligne", corps, "Réinitialiser")
+                .thenAccept(ok -> {
+                    if (!Boolean.TRUE.equals(ok)) {
+                        return;
+                    }
+                    try {
+                        String next = SetupService.get().resetPasswordWithRecoveryKey(
+                                cle.textValue(), nouveau.textValue(), confirmation.textValue());
+                        Platform.runLater(() -> afficherCleRegenerée(next));
+                    } catch (RuntimeException e) {
+                        afficherErreur(e.getMessage());
+                    }
+                });
+    }
+
+    private void afficherCleRegenerée(String key) {
+        VBox corps = new VBox(12,
+                new Label("Votre mot de passe a été réinitialisé."),
+                new Label("Nouvelle clé de récupération (à conserver) :"),
+                new Label(key));
+        DialogService.get().form("Nouvelle clé de récupération", corps, "Fermer");
     }
 
     private void seConnecter() {

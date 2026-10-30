@@ -5,6 +5,7 @@ import com.techshop.config.ThemeManager;
 import com.techshop.controller.MainController;
 import com.techshop.service.BackupService;
 import com.techshop.service.PermissionService;
+import com.techshop.service.SetupService;
 import com.techshop.ui.Branding;
 import com.techshop.ui.components.LoadingIndicator;
 import com.techshop.util.Fonts;
@@ -65,7 +66,11 @@ public final class AppShell {
                 if (DatabaseManager.isReady()) {
                     // Matrice de permissions chargée depuis la base
                     PermissionService.get().reload();
-                    showLogin();
+                    if (SetupService.get().isSetupRequired()) {
+                        showSetup();
+                    } else {
+                        showLogin();
+                    }
                 } else {
                     showDbError();
                 }
@@ -99,6 +104,10 @@ public final class AppShell {
 
     public static void showLogin() {
         setRoot(load("screens/login"));
+    }
+
+    public static void showSetup() {
+        setRoot(load("screens/setup"));
     }
 
     /** Écran de changement de mot de passe obligatoire (admin initial). */
