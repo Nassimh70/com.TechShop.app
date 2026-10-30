@@ -1,6 +1,5 @@
 package com.techshop.service;
 
-import com.techshop.config.AppPaths;
 import com.techshop.config.Tx;
 import com.techshop.dao.CustomerDao;
 import com.techshop.dao.NotificationLogDao;
@@ -471,7 +470,7 @@ public final class RepairService {
         try {
             RepairTicket t = tickets.byId(repairId).orElseThrow(
                     () -> new ValidationException("Dossier introuvable."));
-            Path dir = AppPaths.dataDirectory().resolve("repairs").resolve(t.getNumber());
+            Path dir = Path.of(System.getProperty("user.dir"), "data", "repairs", t.getNumber());
             Files.createDirectories(dir);
             String nom = System.currentTimeMillis() + "-" + source.getFileName();
             Path cible = dir.resolve(nom);

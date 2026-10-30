@@ -1,6 +1,5 @@
 package com.techshop.controller;
 
-import com.techshop.config.AppPaths;
 import com.techshop.service.ProductService;
 import com.techshop.ui.components.Buttons;
 import com.techshop.ui.components.DialogService;
@@ -147,7 +146,7 @@ public final class CsvImportDialog {
     private void creerModele() {
         try {
             Path dossier = Files.createDirectories(
-                    AppPaths.dataDirectory().resolve("import"));
+                    Path.of(System.getProperty("user.dir"), "data", "import"));
             Path fichier = dossier.resolve("modele-produits.csv");
             String contenu = ENTETE + System.lineSeparator()
                     + ";Chargeur USB-C 25W;Accessoires;Générique;2000000000194;1200;1900;19;5;20;non;6;pièce"

@@ -1,7 +1,6 @@
 package com.techshop.service;
 
 import com.techshop.config.AppConfig;
-import com.techshop.config.AppPaths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +17,7 @@ import java.util.Optional;
 
 /**
  * Sauvegarde et restauration de la base MySQL/MariaDB via les utilitaires
- * {@code mysqldump} et {@code mysql} fournis avec MariaDB/MySQL.
+ * {@code mysqldump} et {@code mysql} fournis avec XAMPP.
  *
  * <p>Les exécutables sont cherchés dans le dossier configuré
  * ({@code backup.mysql_bin}), puis dans le {@code PATH}. Une sauvegarde de
@@ -49,7 +48,7 @@ public final class BackupService {
         if (configure != null && !configure.isBlank()) {
             return Path.of(configure.trim());
         }
-        return AppPaths.dataDirectory().resolve("backups");
+        return Path.of(System.getProperty("user.dir"), "data", "backups");
     }
 
     /** Crée un dump SQL horodaté dans le dossier demandé. */
@@ -183,7 +182,8 @@ public final class BackupService {
     }
 
     private static String defaultMysqlBin() {
-        return AppPaths.portableMariaDbDirectory().resolve("bin").toString();
+        return System.getProperty("os.name", "").toLowerCase().contains("win")
+                ? "C:\\xampp\\mysql\\bin" : "/usr/bin";
     }
 
     private static void ajouterMotDePasse(List<String> commande) {

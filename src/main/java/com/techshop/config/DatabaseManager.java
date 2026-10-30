@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Point d'accès unique à la base MariaDB/MySQL via HikariCP.
+ * Point d'accès unique à la base MySQL/MariaDB (XAMPP) via HikariCP.
  * Crée la base « techshop » si absente, démarre le pool puis applique les
  * migrations versionnées ({@link MigrationService}). Toute défaillance est
  * journalisée et exposée à l'écran d'erreur de connexion (SPEC §1, §5, §7).
@@ -168,7 +168,6 @@ public final class DatabaseManager {
                 return;
             }
             try {
-                PortableDatabaseService.startIfAvailable();
                 createDatabaseIfMissing();
                 createPool();
                 lastMigrations = MigrationService.apply(pool);
@@ -194,7 +193,6 @@ public final class DatabaseManager {
     public static void shutdown() {
         synchronized (LOCK) {
             closeQuietly();
-            PortableDatabaseService.stop();
             initialized = false;
         }
     }
@@ -254,7 +252,7 @@ public final class DatabaseManager {
         String bas = brut.toLowerCase();
         if (bas.contains("connection refused") || bas.contains("connectex") || bas.contains("getsockopt")) {
             return "Impossible de joindre MySQL sur " + AppConfig.dbHost() + ":"
-                    + AppConfig.dbPort() + ". Vérifiez MariaDB/MySQL ou le runtime portable.";
+                    + AppConfig.dbPort() + ". Vérifiez que le module MySQL (ou MariaDB) de XAMPP est démarré.";
         }
         if (bas.contains("access denied") || bas.contains("authentication")) {
             return "Accès refusé par le serveur pour l'utilisateur « " + AppConfig.dbUser()

@@ -1,6 +1,5 @@
 package com.techshop.util;
 
-import com.techshop.config.AppPaths;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.Locale;
  */
 public final class Images {
 
-    private static final Path DOSSIER = AppPaths.dataDirectory().resolve("products");
+    private static final Path DOSSIER = Path.of(System.getProperty("user.dir"), "data", "products");
 
     private Images() {
     }
@@ -52,7 +51,7 @@ public final class Images {
             return null;
         }
         Path brut = Path.of(cheminRelatif);
-        return brut.isAbsolute() ? brut : AppPaths.appDataDirectory().resolve(brut);
+        return brut.isAbsolute() ? brut : Path.of(System.getProperty("user.dir")).resolve(brut);
     }
 
     /** Miniature pour le tableau / la grille, ou null si absente. */

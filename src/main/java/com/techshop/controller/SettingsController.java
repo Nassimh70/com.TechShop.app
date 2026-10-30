@@ -1,7 +1,6 @@
 package com.techshop.controller;
 
 import com.techshop.config.AppConfig;
-import com.techshop.config.AppPaths;
 import com.techshop.config.ThemeManager;
 import com.techshop.config.Tx;
 import com.techshop.dao.SettingDao;
@@ -256,7 +255,7 @@ public class SettingsController {
 
     private Node contenuSauvegarde() {
         fBackupDir = Fields.text("Dossier des sauvegardes", "Ex. data/backups");
-        fMysqlBin = Fields.text("Dossier MySQL (bin)", "Ex. runtime\\mariadb\\bin");
+        fMysqlBin = Fields.text("Dossier MySQL (bin)", "Ex. C:\\xampp\\mysql\\bin");
 
         Button parcourirDossier = Buttons.secondary("Parcourir");
         parcourirDossier.setOnAction(e -> choisirDossier(fBackupDir, "Dossier des sauvegardes"));
@@ -455,7 +454,7 @@ public class SettingsController {
             return;
         }
         try {
-            Path dossier = AppPaths.dataDirectory().resolve("logo");
+            Path dossier = Path.of(System.getProperty("user.dir"), "data", "logo");
             Files.createDirectories(dossier);
             Path cible = dossier.resolve(fichier.getName());
             Files.copy(fichier.toPath(), cible, StandardCopyOption.REPLACE_EXISTING);
@@ -599,7 +598,7 @@ public class SettingsController {
         String texte = fBackupDir.textValue();
         try {
             Path dossier = texte == null || texte.isBlank()
-                    ? AppPaths.dataDirectory().resolve("backups")
+                    ? Path.of(System.getProperty("user.dir"), "data", "backups")
                     : Path.of(texte.trim());
             Files.createDirectories(dossier);
             return dossier;
@@ -677,11 +676,12 @@ public class SettingsController {
     }
 
     private static String dossierParDefaut() {
-        return AppPaths.dataDirectory().resolve("backups").toString();
+        return Path.of(System.getProperty("user.dir"), "data", "backups").toString();
     }
 
     private static String dossierMysqlParDefaut() {
-        return AppPaths.portableMariaDbDirectory().resolve("bin").toString();
+        return System.getProperty("os.name", "").toLowerCase().contains("win")
+                ? "C:\\xampp\\mysql\\bin" : "/usr/bin";
     }
 
     private static String message(Throwable erreur) {
