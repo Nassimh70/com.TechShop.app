@@ -55,10 +55,21 @@ public final class DebtPaymentDialog {
         VBox entete = new VBox(4, nom, soldeActuel);
         entete.getStyleClass().add("card-inset");
 
-        FormField montant = Fields.number("Montant encaissé", "0,00");
-        // Ne jamais proposer toute la dette par défaut : un règlement partiel
-        // doit être saisi explicitement pour éviter un paiement total accidentel.
-        montant.setValue("0,00");
+        FormField montant = Fields.number("Montant encaissé (DA)", "Ex. 500 pour une tranche");
+        Label aideMontant = new Label("Saisissez uniquement la somme versée par le client. "
+                + "Pour régler la totalité de la dette, utilisez « Régler toute la dette ».");
+        aideMontant.getStyleClass().add("muted");
+        aideMontant.setWrapText(true);
+
+        Button solder = Buttons.secondary("Régler toute la dette", "check-circle");
+        solder.setOnAction(e -> {
+            montant.clearError();
+            montant.setValue(Format.moneyShort(dette));
+        });
+        HBox actionsMontant = new HBox(solder);
+        actionsMontant.setAlignment(Pos.CENTER_RIGHT);
+        actionsMontant.setMaxWidth(Double.MAX_VALUE);
+        VBox montantBox = new VBox(6, montant, aideMontant, actionsMontant);
 
         DatePicker date = new DatePicker(LocalDate.now());
         date.getStyleClass().add("field");
@@ -98,15 +109,15 @@ public final class DebtPaymentDialog {
                 if (apres.signum() < 0) {
                     apres = BigDecimal.ZERO;
                 }
-                reste.setText("Dette après règlement : " + Format.money(apres));
+                reste.setText("Dette restante après ce versement : " + Format.money(apres));
             } catch (RuntimeException ex) {
-                reste.setText("Dette après règlement : -");
+                reste.setText("Dette restante après ce versement : -");
             }
         };
         ((TextField) montant.styledControl()).textProperty().addListener((o, a, b) -> majReste.run());
         majReste.run();
 
-        VBox corps = new VBox(12, entete, montant, quand, aideDate, modeBox, note, reste);
+        VBox corps = new VBox(12, entete, montantBox, quand, aideDate, modeBox, note, reste);
         corps.setPrefWidth(460);
 
         Button annuler = Buttons.secondary("Annuler");
@@ -116,6 +127,7 @@ public final class DebtPaymentDialog {
 
         VBox carte = DialogService.get().card("Règlement de dette", "credit-card", corps, pied);
         DialogService.ModalHandle handle = DialogService.get().custom(carte, false);
+        javafx.application.Platform.runLater(() -> montant.styledControl().requestFocus());
 
         annuler.setOnAction(e -> handle.close());
         valider.setOnAction(e -> {

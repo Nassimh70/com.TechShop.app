@@ -3,6 +3,7 @@ package com.techshop.app;
 import com.techshop.config.DatabaseManager;
 import com.techshop.config.ThemeManager;
 import com.techshop.controller.MainController;
+import com.techshop.service.BackupService;
 import com.techshop.service.PermissionService;
 import com.techshop.ui.Branding;
 import com.techshop.ui.components.LoadingIndicator;
@@ -134,6 +135,11 @@ public final class AppShell {
 
     /** Ferme proprement la base (arrêt de l'application). */
     public static void stop() {
+        try {
+            BackupService.get().autoBackupOnExit();
+        } catch (Exception e) {
+            log.warn("Sauvegarde automatique impossible : {}", e.getMessage());
+        }
         DatabaseManager.shutdown();
     }
 }

@@ -101,7 +101,7 @@ class PermissionServiceTest {
     @DisplayName("Un module hors matrice reste accessible (garde structurelle seule)")
     void moduleHorsMatrice() {
         PermissionService p = PermissionService.get();
-        assertTrue(p.can(Role.VENDEUR, "design-system", PermissionService.Action.VIEW));
+        assertTrue(p.can(Role.VENDEUR, "module-hors-matrice", PermissionService.Action.VIEW));
     }
 
     @Test

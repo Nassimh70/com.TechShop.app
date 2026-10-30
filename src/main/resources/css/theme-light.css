@@ -207,6 +207,33 @@
     -fx-text-fill: #64748B;
 }
 
+/* ------------------------------ Paramètres ------------------------------ */
+.settings-nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #475569;
+}
+
+.settings-nav-item:hover {
+    -fx-background-color: #F1F5F9;
+}
+
+.settings-nav-item .ikonli-font-icon {
+    -fx-icon-color: #64748B;
+}
+
+.settings-nav-item.active {
+    -fx-background-color: #EEF2FF;
+    -fx-text-fill: #4F46E5;
+}
+
+.settings-nav-item.active .ikonli-font-icon {
+    -fx-icon-color: #4F46E5;
+}
+
+.settings-row-title {
+    -fx-text-fill: #0F172A;
+}
+
 /* -------------------------------- Boutons -------------------------------- */
 .btn {
     -fx-text-fill: #0F172A;

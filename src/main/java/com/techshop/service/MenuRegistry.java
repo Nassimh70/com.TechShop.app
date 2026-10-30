@@ -45,8 +45,7 @@ public final class MenuRegistry {
             new NavItem("users", "Utilisateurs", SEC_ADMIN, "user-check", "screens/users",
                     null, java.util.EnumSet.of(Role.ADMIN)),
             new NavItem("settings", "Paramètres", SEC_ADMIN, "settings", "screens/settings",
-                    null, java.util.EnumSet.of(Role.ADMIN)),
-            NavItem.all("design-system", "Design system", SEC_ADMIN, "grid", "screens/design-system")
+                    null, java.util.EnumSet.of(Role.ADMIN))
     );
 
     private MenuRegistry() {

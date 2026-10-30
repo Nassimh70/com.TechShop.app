@@ -4,6 +4,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
@@ -56,6 +57,7 @@ public final class SaleDocumentService {
             PdfWriter.getInstance(doc, flux);
             doc.open();
             SettingService s = SettingService.get();
+            logo(doc, Image.ALIGN_CENTER);
 
             doc.add(centre(s.shopName(), TITRE));
             if (!s.shopAddress().isBlank()) {
@@ -63,6 +65,9 @@ public final class SaleDocumentService {
             }
             if (!s.shopPhone().isBlank()) {
                 doc.add(centre("Tél : " + s.shopPhone(), PETIT));
+            }
+            if (!s.shopEmail().isBlank()) {
+                doc.add(centre(s.shopEmail(), PETIT));
             }
             doc.add(espace());
             doc.add(centre("TICKET DE CAISSE", NORMAL_B));
@@ -91,7 +96,9 @@ public final class SaleDocumentService {
             if (sale.getDiscount().signum() > 0) {
                 doc.add(ligneValue("Remise", "-" + Format.money(sale.getDiscount())));
             }
-            doc.add(ligneValue("TVA (incluse)", Format.money(sale.getTax())));
+            if (s.showVatOnTicket()) {
+                doc.add(ligneValue("TVA (incluse)", Format.money(sale.getTax())));
+            }
             doc.add(ligneValueGras("TOTAL", Format.money(sale.getTotal())));
             doc.add(separateur());
             for (SalePayment p : sale.getPayments()) {
@@ -141,7 +148,9 @@ public final class SaleDocumentService {
         if (sale.getDiscount().signum() > 0) {
             b.append(ligneTexte("Remise", "-" + Format.money(sale.getDiscount())));
         }
-        b.append(ligneTexte("TVA (incluse)", Format.money(sale.getTax())));
+        if (s.showVatOnTicket()) {
+            b.append(ligneTexte("TVA (incluse)", Format.money(sale.getTax())));
+        }
         b.append(ligneTexte("TOTAL", Format.money(sale.getTotal())));
         for (SalePayment p : sale.getPayments()) {
             b.append(ligneTexte(p.methodLabel(), Format.money(p.getAmount())));
@@ -164,12 +173,12 @@ public final class SaleDocumentService {
             PdfWriter.getInstance(doc, flux);
             doc.open();
             SettingService s = SettingService.get();
+            logo(doc, Image.ALIGN_LEFT);
 
             PdfPTable entete = new PdfPTable(2);
             entete.setWidthPercentage(100);
             entete.setWidths(new float[]{3, 2});
-            PdfPCell gauche = sansBordure(new Phrase(s.shopName() + "\n" + s.shopAddress()
-                    + (s.shopPhone().isBlank() ? "" : "\nTél : " + s.shopPhone()), NORMAL));
+            PdfPCell gauche = sansBordure(new Phrase(enteteMagasin(s), NORMAL));
             PdfPCell droite = sansBordure(new Phrase("FACTURE", GROS));
             droite.setHorizontalAlignment(Element.ALIGN_RIGHT);
             entete.addCell(gauche);
@@ -216,7 +225,9 @@ public final class SaleDocumentService {
             if (sale.getDiscount().signum() > 0) {
                 total(totaux, "Remise", "-" + Format.money(sale.getDiscount()), NORMAL);
             }
-            total(totaux, "TVA (incluse)", Format.money(sale.getTax()), NORMAL);
+            if (s.showVatOnTicket()) {
+                total(totaux, "TVA (incluse)", Format.money(sale.getTax()), NORMAL);
+            }
             total(totaux, "TOTAL", Format.money(sale.getTotal()), NORMAL_B);
             total(totaux, "Payé", Format.money(sale.getPaidAmount()), NORMAL);
             if (sale.getDueAmount().signum() > 0) {
@@ -257,6 +268,47 @@ public final class SaleDocumentService {
     }
 
     // ------------------------------------------------------------- utilitaires
+
+    private static String enteteMagasin(SettingService s) {
+        StringBuilder b = new StringBuilder(s.shopName());
+        if (!s.shopAddress().isBlank()) {
+            b.append('\n').append(s.shopAddress());
+        }
+        if (!s.shopPhone().isBlank()) {
+            b.append("\nTél : ").append(s.shopPhone());
+        }
+        if (!s.shopEmail().isBlank()) {
+            b.append('\n').append(s.shopEmail());
+        }
+        if (!s.shopTaxId().isBlank()) {
+            b.append("\nNIF/RC : ").append(s.shopTaxId());
+        }
+        return b.toString();
+    }
+
+    private static void logo(Document doc, int alignement) {
+        SettingService s = SettingService.get();
+        if (!s.logoOnDocuments()) {
+            return;
+        }
+        String chemin = s.shopLogo();
+        if (chemin == null || chemin.isBlank()) {
+            return;
+        }
+        try {
+            Path fichier = Path.of(chemin);
+            if (!Files.isRegularFile(fichier)) {
+                return;
+            }
+            Image image = Image.getInstance(fichier.toString());
+            image.scaleToFit(140, 48);
+            image.setAlignment(alignement);
+            doc.add(image);
+            doc.add(espace());
+        } catch (Exception ignored) {
+            // Un logo illisible ne doit jamais empêcher l'édition du document.
+        }
+    }
 
     private static Path fichier(String dossier, String nom) throws IOException {
         Path dir = Files.createDirectories(

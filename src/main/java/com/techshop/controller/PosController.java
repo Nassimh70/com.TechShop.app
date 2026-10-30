@@ -6,6 +6,7 @@ import com.techshop.service.CashService;
 import com.techshop.service.CatalogService;
 import com.techshop.service.SaleDocumentService;
 import com.techshop.service.SaleService;
+import com.techshop.service.SettingService;
 import com.techshop.ui.components.Buttons;
 import com.techshop.util.Format;
 import com.techshop.util.Numbers;
@@ -631,9 +632,15 @@ public class PosController {
                         res.sale().getNumber() + " — " + Format.money(res.sale().getTotal()));
                 try {
                     var pdf = SaleDocumentService.ticket(res.sale());
-                    SaleDocumentService.imprimer(pdf);
-                } catch (Exception ignored) {
-                    // l'aperçu du ticket ne doit pas bloquer la vente
+                    if (SettingService.get().autoPrintTicket()) {
+                        SaleDocumentService.imprimer(pdf);
+                    } else {
+                        com.techshop.ui.components.ToastService.get().info("Ticket enregistré",
+                                "Impression automatique désactivée — PDF : " + pdf.getFileName());
+                    }
+                } catch (Exception ex) {
+                    com.techshop.ui.components.ToastService.get().warning("Impression",
+                            "Ticket enregistré mais impression impossible : " + ex.getMessage());
                 }
                 fermerPanier(paniers.indexOf(enCours));
                 client = null;

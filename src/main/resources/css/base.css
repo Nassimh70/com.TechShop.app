@@ -320,6 +320,55 @@
     -fx-font-size: 12px;
 }
 
+/* ------------------------------ Paramètres ------------------------------ */
+.settings-nav {
+    -fx-padding: 8;
+}
+
+.settings-nav-item {
+    -fx-pref-height: 38px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 0 12;
+    -fx-alignment: CENTER_LEFT;
+    -fx-graphic-text-gap: 10;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.settings-nav-item .ikonli-font-icon {
+    -fx-icon-size: 17px;
+}
+
+.settings-row {
+    -fx-padding: 8 0;
+    -fx-spacing: 14;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.settings-row-title {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.settings-content {
+    -fx-padding: 0 4 24 0;
+}
+
+.settings-logo {
+    -fx-pref-width: 72px;
+    -fx-pref-height: 72px;
+    -fx-min-width: 72px;
+    -fx-min-height: 72px;
+    -fx-alignment: center;
+}
+
+.settings-hint {
+    -fx-font-size: 12px;
+}
+
 /* ------------------------------ Boutons --------------------------------- */
 .btn {
     -fx-pref-height: 36px;

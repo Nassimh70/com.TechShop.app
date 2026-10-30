@@ -66,6 +66,30 @@ public final class SettingService {
         return get("shop.phone", "");
     }
 
+    public String shopEmail() {
+        return get("shop.email", "");
+    }
+
+    public String shopTaxId() {
+        return get("shop.tax_id", "");
+    }
+
+    public String shopLogo() {
+        return get("shop.logo", "");
+    }
+
+    public boolean autoPrintTicket() {
+        return Boolean.parseBoolean(get("print.auto_ticket", "true"));
+    }
+
+    public boolean showVatOnTicket() {
+        return Boolean.parseBoolean(get("sales.vat_on_ticket", "true"));
+    }
+
+    public boolean logoOnDocuments() {
+        return Boolean.parseBoolean(get("print.logo", "false"));
+    }
+
     public String ticketFooter() {
         return get("ticket.footer", "Merci de votre confiance.");
     }

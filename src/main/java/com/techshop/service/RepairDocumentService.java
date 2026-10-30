@@ -346,16 +346,56 @@ public final class RepairDocumentService {
 
     private static void entete(Document doc, String titre) throws Exception {
         SettingService s = SettingService.get();
+        logo(doc);
         PdfPTable table = new PdfPTable(2);
         table.setWidthPercentage(100);
         table.setWidths(new float[]{3, 2});
-        PdfPCell gauche = sansBordure(new Phrase(s.shopName() + "\n" + s.shopAddress()
-                + (s.shopPhone().isBlank() ? "" : "\nTél : " + s.shopPhone()), PETIT));
+        PdfPCell gauche = sansBordure(new Phrase(enteteMagasin(s), PETIT));
         PdfPCell droite = sansBordure(new Phrase(titre, TITRE));
         droite.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(gauche);
         table.addCell(droite);
         doc.add(table);
+    }
+
+    private static String enteteMagasin(SettingService s) {
+        StringBuilder b = new StringBuilder(s.shopName());
+        if (!s.shopAddress().isBlank()) {
+            b.append('\n').append(s.shopAddress());
+        }
+        if (!s.shopPhone().isBlank()) {
+            b.append("\nTél : ").append(s.shopPhone());
+        }
+        if (!s.shopEmail().isBlank()) {
+            b.append('\n').append(s.shopEmail());
+        }
+        if (!s.shopTaxId().isBlank()) {
+            b.append("\nNIF/RC : ").append(s.shopTaxId());
+        }
+        return b.toString();
+    }
+
+    private static void logo(Document doc) {
+        SettingService s = SettingService.get();
+        if (!s.logoOnDocuments()) {
+            return;
+        }
+        String chemin = s.shopLogo();
+        if (chemin == null || chemin.isBlank()) {
+            return;
+        }
+        try {
+            Path fichier = Path.of(chemin);
+            if (!Files.isRegularFile(fichier)) {
+                return;
+            }
+            Image image = Image.getInstance(fichier.toString());
+            image.scaleToFit(100, 40);
+            image.setAlignment(Image.ALIGN_LEFT);
+            doc.add(image);
+        } catch (Exception ignored) {
+            // Un logo illisible ne doit jamais empêcher l'édition du document.
+        }
     }
 
     private static Paragraph section(String texte) {

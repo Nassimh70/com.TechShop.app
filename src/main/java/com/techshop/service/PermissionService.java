@@ -71,7 +71,7 @@ public final class PermissionService {
     /** A-t-on le droit demandé sur le module, pour un rôle explicite ? */
     public boolean can(Role role, String module, Action action) {
         if (module == null || !modulesConnus().contains(module)) {
-            // Module hors matrice (ex. design-system) : aucune restriction ici.
+            // Module hors matrice : aucune restriction ici.
             return true;
         }
         Permission p = permission(role, module);
@@ -144,7 +144,7 @@ public final class PermissionService {
         if (item == null || role == null || !item.allows(role)) {
             return false;
         }
-        // Module hors matrice (ex. design-system) : la garde structurelle suffit.
+        // Module hors matrice : la garde structurelle suffit.
         if (!modulesConnus().contains(item.getId())) {
             return true;
         }
