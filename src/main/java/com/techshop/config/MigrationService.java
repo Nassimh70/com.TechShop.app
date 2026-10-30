@@ -45,7 +45,8 @@ public final class MigrationService {
     /** Repli si le classpath n'expose pas le répertoire (JAR packagé). */
     private static final List<String> REPLI = List.of("V001__schema.sql", "V002__initial_data.sql",
             "V003__product_seed.sql", "V004__phase3_data.sql", "V005__phase4.sql", "V006__phase5.sql",
-            "V007__remove_purchases_module.sql", "V008__single_role_mode.sql");
+            "V007__remove_purchases_module.sql", "V008__single_role_mode.sql",
+            "V009__phase5_schema.sql", "V010__production_reference_data.sql");
 
     public record Applied(String version, String description, long millis) {
     }
@@ -63,7 +64,7 @@ public final class MigrationService {
         try (Connection c = ds.getConnection()) {
             ensureVersionTable(c);
             Set<String> deja = versionsAppliquees(c);
-            for (String script : discoverScripts()) {
+            for (String script : scriptsForProfile()) {
                 String version = version(script);
                 if (deja.contains(version)) {
                     continue;
@@ -106,6 +107,23 @@ public final class MigrationService {
             }
         }
         return REPLI;
+    }
+
+    static List<String> scriptsForProfile() {
+        List<String> scripts = discoverScripts();
+        if (AppConfig.isDemoProfile()) {
+            return scripts;
+        }
+        return scripts.stream()
+                .filter(script -> !estSeedDemo(script))
+                .toList();
+    }
+
+    static boolean estSeedDemo(String script) {
+        return script.equals("V003__product_seed.sql")
+                || script.equals("V004__phase3_data.sql")
+                || script.equals("V006__phase5.sql")
+                || script.equals("V002__initial_data.sql");
     }
 
     static String version(String script) {

@@ -116,6 +116,19 @@ public final class AppConfig {
         return get("db.password", "");
     }
 
+    /**
+     * Profil d'installation. La production est le défaut ; le profil demo
+     * doit être activé explicitement avec {@code -Dtechshop.profile=demo}.
+     */
+    public static String profile() {
+        String profile = System.getProperty("techshop.profile", "prod");
+        return "demo".equalsIgnoreCase(profile) ? "demo" : "prod";
+    }
+
+    public static boolean isDemoProfile() {
+        return "demo".equals(profile());
+    }
+
     /** URL JDBC sans base précisée (sert à créer la base si absente). */
     public static String jdbcUrlServer() {
         return "jdbc:mariadb://" + dbHost() + ":" + dbPort() + "/";
