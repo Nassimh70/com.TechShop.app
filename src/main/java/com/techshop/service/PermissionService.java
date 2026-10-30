@@ -1,6 +1,7 @@
 package com.techshop.service;
 
 import com.techshop.dao.PermissionDao;
+import com.techshop.config.AppEdition;
 import com.techshop.model.NavItem;
 import com.techshop.model.Permission;
 import com.techshop.model.Role;
@@ -70,6 +71,9 @@ public final class PermissionService {
 
     /** A-t-on le droit demandé sur le module, pour un rôle explicite ? */
     public boolean can(Role role, String module, Action action) {
+        if (AppEdition.isSingleRole()) {
+            return role != null;
+        }
         if (module == null || !modulesConnus().contains(module)) {
             // Module hors matrice : aucune restriction ici.
             return true;
@@ -141,7 +145,8 @@ public final class PermissionService {
      * droit « consulter » sur le module correspondant.
      */
     public boolean canAccess(NavItem item, Role role) {
-        if (item == null || role == null || !item.allows(role)) {
+        if (item == null || role == null
+                || (AppEdition.isSingleRole() ? false : !item.allows(role))) {
             return false;
         }
         // Module hors matrice : la garde structurelle suffit.

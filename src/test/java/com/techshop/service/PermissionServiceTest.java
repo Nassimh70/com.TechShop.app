@@ -2,6 +2,7 @@ package com.techshop.service;
 
 import com.techshop.model.NavItem;
 import com.techshop.model.Role;
+import com.techshop.config.AppEdition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,9 @@ class PermissionServiceTest {
     void vendeur() {
         PermissionService p = PermissionService.get();
         assertTrue(p.canAccess(pos, Role.VENDEUR));
-        assertFalse(p.canAccess(repairs, Role.VENDEUR));
+        assertTrue(AppEdition.isSingleRole()
+                ? p.canAccess(repairs, Role.VENDEUR)
+                : !p.canAccess(repairs, Role.VENDEUR));
     }
 
     @Test
@@ -37,7 +40,9 @@ class PermissionServiceTest {
     void technicien() {
         PermissionService p = PermissionService.get();
         assertTrue(p.canAccess(repairs, Role.TECHNICIEN));
-        assertFalse(p.canAccess(pos, Role.TECHNICIEN));
+        assertTrue(AppEdition.isSingleRole()
+                ? p.canAccess(pos, Role.TECHNICIEN)
+                : !p.canAccess(pos, Role.TECHNICIEN));
     }
 
     @Test
@@ -79,11 +84,14 @@ class PermissionServiceTest {
         PermissionService p = PermissionService.get();
         assertTrue(p.can(Role.VENDEUR, "pos", PermissionService.Action.CREATE));
         assertTrue(p.can(Role.VENDEUR, "pos", PermissionService.Action.VALIDATE));
-        assertFalse(p.can(Role.VENDEUR, "products", PermissionService.Action.EDIT));
+        assertTrue(AppEdition.isSingleRole()
+                || !p.can(Role.VENDEUR, "products", PermissionService.Action.EDIT));
 
         assertTrue(p.can(Role.TECHNICIEN, "repairs", PermissionService.Action.VALIDATE));
         assertTrue(p.can(Role.TECHNICIEN, "stock", PermissionService.Action.EDIT));
-        assertFalse(p.can(Role.TECHNICIEN, "pos", PermissionService.Action.VIEW));
+        assertTrue(AppEdition.isSingleRole()
+                ? p.can(Role.TECHNICIEN, "pos", PermissionService.Action.VIEW)
+                : !p.can(Role.TECHNICIEN, "pos", PermissionService.Action.VIEW));
 
         assertTrue(p.can(Role.ADMIN, "users", PermissionService.Action.DELETE));
         assertTrue(p.can(Role.ADMIN, "settings", PermissionService.Action.EDIT));
@@ -94,7 +102,8 @@ class PermissionServiceTest {
     void moduleSansLigneRefuse() {
         PermissionService p = PermissionService.get();
         // « repairs » figure dans la matrice (technicien) mais pas pour le vendeur
-        assertFalse(p.can(Role.VENDEUR, "repairs", PermissionService.Action.VIEW));
+        assertTrue(AppEdition.isSingleRole()
+                || !p.can(Role.VENDEUR, "repairs", PermissionService.Action.VIEW));
     }
 
     @Test
@@ -110,7 +119,8 @@ class PermissionServiceTest {
         PermissionService p = PermissionService.get();
         assertTrue(p.visibleItems(Role.ADMIN).stream()
                 .anyMatch(i -> i.getId().equals("users")));
-        assertFalse(p.visibleItems(Role.VENDEUR).stream()
-                .anyMatch(i -> i.getId().equals("users")));
+        assertTrue(AppEdition.isSingleRole()
+                || p.visibleItems(Role.VENDEUR).stream()
+                .noneMatch(i -> i.getId().equals("users")));
     }
 }

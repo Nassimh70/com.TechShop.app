@@ -45,7 +45,7 @@ public final class MigrationService {
     /** Repli si le classpath n'expose pas le répertoire (JAR packagé). */
     private static final List<String> REPLI = List.of("V001__schema.sql", "V002__initial_data.sql",
             "V003__product_seed.sql", "V004__phase3_data.sql", "V005__phase4.sql", "V006__phase5.sql",
-            "V007__remove_purchases_module.sql");
+            "V007__remove_purchases_module.sql", "V008__single_role_mode.sql");
 
     public record Applied(String version, String description, long millis) {
     }

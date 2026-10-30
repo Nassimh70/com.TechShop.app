@@ -3,7 +3,7 @@ package com.techshop.model;
 /** Rôles utilisateurs (SPEC §3). Les permissions sont vérifiées dans les services. */
 public enum Role {
 
-    ADMIN("Administrateur"),
+    ADMIN("Gérant"),
     VENDEUR("Vendeur"),
     TECHNICIEN("Technicien");
 

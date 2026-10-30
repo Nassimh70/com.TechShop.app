@@ -1,6 +1,7 @@
 package com.techshop.controller;
 
 import com.techshop.dao.ActivityLogDao;
+import com.techshop.config.AppEdition;
 import com.techshop.model.ActivityLog;
 import com.techshop.model.Permission;
 import com.techshop.model.Role;
@@ -33,6 +34,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -59,6 +61,8 @@ public class UsersController {
     private VBox permsTab;
     @FXML
     private VBox journalTab;
+    @FXML
+    private TabPane tabs;
     @FXML
     private Button newUserBtn;
 
@@ -108,11 +112,6 @@ public class UsersController {
         champRecherche.setPrefWidth(280);
         champRecherche.textProperty().addListener((o, a, b) -> chargerUtilisateurs());
 
-        filtreRole = new ComboBox<>(FXCollections.observableArrayList(
-                "Tous les rôles", "Administrateur", "Vendeur", "Technicien"));
-        filtreRole.getStyleClass().add("field");
-        filtreRole.getSelectionModel().selectFirst();
-
         filtreStatut = new ComboBox<>(FXCollections.observableArrayList(
                 "Tous les statuts", "Actifs", "Inactifs"));
         filtreStatut.getStyleClass().add("field");
@@ -121,10 +120,14 @@ public class UsersController {
         Button rafraichir = Buttons.outline("Rafraîchir", "refresh-cw");
         rafraichir.setOnAction(e -> chargerUtilisateurs());
 
-        HBox barre = new HBox(10, champRecherche, filtreRole, filtreStatut, rafraichir);
+        HBox barre = AppEdition.isSingleRole()
+                ? new HBox(10, champRecherche, filtreStatut, rafraichir)
+                : new HBox(10, champRecherche, filtreRole, filtreStatut, rafraichir);
         barre.setAlignment(Pos.CENTER_LEFT);
 
-        filtreRole.setOnAction(e -> chargerUtilisateurs());
+        if (filtreRole != null) {
+            filtreRole.setOnAction(e -> chargerUtilisateurs());
+        }
         filtreStatut.setOnAction(e -> chargerUtilisateurs());
 
         tableUtilisateurs = new TableView<>(donneesUtilisateurs);
@@ -221,8 +224,9 @@ public class UsersController {
             }
         });
 
-        tableUtilisateurs.getColumns().setAll(
-                List.of(cUtilisateur, cRole, cStatut, cDerniere, cActions));
+        tableUtilisateurs.getColumns().setAll(AppEdition.isSingleRole()
+                ? List.of(cUtilisateur, cStatut, cDerniere, cActions)
+                : List.of(cUtilisateur, cRole, cStatut, cDerniere, cActions));
         cUtilisateur.setPrefWidth(280);
         cRole.setMinWidth(120);
         cStatut.setMinWidth(100);
@@ -259,6 +263,10 @@ public class UsersController {
 
     // ============================================================ PERMISSIONS
     private void construireOngletPermissions() {
+        if (AppEdition.isSingleRole()) {
+            tabs.getTabs().removeIf(tab -> tab.getContent() == permsTab);
+            return;
+        }
         Label intro = new Label("Cochez les droits accordés à chaque rôle, module par module. "
                 + "Les restrictions sont appliquées dans les services, pas seulement dans l'interface.");
         intro.getStyleClass().add("muted");
@@ -524,6 +532,10 @@ public class UsersController {
         cRole.setCellFactory(c -> celluleRole());
         cRole.setMaxWidth(Double.MAX_VALUE);
         FormField fRole = new FormField("Rôle", cRole, cRole);
+        if (AppEdition.isSingleRole()) {
+            fRole.setManaged(false);
+            fRole.setVisible(false);
+        }
 
         FormField fMotDePasse = creation ? Fields.password("Mot de passe initial") : null;
         CheckBox forcermdp = new CheckBox("Exiger le changement de mot de passe à la connexion");
@@ -537,7 +549,7 @@ public class UsersController {
             fEmail.setValue(existant.getEmail());
             cRole.setValue(existant.getRole());
         } else {
-            cRole.setValue(Role.VENDEUR);
+            cRole.setValue(Role.ADMIN);
         }
 
         Label erreur = new Label();
@@ -546,7 +558,9 @@ public class UsersController {
         erreur.setManaged(false);
         erreur.setVisible(false);
 
-        VBox corps = new VBox(12, fNom, fIdentifiant, fTelephone, fEmail, fRole);
+        VBox corps = AppEdition.isSingleRole()
+                ? new VBox(12, fNom, fIdentifiant, fTelephone, fEmail)
+                : new VBox(12, fNom, fIdentifiant, fTelephone, fEmail, fRole);
         if (fMotDePasse != null) {
             corps.getChildren().add(fMotDePasse);
             corps.getChildren().add(forcermdp);

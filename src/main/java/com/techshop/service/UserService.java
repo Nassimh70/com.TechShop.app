@@ -2,6 +2,7 @@ package com.techshop.service;
 
 import com.techshop.dao.PermissionDao;
 import com.techshop.dao.UserDao;
+import com.techshop.config.AppEdition;
 import com.techshop.model.ActivityActions;
 import com.techshop.model.Permission;
 import com.techshop.model.Role;
@@ -76,6 +77,9 @@ public final class UserService {
     public int create(String username, String fullName, String phone, String email,
                       Role role, String motDePasse, boolean forcerChangement) {
         exigerPermission(Action.CREATE);
+        if (AppEdition.isSingleRole()) {
+            role = Role.ADMIN;
+        }
         String id = validerIdentifiant(username, 0);
         String nom = validerNom(fullName);
         if (role == null) {
@@ -101,6 +105,9 @@ public final class UserService {
     public void update(int id, String fullName, String phone, String email,
                        Role role, boolean active) {
         exigerPermission(Action.EDIT);
+        if (AppEdition.isSingleRole()) {
+            role = Role.ADMIN;
+        }
         String nom = validerNom(fullName);
         if (role == null) {
             throw new ValidationException("role", "Veuillez choisir un rôle.");
@@ -108,11 +115,9 @@ public final class UserService {
         try {
             User existant = users.findById(id).orElseThrow(
                     () -> new ValidationException("Utilisateur introuvable."));
-            // Protection : ne pas retirer le rôle ADMIN du dernier administrateur actif
-            if (existant.getRole() == Role.ADMIN && role != Role.ADMIN && existant.isActive()
-                    && active && users.countActiveAdmins() <= 1) {
-                throw new ValidationException("role",
-                        "Impossible de retirer le rôle du dernier administrateur actif.");
+            if (!active && existant.isActive() && users.countActiveAdmins() <= 1) {
+                throw new ValidationException(
+                        "Impossible de désactiver le dernier compte actif.");
             }
             users.update(id, nom, phone, email, role, active);
             journal.log(ActivityActions.MODIFICATION, "users", id,
@@ -134,10 +139,9 @@ public final class UserService {
                 throw new ValidationException(
                         "Vous ne pouvez pas désactiver votre propre compte.");
             }
-            if (!active && cible.getRole() == Role.ADMIN && cible.isActive()
-                    && users.countActiveAdmins() <= 1) {
+            if (!active && cible.isActive() && users.countActiveAdmins() <= 1) {
                 throw new ValidationException(
-                        "Impossible de désactiver le dernier administrateur actif.");
+                        "Impossible de désactiver le dernier compte actif.");
             }
             users.setActive(id, active);
             journal.log(active ? ActivityActions.ACTIVATION : ActivityActions.DESACTIVATION,

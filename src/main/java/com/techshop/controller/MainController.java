@@ -40,7 +40,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
@@ -114,12 +113,6 @@ public class MainController {
     @FXML
     private MenuButton userMenu;
     @FXML
-    private RadioMenuItem roleAdminItem;
-    @FXML
-    private RadioMenuItem roleVendorItem;
-    @FXML
-    private RadioMenuItem roleTechItem;
-    @FXML
     private MenuItem logoutItem;
 
     // --- Contenu + overlay ---
@@ -160,7 +153,6 @@ public class MainController {
 
         buildSidebar();
         buildHeader();
-        wireRolePreview();
         installShortcuts();
     }
 
@@ -547,36 +539,9 @@ public class MainController {
                 });
     }
 
-    // -------------------------------------------------------------- aperçu du rôle
-
-    private void wireRolePreview() {
-        roleAdminItem.setOnAction(e -> applyRole(Role.ADMIN));
-        roleVendorItem.setOnAction(e -> applyRole(Role.VENDEUR));
-        roleTechItem.setOnAction(e -> applyRole(Role.TECHNICIEN));
-
-        // Déconnexion depuis le menu utilisateur
-        logoutItem.setGraphic(Icons.feather("log-out", 15));
-
-        Role r = SessionContext.get().getRole();
-        roleAdminItem.setSelected(r == Role.ADMIN);
-        roleVendorItem.setSelected(r == Role.VENDEUR);
-        roleTechItem.setSelected(r == Role.TECHNICIEN);
-    }
-
-    private void applyRole(Role role) {
-        SessionContext.get().setDisplayRole(role);
-        buildSidebar();
-        buildHeader();
-        updateRoleLabel();
-        NavigationService.get().navigate("dashboard");
-        ToastService.get().info("Aperçu du rôle",
-                "Menu filtré pour le rôle « " + role.getLabel() + " » (démonstration)");
-    }
-
     private void updateRoleLabel() {
         Role real = SessionContext.get().realRole();
-        Role display = SessionContext.get().getRole();
-        userRole.setText(display == real ? real.getLabel() : display.getLabel() + " (aperçu)");
+        userRole.setText(real.getLabel());
     }
 
     // ------------------------------------------------------------- palette Ctrl+K

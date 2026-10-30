@@ -10,10 +10,8 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Priority?>
@@ -23,10 +21,6 @@
 <StackPane fx:id="appRoot" styleClass="app-root"
            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.techshop.controller.MainController">
-
-    <fx:define>
-        <ToggleGroup fx:id="roleToggle"/>
-    </fx:define>
 
     <BorderPane>
         <!-- ============================ Barre latérale ============================ -->
@@ -96,17 +90,6 @@
                                    onMousePressed="#onCashChip"/>
                             <MenuButton fx:id="userMenu" styleClass="user-menu">
                                 <items>
-                                    <Menu text="Aperçu du rôle (démo)">
-                                        <items>
-                                            <RadioMenuItem fx:id="roleAdminItem" selected="true"
-                                                           text="Administrateur" toggleGroup="$roleToggle"/>
-                                            <RadioMenuItem fx:id="roleVendorItem"
-                                                           text="Vendeur" toggleGroup="$roleToggle"/>
-                                            <RadioMenuItem fx:id="roleTechItem"
-                                                           text="Technicien" toggleGroup="$roleToggle"/>
-                                        </items>
-                                    </Menu>
-                                    <SeparatorMenuItem/>
                                     <MenuItem fx:id="logoutItem" onAction="#onLogout" text="Se déconnecter"/>
                                 </items>
                             </MenuButton>

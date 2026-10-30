@@ -1,5 +1,6 @@
 package com.techshop.service;
 
+import com.techshop.config.AppEdition;
 import com.techshop.model.Role;
 import com.techshop.model.User;
 import javafx.beans.property.ObjectProperty;
@@ -51,6 +52,9 @@ public final class SessionContext {
 
     // --- Rôle effectif ---
     public Role getRole() {
+        if (AppEdition.isSingleRole()) {
+            return Role.ADMIN;
+        }
         Role r = displayRole.get();
         if (r != null) {
             return r;
@@ -60,7 +64,7 @@ public final class SessionContext {
     }
 
     public void setDisplayRole(Role role) {
-        displayRole.set(role);
+        displayRole.set(AppEdition.isSingleRole() ? Role.ADMIN : role);
     }
 
     public ObjectProperty<Role> displayRoleProperty() {
@@ -69,6 +73,9 @@ public final class SessionContext {
 
     /** L'utilisateur réel (différent du rôle d'aperçu le cas échéant). */
     public Role realRole() {
+        if (AppEdition.isSingleRole()) {
+            return Role.ADMIN;
+        }
         User u = user.get();
         return u == null ? Role.ADMIN : u.getRole();
     }

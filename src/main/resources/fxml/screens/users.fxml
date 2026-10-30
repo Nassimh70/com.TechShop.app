@@ -17,7 +17,7 @@
     <HBox styleClass="page-header">
         <VBox spacing="2">
             <Label styleClass="section-title" text="Utilisateurs &amp; sécurité"/>
-            <Label styleClass="muted" text="Comptes, rôles, permissions et journal d'activité"/>
+            <Label styleClass="muted" text="Comptes et journal d'activité"/>
         </VBox>
         <Region HBox.hgrow="ALWAYS"/>
         <Button fx:id="newUserBtn" styleClass="btn,btn-primary" text="Nouvel utilisateur"/>
