@@ -12,6 +12,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.techshop.model.ActivityActions;
+import com.techshop.config.AppPaths;
 import com.techshop.model.Product;
 import com.techshop.util.Format;
 import com.techshop.util.ValidationException;
@@ -50,8 +51,7 @@ public final class LabelService {
             throw new ValidationException("Aucun produit à étiqueter.");
         }
         int n = Math.max(1, Math.min(copies, 50));
-        Path dossier = Files.createDirectories(
-                Path.of(System.getProperty("user.dir"), "data", "etiquettes"));
+        Path dossier = Files.createDirectories(AppPaths.dataDirectory().resolve("etiquettes"));
         Path fichier = dossier.resolve("etiquettes-" + System.currentTimeMillis() + ".pdf");
 
         Document document = new Document(PageSize.A4, 24, 24, 24, 24);

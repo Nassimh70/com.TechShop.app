@@ -12,6 +12,7 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import com.techshop.config.AppPaths;
 import com.techshop.model.ActivityActions;
 import com.techshop.model.Sale;
 import com.techshop.model.SaleItem;
@@ -311,8 +312,7 @@ public final class SaleDocumentService {
     }
 
     private static Path fichier(String dossier, String nom) throws IOException {
-        Path dir = Files.createDirectories(
-                Path.of(System.getProperty("user.dir"), "data", dossier));
+        Path dir = Files.createDirectories(AppPaths.dataDirectory().resolve(dossier));
         return dir.resolve(nom + "-" + System.currentTimeMillis() + ".pdf");
     }
 

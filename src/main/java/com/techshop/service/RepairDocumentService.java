@@ -11,6 +11,7 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import com.techshop.config.AppPaths;
 import com.techshop.model.ActivityActions;
 import com.techshop.model.RepairPart;
 import com.techshop.model.RepairPayment;
@@ -524,8 +525,7 @@ public final class RepairDocumentService {
     }
 
     private static Path fichier(String dossier, String nom) throws IOException {
-        Path dir = Files.createDirectories(
-                Path.of(System.getProperty("user.dir"), "data", dossier));
+        Path dir = Files.createDirectories(AppPaths.dataDirectory().resolve(dossier));
         return dir.resolve(nom + "-" + System.currentTimeMillis() + ".pdf");
     }
 

@@ -22,7 +22,7 @@ public final class AppConfig {
     private static final Properties props = new Properties();
 
     /** Fichier externe facultatif, à côté du répertoire de travail. */
-    private static final Path FICHIER_EXTERNE = Path.of("config", "db.properties");
+    private static final Path FICHIER_EXTERNE = AppPaths.configDirectory().resolve("db.properties");
 
     static {
         reload();
@@ -101,7 +101,7 @@ public final class AppConfig {
     }
 
     public static int dbPort() {
-        return getInt("db.port", 3306);
+        return getInt("db.port", 3307);
     }
 
     public static String dbName() {
@@ -109,7 +109,7 @@ public final class AppConfig {
     }
 
     public static String dbUser() {
-        return get("db.user", "root");
+        return get("db.user", "techshop");
     }
 
     public static String dbPassword() {

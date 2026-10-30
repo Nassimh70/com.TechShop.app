@@ -3,6 +3,7 @@ package com.techshop.controller;
 import com.techshop.app.AppShell;
 import com.techshop.config.AppConfig;
 import com.techshop.config.DatabaseManager;
+import com.techshop.config.PortableDatabaseService;
 import com.techshop.ui.Icons;
 import com.techshop.ui.Overlays;
 import com.techshop.ui.components.Buttons;
@@ -47,9 +48,13 @@ public class DbErrorController {
         errorIcon.getChildren().setAll(Icons.feather("database", 30));
 
         String erreur = DatabaseManager.getLastError();
-        messageLabel.setText(erreur == null
-                ? "La base de données n'est pas joignable."
-                : erreur);
+        String diagnostic = erreur == null
+                ? "La base de données n'est pas joignable." : erreur;
+        if (!PortableDatabaseService.isAvailable()) {
+            diagnostic += "\n\nLe runtime MariaDB embarqué est absent. "
+                    + "Configurez un serveur MariaDB/MySQL local pour continuer.";
+        }
+        messageLabel.setText(diagnostic);
         messageLabel.setWrapText(true);
         messageLabel.setMaxWidth(560);
 
@@ -66,7 +71,7 @@ public class DbErrorController {
         champHote = Fields.text("Hôte", "localhost");
         champPort = Fields.number("Port", "3306");
         champBase = Fields.text("Base de données", "techshop");
-        champUtilisateur = Fields.text("Utilisateur", "root");
+        champUtilisateur = Fields.text("Utilisateur", "techshop");
         champMotDePasse = Fields.password("Mot de passe");
 
         champHote.setValue(AppConfig.dbHost());
