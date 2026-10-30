@@ -103,13 +103,21 @@ public final class BackupService {
      * sécurité est d'abord créée dans le dossier par défaut.
      */
     public RestoreResult restore(Path fichier, String mysqlBin) throws IOException, InterruptedException {
+        return restore(fichier, mysqlBin, defaultDirectory());
+    }
+
+    /**
+     * Restaure un dump SQL avec un dossier MySQL et un dossier de sécurité
+     * explicites. La sauvegarde de sécurité est créée avant la restauration.
+     */
+    public RestoreResult restore(Path fichier, String mysqlBin, Path dossierSecurite)
+            throws IOException, InterruptedException {
         if (fichier == null || !Files.isRegularFile(fichier)) {
             throw new IOException("Fichier de sauvegarde introuvable.");
         }
-        Path securite = backupNow(defaultDirectory(), mysqlBin);
-
         Path mysql = executable("mysql", mysqlBin).orElseThrow(() -> new IOException(
                 "mysql introuvable. Vérifiez le dossier MySQL (bin) dans les paramètres."));
+        Path securite = backupNow(dossierSecurite, mysqlBin);
 
         List<String> commande = new ArrayList<>();
         commande.add(mysql.toString());
@@ -117,6 +125,7 @@ public final class BackupService {
         commande.add("--port=" + AppConfig.dbPort());
         commande.add("--user=" + AppConfig.dbUser());
         ajouterMotDePasse(commande);
+        commande.add(AppConfig.dbName());
 
         executer(commande, fichier);
         log.info("Base restaurée depuis {}", fichier.toAbsolutePath());

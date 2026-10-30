@@ -23,7 +23,7 @@
         <VBox fx:id="nav" styleClass="card,settings-nav" spacing="4"
               prefWidth="230" minWidth="210" maxWidth="260"/>
         <ScrollPane fx:id="scroll" styleClass="page-scroll" fitToWidth="true"
-                    hbarPolicy="NEVER" HBox.hgrow="ALWAYS">
+                    HBox.hgrow="ALWAYS">
             <VBox fx:id="contenu" styleClass="settings-content" spacing="16"/>
         </ScrollPane>
     </HBox>

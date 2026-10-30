@@ -101,6 +101,7 @@ public class SettingsController {
         nav.setMaxHeight(Double.MAX_VALUE);
         construireSections();
         charger();
+        ecouterModifications();
         afficherSection(sectionActive);
         chargement = false;
     }
@@ -304,17 +305,17 @@ public class SettingsController {
     private void charger() {
         try {
             Map<String, String> valeurs = dao.all();
-            fShopName.setValue(premier(valeurs, "TechShop", "shop.name", "store.name"));
-            fShopPhone.setValue(premier(valeurs, "", "shop.phone", "store.phone"));
-            fShopEmail.setValue(premier(valeurs, "", "shop.email", "store.email"));
-            fShopAddress.setValue(premier(valeurs, "", "shop.address", "store.address"));
-            fShopTaxId.setValue(premier(valeurs, "", "shop.tax_id", "store.tax_id"));
+            fShopName.setValue(premier(valeurs, "TechShop", "store.name", "shop.name"));
+            fShopPhone.setValue(premier(valeurs, "", "store.phone", "shop.phone"));
+            fShopEmail.setValue(premier(valeurs, "", "store.email", "shop.email"));
+            fShopAddress.setValue(premier(valeurs, "", "store.address", "shop.address"));
+            fShopTaxId.setValue(premier(valeurs, "", "store.tax_id", "shop.tax_id"));
             fFooter.setValue(premier(valeurs, "Merci de votre confiance.", "ticket.footer"));
 
             tAutoPrint.setSelected(bool(valeurs, "print.auto_ticket", true));
             tShowVat.setSelected(bool(valeurs, "sales.vat_on_ticket", true));
 
-            logoPath = premier(valeurs, "", "shop.logo", "print.logo_path");
+            logoPath = premier(valeurs, "", "print.logo_path", "shop.logo");
             tLogo.setSelected(bool(valeurs, "print.logo", logoPath != null && !logoPath.isBlank()));
             majLogo();
 
@@ -325,7 +326,6 @@ public class SettingsController {
 
             lblEtat.setText("Paramètres chargés");
             lblEtat.getStyleClass().remove("warning-text");
-            ecouterModifications();
         } catch (Exception e) {
             ToastService.get().error("Paramètres", "Chargement impossible : " + e.getMessage());
             lblEtat.setText("Chargement impossible");
@@ -377,6 +377,11 @@ public class SettingsController {
         valeurs.put("backup.dir", fBackupDir.textValue().trim());
         valeurs.put("backup.mysql_bin", fMysqlBin.textValue().trim());
         valeurs.put("backup.auto_on_exit", String.valueOf(tAutoBackup.isSelected()));
+        // Anciennes clés de l'écran Paramètres : vidées après migration vers shop.*
+        for (String ancienne : List.of("store.name", "store.address", "store.phone",
+                "store.email", "store.tax_id", "print.logo_path")) {
+            valeurs.put(ancienne, "");
+        }
 
         try {
             Tx.run(() -> {
@@ -468,13 +473,13 @@ public class SettingsController {
             lblLogo.setText("Aucun logo sélectionné");
             return;
         }
-        Path fichier = Path.of(logoPath);
-        if (!Files.isRegularFile(fichier)) {
-            logoPreview.setImage(null);
-            lblLogo.setText("Fichier introuvable : " + logoPath);
-            return;
-        }
         try {
+            Path fichier = Path.of(logoPath);
+            if (!Files.isRegularFile(fichier)) {
+                logoPreview.setImage(null);
+                lblLogo.setText("Fichier introuvable : " + logoPath);
+                return;
+            }
             logoPreview.setImage(new Image(fichier.toUri().toString(), 56, 56, true, true));
             lblLogo.setText(fichier.getFileName().toString());
         } catch (Exception e) {
@@ -490,9 +495,13 @@ public class SettingsController {
         choix.setTitle(titre);
         String actuel = champ.textValue();
         if (actuel != null && !actuel.isBlank()) {
-            Path dossier = Path.of(actuel.trim());
-            if (Files.isDirectory(dossier)) {
-                choix.setInitialDirectory(dossier.toFile());
+            try {
+                Path dossier = Path.of(actuel.trim());
+                if (Files.isDirectory(dossier)) {
+                    choix.setInitialDirectory(dossier.toFile());
+                }
+            } catch (Exception ignored) {
+                // chemin invalide : le sélecteur reste sur son dossier par défaut
             }
         }
         File fichier = choix.showDialog(fenetre());
@@ -548,20 +557,21 @@ public class SettingsController {
         DialogService.get().confirm("Restaurer la base de données",
                 "Cette opération remplace toutes les données actuelles par celles du fichier « "
                         + fichier.getName() + " ». Une sauvegarde de sécurité sera créée avant. "
-                        + "Continuer ?", "Restaurer", true).thenAccept(confirme -> {
+                        + "N'utilisez pas l'application pendant la restauration. Continuer ?",
+                "Restaurer", true).thenAccept(confirme -> {
             if (confirme) {
-                restaurer(fichier.toPath());
+                restaurer(fichier.toPath(), dossier);
             }
         });
     }
 
-    private void restaurer(Path fichier) {
+    private void restaurer(Path fichier, Path dossierSecurite) {
         String bin = fMysqlBin.textValue();
         setBackupBusy(true, "Restauration en cours…");
         Task<BackupService.RestoreResult> tache = new Task<>() {
             @Override
             protected BackupService.RestoreResult call() throws Exception {
-                return BackupService.get().restore(fichier, bin);
+                return BackupService.get().restore(fichier, bin, dossierSecurite);
             }
         };
         tache.setOnSucceeded(e -> {
@@ -586,10 +596,10 @@ public class SettingsController {
 
     private Path dossierSauvegarde() {
         String texte = fBackupDir.textValue();
-        Path dossier = texte == null || texte.isBlank()
-                ? Path.of(System.getProperty("user.dir"), "data", "backups")
-                : Path.of(texte.trim());
         try {
+            Path dossier = texte == null || texte.isBlank()
+                    ? Path.of(System.getProperty("user.dir"), "data", "backups")
+                    : Path.of(texte.trim());
             Files.createDirectories(dossier);
             return dossier;
         } catch (Exception e) {

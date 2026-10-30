@@ -560,19 +560,6 @@
     -fx-text-fill: #F1F5F9;
 }
 
-/* Textes des formulaires de la page Paramètres (labels sans classe) */
-.settings-tabs .label {
-    -fx-text-fill: #F1F5F9;
-}
-
-.settings-tabs .check-box {
-    -fx-text-fill: #F1F5F9;
-}
-
-.settings-tabs .muted {
-    -fx-text-fill: #94A3B8;
-}
-
 /* ----------------------------- Interrupteur ------------------------------- */
 .switch {
     -fx-background-color: #263449;

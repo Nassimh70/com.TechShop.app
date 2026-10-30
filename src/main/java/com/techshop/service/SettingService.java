@@ -54,28 +54,43 @@ public final class SettingService {
 
     // -------------------------------------------------------- raccourcis
 
+    /** Première valeur non vide parmi plusieurs clés (migration douce). */
+    private String getAny(String defaut, String... cles) {
+        for (String cle : cles) {
+            try {
+                var valeur = dao.get(cle).filter(v -> !v.isBlank());
+                if (valeur.isPresent()) {
+                    return valeur.get();
+                }
+            } catch (Exception e) {
+                log.warn("Lecture du paramètre « {} » impossible : {}", cle, e.getMessage());
+            }
+        }
+        return defaut;
+    }
+
     public String shopName() {
-        return get("shop.name", "TechShop");
+        return getAny("TechShop", "store.name", "shop.name");
     }
 
     public String shopAddress() {
-        return get("shop.address", "");
+        return getAny("", "store.address", "shop.address");
     }
 
     public String shopPhone() {
-        return get("shop.phone", "");
+        return getAny("", "store.phone", "shop.phone");
     }
 
     public String shopEmail() {
-        return get("shop.email", "");
+        return getAny("", "store.email", "shop.email");
     }
 
     public String shopTaxId() {
-        return get("shop.tax_id", "");
+        return getAny("", "store.tax_id", "shop.tax_id");
     }
 
     public String shopLogo() {
-        return get("shop.logo", "");
+        return getAny("", "print.logo_path", "shop.logo");
     }
 
     public boolean autoPrintTicket() {
@@ -87,7 +102,8 @@ public final class SettingService {
     }
 
     public boolean logoOnDocuments() {
-        return Boolean.parseBoolean(get("print.logo", "false"));
+        String logo = shopLogo();
+        return Boolean.parseBoolean(get("print.logo", logo.isBlank() ? "false" : "true"));
     }
 
     public String ticketFooter() {
