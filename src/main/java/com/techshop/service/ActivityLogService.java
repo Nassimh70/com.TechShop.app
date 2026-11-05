@@ -3,12 +3,10 @@ package com.techshop.service;
 import com.techshop.config.DatabaseManager;
 import com.techshop.dao.ActivityLogDao;
 import com.techshop.model.ActivityActions;
-import com.techshop.model.ActivityLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -51,35 +49,6 @@ public final class ActivityLogService implements ActivityAudit {
             dao.insert(userId, action, entity, entityId, details, "local");
         } catch (SQLException e) {
             log.warn("Écriture du journal d'activité impossible : {}", e.getMessage());
-        }
-    }
-
-    /** Recherche filtrable (module Utilisateurs > onglet Journal). */
-    public List<ActivityLog> search(ActivityLogDao.Filter filtre) {
-        try {
-            return dao.search(filtre);
-        } catch (SQLException e) {
-            log.warn("Lecture du journal d'activité impossible : {}", e.getMessage());
-            return List.of();
-        }
-    }
-
-    /** Utilisateurs pour la liste déroulante du journal. */
-    public List<ActivityLogDao.UtilisateurOption> utilisateurs() {
-        try {
-            return dao.utilisateurs();
-        } catch (SQLException e) {
-            log.warn("Lecture des utilisateurs du journal impossible : {}", e.getMessage());
-            return List.of();
-        }
-    }
-
-    /** Actions distinctes présentes dans le journal. */
-    public List<String> actionsDistinctes() {
-        try {
-            return dao.actionsDistinctes();
-        } catch (SQLException e) {
-            return List.of();
         }
     }
 

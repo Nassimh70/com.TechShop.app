@@ -75,8 +75,7 @@ public final class SetupService {
                             "Cette installation possède déjà un compte. Configuration refusée.");
                 }
                 int ownerId = users.insert(data.username().trim(), Passwords.hash(data.password()),
-                        data.ownerName().trim(), null, blank(data.email()), com.techshop.model.Role.ADMIN,
-                        true, false);
+                        data.ownerName().trim(), null, blank(data.email()), true, false);
                 set("store.name", data.storeName().trim());
                 set("store.address", blank(data.address()));
                 set("store.phone", blank(data.phone()));

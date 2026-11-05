@@ -10,7 +10,7 @@
 
     <groupId>com.techshop</groupId>
     <artifactId>techshop-manager</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>TechShop Manager</name>
     <description>Application de gestion commerciale : stock, caisse (POS) et SAV.</description>
@@ -26,10 +26,38 @@
         <slf4j.version>2.0.13</slf4j.version>
         <logback.version>1.5.6</logback.version>
         <junit.version>5.10.2</junit.version>
-        <main.class>com.techshop.app.MainApp</main.class>
+        <main.class>com.techshop.app.Launcher</main.class>
+        <!-- APP_IMAGE : dossier portable avec TechShopManager.exe (sans WiX).
+             Sur une machine équipée de WiX, utiliser -Djpackage.type=EXE ou MSI. -->
+        <jpackage.type>APP_IMAGE</jpackage.type>
     </properties>
 
+    <!-- licence-core est fourni dans lib/repo : le projet se construit sans
+         dépendre d'un dépôt interne. Le jar ne contient que la vérification
+         par clé publique (aucune clé privée, aucun code de signature). -->
+    <repositories>
+        <repository>
+            <id>techshop-vendored</id>
+            <name>TechShop vendored dependencies</name>
+            <url>file:///${project.basedir}/lib/repo</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <!-- Vérification de licence hors ligne (clé publique uniquement) -->
+        <dependency>
+            <groupId>dev.techshop</groupId>
+            <artifactId>license-core</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
         <!-- ============ JavaFX (controls, fxml, graphiques pour les courbes/anneaux) ============ -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -210,17 +238,21 @@
                         <configuration>
                             <name>TechShopManager</name>
                             <vendor>TechShop</vendor>
+                            <description>Gestion commerciale TechShop Manager</description>
+                            <copyright>© 2026 TechShop</copyright>
                             <appVersion>1.0.0</appVersion>
-                            <type>MSI</type>
+                            <type>${jpackage.type}</type>
                             <icon>${project.basedir}/src/main/resources/images/brand/techshop.ico</icon>
                             <input>${project.build.directory}/deps</input>
-                            <dest>${project.build.directory}/dist</dest>
+                            <destination>${project.build.directory}/dist</destination>
                             <mainJar>${project.build.finalName}.jar</mainJar>
-                            <mainClass>com.techshop.app.MainApp</mainClass>
-                            <!-- Options JavaFX / ouverture de modules (classpath) -->
+                            <mainClass>${main.class}</mainClass>
+                            <!-- Options JavaFX / encodage / ouverture de modules (classpath) -->
                             <javaOptions>
                                 <option>--add-opens</option>
                                 <option>java.base/java.lang=ALL-UNNAMED</option>
+                                <option>-Dfile.encoding=UTF-8</option>
+                                <option>-Dtechshop.profile=prod</option>
                             </javaOptions>
                         </configuration>
                         <executions>

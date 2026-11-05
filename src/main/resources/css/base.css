@@ -999,6 +999,26 @@
     -fx-border-width: 1px;
 }
 
+.auth-success {
+    -fx-font-size: 12px;
+    -fx-padding: 8 12;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+}
+
+/* ======================== �cran de licence ============================= */
+.license-headline {
+    -fx-font-size: 29px;
+    -fx-font-weight: bold;
+    -fx-line-spacing: 2px;
+}
+
+.license-field-title {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
 .auth-feature {
     -fx-spacing: 10;
     -fx-alignment: CENTER_LEFT;
@@ -1062,31 +1082,6 @@
 
 .conn-hint {
     -fx-font-size: 12px;
-}
-
-/* ==================== Matrice de permissions (utilisateurs) ============= */
-.perm-grid {
-    -fx-padding: 18;
-}
-
-.perm-head {
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-alignment: center;
-}
-
-.perm-module {
-    -fx-font-size: 13px;
-}
-
-.temp-password {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-alignment: center;
-    -fx-padding: 14;
-    -fx-background-radius: 10px;
-    -fx-border-radius: 10px;
-    -fx-border-width: 1px;
 }
 
 /* ==================== Produits & stock (SPEC §4.5, §4.6) ================ */

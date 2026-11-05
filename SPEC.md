@@ -30,16 +30,15 @@ Composants à créer comme classes réutilisables (package ui) avec leurs styles
 - Raccourcis clavier affichés en petites touches à côté des actions principales.
 
 Structure de l'interface :
-- Barre latérale gauche fixe : 248 px dépliée, 72 px repliée (icônes seules, bouton de repli). Logo + nom en haut, entrées avec icône, entrée active surlignée (fond indigo léger + barre indigo à gauche), utilisateur connecté en bas. Menu filtré selon le rôle.
-- Barre supérieure (64 px) : titre de page + fil d'Ariane, bouton "Rechercher… Ctrl+K" (palette de commandes : produits, clients, ventes, réparations, actions rapides), bascule thème, cloche avec compteur (alertes de stock, réparations prêtes, dettes en retard), indicateur "Caisse ouverte/fermée", avatar + nom + rôle, déconnexion.
+- Barre latérale gauche fixe : 248 px dépliée, 72 px repliée (icônes seules, bouton de repli). Logo + nom en haut, entrées avec icône, entrée active surlignée (fond indigo léger + barre indigo à gauche), utilisateur connecté en bas. Le menu complet est accessible à tous les comptes.
+- Barre supérieure (64 px) : titre de page + fil d'Ariane, bouton "Rechercher… Ctrl+K" (palette de commandes : produits, clients, ventes, réparations, actions rapides), bascule thème, cloche avec compteur (alertes de stock, réparations prêtes, dettes en retard), indicateur "Caisse ouverte/fermée", avatar + nom du compte, déconnexion.
 - Zone de contenu avec marges de 24 px, défilement vertical interne.
 - Fenêtre redimensionnable, taille minimale 1280x720, adaptée de 1366x768 à 1920x1080.
 
-# 3. RÔLES ET PERMISSIONS
-- ADMIN : accès à tout.
-- VENDEUR : point de vente, ventes (siennes), clients, consultation produits et stock, sa propre caisse.
-- TECHNICIEN : SAV/réparations, pièces, consultation produits et stock.
-Permissions par module stockées en base (table permissions) et vérifiées dans les services, pas seulement masquées dans l'interface.
+# 3. PROFIL D'ACCÈS UNIQUE
+- Le module Utilisateurs, les rôles et la matrice de permissions ont été retirés.
+- Tous les comptes authentifiés disposent du même niveau d'accès (« Gérant »).
+- La table `users` reste nécessaire à la connexion et à l'historique des opérations ; les tables `roles` et `permissions` sont supprimées par la migration `V011`.
 
 # 4. MODULES ET ÉCRANS
 1. Connexion : écran scindé (marque à gauche, formulaire à droite), message d'erreur, blocage temporaire après 5 échecs.
@@ -52,12 +51,11 @@ Permissions par module stockées en base (table permissions) et vérifiées dans
 8. SAV/Réparations (écran signature) : vue Kanban par statut (Reçu, Diagnostic, En attente de pièce, En réparation, Prête, Livrée, Annulée) avec glisser-déposer et vue tableau ; dépôt en 4 étapes (client, appareil+état à la réception, panne+devis, acompte+date prévue+technicien) ; fiche (chronologie des statuts, diagnostic, pièces utilisées avec déduction du stock, main-d'œuvre, total, acomptes, reste à payer, garantie réparation, notes internes, photos) ; bon de dépôt et bon de retrait imprimables avec code-barres ; remise de l'appareil avec paiement du solde ; notification client simulée (journalisée).
 9. Caisse & Finances : ouverture (fonds initial), clôture (espèces attendues vs comptées par coupures, écart coloré), entrées/sorties de caisse avec motif, dépenses par catégorie, journal des opérations, résumé journalier, graphique recettes/dépenses.
 10. Rapports : ventes par période, bénéfices, produits les plus vendus, stock valorisé, performance vendeurs/techniciens, réparations (par statut, délai moyen), dettes clients. Filtres de dates, graphiques, export PDF/Excel, impression.
-11. Utilisateurs : liste, création/modification, matrice de permissions, activation/désactivation, réinitialisation du mot de passe, journal d'activité.
-12. Paramètres : magasin (nom, logo, adresse, téléphone, mentions du ticket), ventes et taxes (TVA, numérotation), impression, seuils de stock par défaut, sauvegarde et restauration de la base (mysqldump), apparence (thème, taille de police), à propos.
+11. Paramètres : magasin (nom, logo, adresse, téléphone, mentions du ticket), ventes et taxes (TVA, numérotation), impression, seuils de stock par défaut, sauvegarde et restauration de la base (mysqldump), apparence (thème, taille de police), licence, à propos.
 
 # 5. MODÈLE DE DONNÉES (à implémenter via scripts SQL versionnés dans resources/db/)
-Tables : roles, users, permissions, activity_log, settings, categories, brands, products (ref, barcode unique, prix achat, prix vente, tva, seuil alerte, suivi_imei, garantie_mois, actif), product_units (IMEI/numéro de série unique, statut), stock_movements (type, quantité, motif, référence liée, utilisateur, date), customers, sales, sale_items, sale_payments, sale_returns, cash_sessions, cash_movements, expense_categories, repair_tickets, repair_status_history, repair_parts, repair_payments, repair_attachments, notifications_log.
-Contraintes : clés étrangères, index sur code-barres, IMEI, dates, numéros de documents. Suppressions logiques (champ actif) pour produits, clients, utilisateurs. Numérotation séquentielle par type (V-2026-000001, R-2026-000001).
+Tables : users, activity_log, settings, categories, brands, products (ref, barcode unique, prix achat, prix vente, tva, seuil alerte, suivi_imei, garantie_mois, actif), product_units (IMEI/numéro de série unique, statut), stock_movements (type, quantité, motif, référence liée, utilisateur, date), customers, sales, sale_items, sale_payments, sale_returns, cash_sessions, cash_movements, expense_categories, repair_tickets, repair_status_history, repair_parts, repair_payments, repair_attachments, notifications_log.
+Contraintes : clés étrangères, index sur code-barres, IMEI, dates, numéros de documents. Suppressions logiques (champ actif) pour produits et clients. Numérotation séquentielle par type (V-2026-000001, R-2026-000001).
 
 # 6. RÈGLES MÉTIER
 - Une vente est une transaction unique : lignes, paiements, mouvements de stock, mise à jour du statut des IMEI, dette client, tout ou rien.

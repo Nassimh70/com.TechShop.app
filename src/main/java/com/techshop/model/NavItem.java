@@ -1,10 +1,7 @@
 package com.techshop.model;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 /**
- * Définition d'une entrée de navigation : écran + rôles autorisés.
+ * Définition d'une entrée de navigation : écran et libellés associés.
  * Si {@code fxml} est null, NavigationService affiche l'écran générique
  * « Module en cours de construction » (squelette, SPEC §4).
  */
@@ -15,29 +12,21 @@ public final class NavItem {
     private final String section;
     private final String icon;       // code Ikonli Feather, ex. "home"
     private final String fxml;       // chemin relatif sous /fxml (null = à venir)
-    private final Set<Role> roles;
     private final String breadcrumb; // fil d'Ariane (« Accueil »...)
 
     public NavItem(String id, String title, String section, String icon, String fxml,
-                   String breadcrumb, Set<Role> roles) {
+                   String breadcrumb) {
         this.id = id;
         this.title = title;
         this.section = section;
         this.icon = icon;
         this.fxml = fxml;
         this.breadcrumb = breadcrumb;
-        this.roles = roles == null || roles.isEmpty() ? EnumSet.allOf(Role.class) : roles;
     }
 
-    /** Fabrique : écran accessible à tous les rôles. */
+    /** Fabrique : écran accessible à tous les comptes. */
     public static NavItem all(String id, String title, String section, String icon, String fxml) {
-        return new NavItem(id, title, section, icon, fxml, null, EnumSet.allOf(Role.class));
-    }
-
-    /** Fabrique : écran restreint à certains rôles. */
-    public static NavItem of(String id, String title, String section, String icon, String fxml,
-                             Role... roles) {
-        return new NavItem(id, title, section, icon, fxml, null, EnumSet.of(roles[0], roles));
+        return new NavItem(id, title, section, icon, fxml, null);
     }
 
     public String getId() {
@@ -60,16 +49,8 @@ public final class NavItem {
         return fxml;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
     public String getBreadcrumb() {
         return breadcrumb;
-    }
-
-    public boolean allows(Role role) {
-        return roles.contains(role);
     }
 
     @Override

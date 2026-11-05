@@ -37,18 +37,16 @@ avec Maven, JDBC/MariaDB, HikariCP et jBCrypt.
 - Les données de démonstration sont actuellement exécutées par la chaîne de
   migration standard.
 
-### Démonstration de rôles
+### Module Utilisateurs retiré
 
-- `Role` contient `ADMIN`, `VENDEUR` et `TECHNICIEN`.
-- `main.fxml` expose « Aperçu du rôle (démo) ».
-- `MainController` peut modifier le rôle d'affichage dans la session.
-- `SessionContext` distingue actuellement le rôle réel du rôle affiché.
-- `UsersController` expose les rôles, les filtres par rôle et la matrice de
-  permissions.
-
-Le mode mono-rôle conserve les constantes historiques pour la compatibilité
-des bases et des tests, mais masque ces concepts dans l'interface et force les
-nouveaux comptes vers le rôle `ADMIN`, affiché comme « Gérant ».
+- L'écran Utilisateurs, `UsersController`, `UserService`, la matrice de
+  permissions et l'onglet Journal d'activité ont été supprimés.
+- `Role` ne contient plus que `ADMIN` (« Gérant »), profil unique de tous les
+  comptes authentifiés.
+- `SessionContext` ne gère plus de rôle d'affichage ni d'aperçu de rôle.
+- La migration `V011__remove_users_roles_permissions.sql` supprime les tables
+  `roles` et `permissions` ainsi que la colonne `users.role_id`. La table
+  `users` est conservée pour la connexion et l'historique (`user_id`).
 
 ## Dépendances d'installation identifiées
 
@@ -66,8 +64,7 @@ nouveaux comptes vers le rôle `ADMIN`, affiché comme « Gérant ».
 - Les mots de passe applicatifs sont hachés avec BCrypt.
 - Les requêtes DAO inspectées utilisent des paramètres JDBC.
 - Le verrouillage intervient après cinq échecs pendant quinze minutes.
-- Les connexions, échecs, changements de mot de passe et opérations de comptes
-  sont journalisés.
+- Les connexions, échecs et changements de mot de passe sont journalisés.
 - La session est conservée en mémoire et vidée lors de la déconnexion.
 
 ## Risques à traiter dans les phases suivantes
@@ -79,19 +76,16 @@ nouveaux comptes vers le rôle `ADMIN`, affiché comme « Gérant ».
 3. Persister l'état d'installation et protéger l'initialisation concurrente.
 4. Remplacer la dépendance XAMPP par une base portable ou un repli
    d'installation clairement diagnostiqué.
-5. Migrer vers des permissions atomiques uniquement si le mode multi-rôle est
-   réactivé.
-6. Déplacer les données applicatives, journaux et secrets hors du dossier
+5. Déplacer les données applicatives, journaux et secrets hors du dossier
    d'installation.
 
 ## État de référence
 
 La suite de tests existante a été exécutée avec `mvn test` :
 
-- 79 tests exécutés
+- 75 tests exécutés
 - 0 échec
 - 0 erreur
 
-Ce résultat valide l'état avant les phases de transformation ; il ne valide
-pas encore le premier lancement, la récupération par clé ou l'installation
-Windows autonome.
+Ce résultat valide l'état courant après retrait du module Utilisateurs ; il ne
+valide pas encore la totalité des parcours métier sur une base de production.

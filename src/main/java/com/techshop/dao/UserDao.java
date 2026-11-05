@@ -16,16 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Accès aux utilisateurs (SPEC §1 : JDBC pur, requêtes préparées).
- * Les méthodes sont surchargeables afin de permettre des tests sans base.
+ * Accès aux comptes de connexion (SPEC §1 : JDBC pur, requêtes préparées).
+ *
+ * <p>Le module Utilisateurs et les rôles ont été retirés : la table
+ * {@code users} ne contient plus de colonne {@code role_id}. Les comptes
+ * restent nécessaires à l'authentification et à l'historique des opérations.</p>
  */
 public class UserDao {
 
-    /** Colonnes communes de sélection (jointure rôle). */
+    /** Colonnes communes de sélection. */
     private static final String SELECT = "SELECT u.id, u.username, u.password_hash, u.full_name, "
             + "u.phone, u.email, u.active, u.must_change_password, u.failed_attempts, "
-            + "u.locked_until, u.last_login, r.code AS role_code "
-            + "FROM users u JOIN roles r ON r.id = u.role_id ";
+            + "u.locked_until, u.last_login "
+            + "FROM users u ";
 
     /** Recherche un utilisateur par identifiant de connexion. */
     public Optional<User> findByUsername(String username) throws SQLException {
@@ -48,8 +51,8 @@ public class UserDao {
         }
     }
 
-    /** Liste filtrée : recherche textuelle, rôle, statut actif. */
-    public List<User> search(String recherche, Role role, Boolean actif) throws SQLException {
+    /** Liste filtrée : recherche textuelle et statut actif. */
+    public List<User> search(String recherche, Boolean actif) throws SQLException {
         StringBuilder sql = new StringBuilder(SELECT).append("WHERE 1 = 1 ");
         List<Object> params = new ArrayList<>();
         if (recherche != null && !recherche.isBlank()) {
@@ -58,10 +61,6 @@ public class UserDao {
             params.add(like);
             params.add(like);
             params.add(like);
-        }
-        if (role != null) {
-            sql.append("AND r.code = ? ");
-            params.add(role.name());
         }
         if (actif != null) {
             sql.append("AND u.active = ? ");
@@ -83,12 +82,11 @@ public class UserDao {
         }
     }
 
-    /** Insère un utilisateur et renvoie son identifiant généré. */
+    /** Insère un compte et renvoie son identifiant généré. */
     public int insert(String username, String passwordHash, String fullName, String phone,
-                      String email, Role role, boolean active, boolean mustChange) throws SQLException {
-        String sql = "INSERT INTO users (username, password_hash, full_name, phone, email, role_id, "
-                + "active, must_change_password) VALUES (?, ?, ?, ?, ?, "
-                + "(SELECT id FROM roles WHERE code = ?), ?, ?)";
+                      String email, boolean active, boolean mustChange) throws SQLException {
+        String sql = "INSERT INTO users (username, password_hash, full_name, phone, email, "
+                + "active, must_change_password) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, username);
@@ -96,40 +94,12 @@ public class UserDao {
             ps.setString(3, fullName);
             ps.setString(4, vide(phone));
             ps.setString(5, vide(email));
-            ps.setString(6, role.name());
-            ps.setInt(7, active ? 1 : 0);
-            ps.setInt(8, mustChange ? 1 : 0);
+            ps.setInt(6, active ? 1 : 0);
+            ps.setInt(7, mustChange ? 1 : 0);
             ps.executeUpdate();
             try (ResultSet keys = ps.getGeneratedKeys()) {
                 return keys.next() ? keys.getInt(1) : 0;
             }
-        }
-    }
-
-    /** Met à jour les informations d'un utilisateur (hors mot de passe). */
-    public void update(int id, String fullName, String phone, String email,
-                       Role role, boolean active) throws SQLException {
-        String sql = "UPDATE users SET full_name = ?, phone = ?, email = ?, "
-                + "role_id = (SELECT id FROM roles WHERE code = ?), active = ? WHERE id = ?";
-        try (Connection c = DatabaseManager.connection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, fullName);
-            ps.setString(2, vide(phone));
-            ps.setString(3, vide(email));
-            ps.setString(4, role.name());
-            ps.setInt(5, active ? 1 : 0);
-            ps.setInt(6, id);
-            ps.executeUpdate();
-        }
-    }
-
-    /** Active ou désactive un compte. */
-    public void setActive(int id, boolean active) throws SQLException {
-        try (Connection c = DatabaseManager.connection();
-             PreparedStatement ps = c.prepareStatement("UPDATE users SET active = ? WHERE id = ?")) {
-            ps.setInt(1, active ? 1 : 0);
-            ps.setInt(2, id);
-            ps.executeUpdate();
         }
     }
 
@@ -169,32 +139,6 @@ public class UserDao {
         }
     }
 
-    /** Nombre d'administrateurs actifs (protège le dernier admin). */
-    public int countActiveAdmins() throws SQLException {
-        String sql = "SELECT COUNT(*) FROM users u JOIN roles r ON r.id = u.role_id "
-                + "WHERE r.code = 'ADMIN' AND u.active = 1";
-        try (Connection c = DatabaseManager.connection();
-             Statement st = c.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            rs.next();
-            return rs.getInt(1);
-        }
-    }
-
-    /** Un identifiant de connexion est-il déjà pris (hors utilisateur exclu) ? */
-    public boolean usernameExists(String username, int excludeId) throws SQLException {
-        try (Connection c = DatabaseManager.connection();
-             PreparedStatement ps = c.prepareStatement(
-                     "SELECT COUNT(*) FROM users WHERE username = ? AND id <> ?")) {
-            ps.setString(1, username);
-            ps.setInt(2, excludeId);
-            try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                return rs.getInt(1) > 0;
-            }
-        }
-    }
-
     // ------------------------------------------------------------------ mapping
 
     private static User map(ResultSet rs) throws SQLException {
@@ -207,7 +151,7 @@ public class UserDao {
                 rs.getString("full_name"),
                 rs.getString("phone"),
                 rs.getString("email"),
-                Role.valueOf(rs.getString("role_code")),
+                Role.ADMIN,
                 rs.getInt("active") == 1,
                 rs.getInt("must_change_password") == 1,
                 rs.getInt("failed_attempts"),

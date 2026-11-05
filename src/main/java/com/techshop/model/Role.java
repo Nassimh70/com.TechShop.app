@@ -1,11 +1,15 @@
 package com.techshop.model;
 
-/** Rôles utilisateurs (SPEC §3). Les permissions sont vérifiées dans les services. */
+/**
+ * Profil d'accès unique de l'application.
+ *
+ * <p>Le module Utilisateurs, les rôles et la matrice de permissions ont été
+ * retirés. Tous les comptes disposent donc du même niveau d'accès. La constante
+ * est conservée pour l'affichage de l'en-tête et la compatibilité des modèles.</p>
+ */
 public enum Role {
 
-    ADMIN("Gérant"),
-    VENDEUR("Vendeur"),
-    TECHNICIEN("Technicien");
+    ADMIN("Gérant");
 
     private final String label;
 

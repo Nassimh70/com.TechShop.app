@@ -864,6 +864,12 @@
     -fx-border-color: #FCA5A5;
 }
 
+.auth-success {
+    -fx-text-fill: #15803D;
+    -fx-background-color: #DCFCE7;
+    -fx-border-color: #86EFAC;
+}
+
 .auth-logout {
     -fx-text-fill: rgba(255, 255, 255, 0.9);
 }
@@ -904,21 +910,6 @@
 
 .conn-hint {
     -fx-text-fill: #64748B;
-}
-
-/* ==================== Matrice de permissions (utilisateurs) ============= */
-.perm-head {
-    -fx-text-fill: #94A3B8;
-}
-
-.perm-module {
-    -fx-text-fill: #0F172A;
-}
-
-.temp-password {
-    -fx-text-fill: #0F172A;
-    -fx-background-color: #F1F5F9;
-    -fx-border-color: #E2E8F0;
 }
 
 /* ==================== Produits & stock (SPEC §4.5, §4.6) ================ */

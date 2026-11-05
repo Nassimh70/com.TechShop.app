@@ -4,7 +4,6 @@ import com.techshop.dao.RepairTicketDao;
 import com.techshop.dao.UserDao;
 import com.techshop.model.RepairStatus;
 import com.techshop.model.RepairTicket;
-import com.techshop.model.Role;
 import com.techshop.model.User;
 import com.techshop.service.MenuRegistry;
 import com.techshop.service.NavigationService;
@@ -89,7 +88,7 @@ public class RepairsController {
         statusFilter.valueProperty().addListener((o, a, b) -> charger());
 
         try {
-            techniciens.addAll(users.search(null, Role.TECHNICIEN, true));
+            techniciens.addAll(users.search(null, true));
         } catch (Exception ignored) {
         }
         techFilter.getItems().add("Tous les techniciens");

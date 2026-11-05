@@ -46,7 +46,8 @@ public final class MigrationService {
     private static final List<String> REPLI = List.of("V001__schema.sql", "V002__initial_data.sql",
             "V003__product_seed.sql", "V004__phase3_data.sql", "V005__phase4.sql", "V006__phase5.sql",
             "V007__remove_purchases_module.sql", "V008__single_role_mode.sql",
-            "V009__phase5_schema.sql", "V010__production_reference_data.sql");
+            "V009__phase5_schema.sql", "V010__production_reference_data.sql",
+            "V011__remove_users_roles_permissions.sql");
 
     public record Applied(String version, String description, long millis) {
     }

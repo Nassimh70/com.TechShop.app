@@ -3,8 +3,9 @@ package com.techshop.app;
 import com.techshop.config.DatabaseManager;
 import com.techshop.config.ThemeManager;
 import com.techshop.controller.MainController;
+import com.techshop.license.LicenseScreen;
+import com.techshop.license.LicenseService;
 import com.techshop.service.BackupService;
-import com.techshop.service.PermissionService;
 import com.techshop.service.SetupService;
 import com.techshop.ui.Branding;
 import com.techshop.ui.components.LoadingIndicator;
@@ -54,7 +55,38 @@ public final class AppShell {
         stage.setScene(scene);
         stage.show();
 
-        bootstrap();
+        checkLicense();
+    }
+
+    /**
+     * Vérifie la licence hors ligne avant toute ouverture de la base.
+     * Un poste sans licence valide reste bloqué sur l'écran d'activation.
+     */
+    private static void checkLicense() {
+        LicenseService.LicenseStatus status;
+        try {
+            status = LicenseService.current();
+        } catch (RuntimeException e) {
+            log.error("Vérification de la licence impossible", e);
+            status = null;
+        }
+        if (status != null && status.isAccepted()) {
+            if (status.state() == LicenseService.State.EXPIRING_SOON) {
+                log.warn("Licence {} : {}", status.activityLabel(), status.message());
+            }
+            bootstrap();
+            return;
+        }
+        showLicense(status);
+    }
+
+    /** Affiche l'écran d'activation (licence absente, expirée ou invalide). */
+    public static void showLicense() {
+        showLicense(LicenseService.current());
+    }
+
+    private static void showLicense(LicenseService.LicenseStatus status) {
+        setRoot(LicenseScreen.create(status, AppShell::bootstrap));
     }
 
     /** Initialise la base en tâche de fond puis affiche l'écran approprié. */
@@ -64,8 +96,6 @@ public final class AppShell {
             DatabaseManager.init();
             Platform.runLater(() -> {
                 if (DatabaseManager.isReady()) {
-                    // Matrice de permissions chargée depuis la base
-                    PermissionService.get().reload();
                     if (SetupService.get().isSetupRequired()) {
                         showSetup();
                     } else {

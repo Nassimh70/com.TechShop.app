@@ -540,8 +540,7 @@ public class MainController {
     }
 
     private void updateRoleLabel() {
-        Role real = SessionContext.get().realRole();
-        userRole.setText(real.getLabel());
+        userRole.setText(SessionContext.get().getRole().getLabel());
     }
 
     // ------------------------------------------------------------- palette Ctrl+K

@@ -4,7 +4,6 @@ import com.techshop.dao.UserDao;
 import com.techshop.model.Customer;
 import com.techshop.model.PaymentMethod;
 import com.techshop.model.RepairTicket;
-import com.techshop.model.Role;
 import com.techshop.model.User;
 import com.techshop.service.RepairDocumentService;
 import com.techshop.service.RepairService;
@@ -83,7 +82,7 @@ public final class RepairDepositDialog {
             tech.getStyleClass().add("field");
             tech.setMaxWidth(Double.MAX_VALUE);
             try {
-                tech.getItems().setAll(new ArrayList<>(new UserDao().search(null, Role.TECHNICIEN, true)));
+                tech.getItems().setAll(new ArrayList<>(new UserDao().search(null, true)));
             } catch (Exception ignored) {
             }
             User moi = SessionContext.get().getUser();

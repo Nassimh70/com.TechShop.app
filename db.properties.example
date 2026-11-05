@@ -1,8 +1,14 @@
-db.driver=com.mysql.cj.jdbc.Driver
-db.url=jdbc:mysql://localhost:3306/techshop?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+# TechShop Manager - configuration de la base de données
+# Copier ce fichier dans config/db.properties à côté de TechShopManager.exe
+# puis adapter l'hôte, le port, le nom de la base et les identifiants.
+
+db.host=localhost
+db.port=3306
+db.name=techshop
 db.user=root
 db.password=
-pool.maxSize=20
-pool.minIdle=5
-pool.idleTimeoutMs=600000
-pool.connectionTimeoutMs=30000
+
+# --- Pool de connexions HikariCP ---
+db.pool.size=10
+db.pool.minIdle=2
+db.pool.timeoutMs=30000

@@ -24,6 +24,7 @@ class MigrationServiceTest {
         assertFalse(scripts.contains("V006__phase5.sql"));
         assertTrue(scripts.contains("V009__phase5_schema.sql"));
         assertTrue(scripts.contains("V010__production_reference_data.sql"));
+        assertTrue(scripts.contains("V011__remove_users_roles_permissions.sql"));
     }
 
     @Test
@@ -35,5 +36,6 @@ class MigrationServiceTest {
         assertTrue(scripts.contains("V003__product_seed.sql"));
         assertTrue(scripts.contains("V004__phase3_data.sql"));
         assertTrue(scripts.contains("V006__phase5.sql"));
+        assertTrue(scripts.contains("V011__remove_users_roles_permissions.sql"));
     }
 }

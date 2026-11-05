@@ -4,6 +4,7 @@ import com.techshop.config.AppConfig;
 import com.techshop.config.ThemeManager;
 import com.techshop.config.Tx;
 import com.techshop.dao.SettingDao;
+import com.techshop.license.LicenseService;
 import com.techshop.service.BackupService;
 import com.techshop.ui.Icons;
 import com.techshop.ui.components.Buttons;
@@ -22,6 +23,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -32,6 +35,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -95,6 +99,14 @@ public class SettingsController {
     private Button btnBackup;
     private Button btnRestore;
 
+    // --- Licence ---
+    private Label licenseBadge;
+    private Label licenseMessage;
+    private Label licenseCustomer;
+    private Label licenseType;
+    private Label licenseExpiry;
+    private Label licensePath;
+
     @FXML
     void initialize() {
         btnSave.setGraphic(Icons.feather("save", 16));
@@ -113,6 +125,7 @@ public class SettingsController {
         sections.put("documents", contenuDocuments());
         sections.put("apparence", contenuApparence());
         sections.put("sauvegarde", contenuSauvegarde());
+        sections.put("licence", contenuLicence());
         sections.put("apropos", contenuAPropos());
 
         nav.getChildren().clear();
@@ -121,6 +134,7 @@ public class SettingsController {
         ajouterNav("documents", "Documents", "file-text");
         ajouterNav("apparence", "Apparence", "moon");
         ajouterNav("sauvegarde", "Sauvegarde", "database");
+        ajouterNav("licence", "Licence", "key");
         ajouterNav("apropos", "À propos", "info");
     }
 
@@ -285,6 +299,135 @@ public class SettingsController {
                 new HBox(8, btnBackup, btnRestore),
                 lblBackup);
         return new VBox(16, carte);
+    }
+
+    private Node contenuLicence() {
+        licenseBadge = new Label();
+        licenseBadge.getStyleClass().add("badge");
+        licenseMessage = new Label();
+        licenseMessage.getStyleClass().add("muted");
+        licenseMessage.setWrapText(true);
+
+        licenseCustomer = licenceValue();
+        licenseType = licenceValue();
+        licenseExpiry = licenceValue();
+
+        GridPane infos = new GridPane();
+        infos.setHgap(16);
+        infos.setVgap(8);
+        infos.add(licenceLabel("Client"), 0, 0);
+        infos.add(licenseCustomer, 1, 0);
+        infos.add(licenceLabel("Type"), 0, 1);
+        infos.add(licenseType, 1, 1);
+        infos.add(licenceLabel("Expiration"), 0, 2);
+        infos.add(licenseExpiry, 1, 2);
+
+        TextField device = new TextField(LicenseService.deviceId());
+        device.setEditable(false);
+        device.setFocusTraversable(false);
+        device.getStyleClass().add("mono");
+        device.setStyle("-fx-font-size: 11px;");
+        HBox.setHgrow(device, Priority.ALWAYS);
+        Button copy = Buttons.secondary("Copier", "copy");
+        copy.setOnAction(e -> {
+            ClipboardContent content = new ClipboardContent();
+            content.putString(device.getText());
+            Clipboard.getSystemClipboard().setContent(content);
+            ToastService.get().success("Licence", "Identifiant de l'ordinateur copié.");
+        });
+        HBox deviceRow = new HBox(8, device, copy);
+        deviceRow.setAlignment(Pos.CENTER_LEFT);
+
+        Button importer = Buttons.primary("Importer une licence...", "upload");
+        importer.setOnAction(e -> importerLicence());
+        Button dossier = Buttons.secondary("Ouvrir le dossier", "folder");
+        dossier.setOnAction(e -> ouvrirDossierLicence());
+        HBox actions = new HBox(8, importer, dossier);
+
+        licensePath = new Label();
+        licensePath.getStyleClass().add("muted");
+        licensePath.setWrapText(true);
+
+        VBox statut = new VBox(6, licenseBadge, licenseMessage);
+        statut.getStyleClass().add("card-inset");
+
+        refreshLicenseUi();
+
+        return new VBox(16, carte("Licence du logiciel",
+                "La licence est vérifiée localement à chaque démarrage. "
+                        + "Communiquez l'identifiant ci-dessous pour obtenir un fichier .lic.",
+                statut, infos, deviceRow, actions, licensePath));
+    }
+
+    private void refreshLicenseUi() {
+        if (licenseBadge == null) {
+            return;
+        }
+        LicenseService.LicenseStatus status = LicenseService.current();
+        licenseBadge.setText(status.activityLabel());
+        licenseBadge.getStyleClass().removeAll("badge-success", "badge-warning",
+                "badge-danger", "badge-info", "badge-neutral");
+        licenseBadge.getStyleClass().add(status.badgeStyle());
+        licenseMessage.setText(status.message());
+
+        licenseCustomer.setText(status.customerName() == null ? "—" : status.customerName());
+        licenseType.setText(status.licenseTypeLabel() == null ? "—" : status.licenseTypeLabel());
+        if (status.expiresAt() == null) {
+            licenseExpiry.setText(status.isPresent() ? "Sans expiration" : "—");
+        } else {
+            long jours = status.daysRemaining();
+            licenseExpiry.setText(status.expiresAtLabel()
+                    + (jours >= 0 ? " (dans " + jours + " jour" + (jours > 1 ? "s" : "") + ")" : ""));
+        }
+        licensePath.setText("Fichier : " + status.file());
+    }
+
+    private void importerLicence() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Sélectionner le fichier de licence");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Licence TechShop (*.lic)", "*.lic"),
+                new FileChooser.ExtensionFilter("Tous les fichiers", "*.*"));
+        File selection = chooser.showOpenDialog(fenetre());
+        if (selection == null) {
+            return;
+        }
+        try {
+            LicenseService.LicenseStatus installed = LicenseService.install(selection.toPath());
+            refreshLicenseUi();
+            ToastService.get().success("Licence",
+                    "Licence installée pour " + installed.customerName() + ".");
+        } catch (LicenseService.LicenseInstallException e) {
+            ToastService.get().error("Licence refusée", e.getMessage());
+        } catch (RuntimeException e) {
+            ToastService.get().error("Licence", "Installation impossible : " + e.getMessage());
+        }
+    }
+
+    private void ouvrirDossierLicence() {
+        try {
+            Path directory = LicenseService.licenseDirectory();
+            Files.createDirectories(directory);
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+                Desktop.getDesktop().open(directory.toFile());
+            } else {
+                ToastService.get().info("Licence", directory.toString());
+            }
+        } catch (Exception e) {
+            ToastService.get().error("Licence", "Dossier inaccessible : " + e.getMessage());
+        }
+    }
+
+    private static Label licenceLabel(String text) {
+        Label label = new Label(text);
+        label.getStyleClass().add("muted");
+        return label;
+    }
+
+    private static Label licenceValue() {
+        Label label = new Label("—");
+        label.setWrapText(true);
+        return label;
     }
 
     private Node contenuAPropos() {

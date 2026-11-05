@@ -12,7 +12,6 @@ public final class ActivityActions {
     public static final String MODIFICATION = "MODIFICATION";
     public static final String ACTIVATION = "ACTIVATION";
     public static final String DESACTIVATION = "DESACTIVATION";
-    public static final String PERMISSIONS = "PERMISSIONS";
     /** Mouvement de stock (entrée, sortie, perte, retour...). */
     public static final String STOCK_MOUVEMENT = "STOCK_MOUVEMENT";
     /** Ajustement manuel de stock avec motif. */
