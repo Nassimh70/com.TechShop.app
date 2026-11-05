@@ -20,34 +20,33 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * Migrations de schéma versionnées (SPEC §5).
- * <p>
- * Au démarrage : crée la table {@code schema_version} si besoin, découvre les
- * scripts {@code db/V###__description.sql} du classpath (dans l'ordre des
- * versions) et applique uniquement ceux qui n'ont jamais été exécutés.
- * Chaque script est enregistré (version, description, empreinte SHA-256,
- * horodatage, durée). Compatible MySQL 5.7+ / MariaDB : aucune instruction
- * exclusive à MySQL 8 (les DDL déclenchent un commit implicite, le suivi se
- * fait donc instruction par instruction).
+ * Migrations de schéma versionnées pour SQLite.
+ *
+ * <p>Au démarrage : crée la table {@code schema_version} si besoin, découvre
+ * les scripts {@code db/sqlite/V###__description.sql} du classpath (dans
+ * l'ordre des versions) et applique uniquement ceux qui n'ont jamais été
+ * exécutés. Chaque script est enregistré (version, description, empreinte
+ * SHA-256, horodatage, durée) et exécuté dans une transaction : en cas
+ * d'erreur, le script entier est annulé.</p>
  */
 public final class MigrationService {
 
     private static final Logger log = LoggerFactory.getLogger(MigrationService.class);
 
-    /** Nom du répertoire des scripts dans les ressources. */
-    private static final String DOSSIER = "db";
+    /** Nom du répertoire des scripts SQLite dans les ressources. */
+    private static final String DOSSIER = "db/sqlite";
     /** Convention de nommage : V001__schema.sql */
     private static final Pattern NOM = Pattern.compile("V\\d+__[A-Za-z0-9_-]+\\.sql");
     /** Repli si le classpath n'expose pas le répertoire (JAR packagé). */
-    private static final List<String> REPLI = List.of("V001__schema.sql", "V002__initial_data.sql",
-            "V003__product_seed.sql", "V004__phase3_data.sql", "V005__phase4.sql", "V006__phase5.sql",
-            "V007__remove_purchases_module.sql", "V008__single_role_mode.sql",
-            "V009__phase5_schema.sql", "V010__production_reference_data.sql",
-            "V011__remove_users_roles_permissions.sql");
+    private static final List<String> REPLI = List.of(
+            "V001__schema.sql",
+            "V002__reference_data.sql",
+            "V003__demo_data.sql");
 
     public record Applied(String version, String description, long millis) {
     }
@@ -56,27 +55,75 @@ public final class MigrationService {
     }
 
     /**
-     * Applique les scripts manquants.
+     * Applique les scripts manquants pour le profil courant.
      *
      * @return la liste des scripts effectivement exécutés (vide si à jour)
      */
     public static List<Applied> apply(DataSource ds) throws SQLException {
+        return applyScripts(ds, scriptsForProfile());
+    }
+
+    /**
+     * Applique uniquement le schéma (V001), sans les données de référence.
+     * Utilisé par l'outil de migration MySQL → SQLite avant la copie des
+     * données sources.
+     */
+    public static List<Applied> applySchemaOnly(DataSource ds) throws SQLException {
+        List<String> scripts = discoverScripts().stream()
+                .filter(script -> script.startsWith("V001__"))
+                .toList();
+        return applyScripts(ds, scripts);
+    }
+
+    /**
+     * Enregistre une version comme déjà appliquée sans exécuter son script.
+     * Utilisé après une migration externe qui a déjà copié les données.
+     */
+    public static void markApplied(DataSource ds, String version, String description,
+                                   String script) throws SQLException {
+        try (Connection c = ds.getConnection()) {
+            ensureVersionTable(c);
+            if (!versionsAppliquees(c).contains(version)) {
+                enregistrer(c, version, description, null, script, 0);
+            }
+        }
+    }
+
+    private static List<Applied> applyScripts(DataSource ds, List<String> scripts) throws SQLException {
         List<Applied> appliques = new ArrayList<>();
         try (Connection c = ds.getConnection()) {
             ensureVersionTable(c);
             Set<String> deja = versionsAppliquees(c);
-            for (String script : scriptsForProfile()) {
+            for (String script : scripts) {
                 String version = version(script);
                 if (deja.contains(version)) {
                     continue;
                 }
                 String sql = lire(script);
                 long debut = System.currentTimeMillis();
-                executer(c, sql, script);
-                long duree = System.currentTimeMillis() - debut;
-                enregistrer(c, version, description(script), checksum(sql), script, duree);
-                appliques.add(new Applied(version, description(script), duree));
-                log.info("Migration {} appliquée en {} ms", script, duree);
+                boolean autoCommit = c.getAutoCommit();
+                c.setAutoCommit(false);
+                try {
+                    executer(c, sql, script);
+                    long duree = System.currentTimeMillis() - debut;
+                    enregistrer(c, version, description(script), checksum(sql), script, duree);
+                    c.commit();
+                    appliques.add(new Applied(version, description(script), duree));
+                    log.info("Migration {} appliquée en {} ms", script, duree);
+                } catch (SQLException e) {
+                    try {
+                        c.rollback();
+                    } catch (SQLException rollback) {
+                        e.addSuppressed(rollback);
+                    }
+                    throw e;
+                } finally {
+                    try {
+                        c.setAutoCommit(autoCommit);
+                    } catch (SQLException ignored) {
+                        // la connexion sera rendue au pool de toute façon
+                    }
+                }
             }
         }
         if (appliques.isEmpty()) {
@@ -121,16 +168,13 @@ public final class MigrationService {
     }
 
     static boolean estSeedDemo(String script) {
-        return script.equals("V003__product_seed.sql")
-                || script.equals("V004__phase3_data.sql")
-                || script.equals("V006__phase5.sql")
-                || script.equals("V002__initial_data.sql");
+        return script.equals("V003__demo_data.sql");
     }
 
     static String version(String script) {
         int sep = script.indexOf("__");
         String v = sep > 0 ? script.substring(1, sep) : script;
-        // Normalise « 001 » -> « 001 » (conserve les zéros significatifs)
+        // Conserve les zéros significatifs (« 001 »)
         return v;
     }
 
@@ -145,13 +189,13 @@ public final class MigrationService {
     private static void ensureVersionTable(Connection c) throws SQLException {
         try (Statement st = c.createStatement()) {
             st.executeUpdate("CREATE TABLE IF NOT EXISTS schema_version ("
-                    + "version VARCHAR(20) NOT NULL PRIMARY KEY, "
-                    + "description VARCHAR(255) NULL, "
-                    + "checksum VARCHAR(64) NULL, "
-                    + "script VARCHAR(255) NULL, "
-                    + "execution_ms INT NULL, "
-                    + "applied_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP"
-                    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+                    + "version TEXT NOT NULL PRIMARY KEY, "
+                    + "description TEXT NULL, "
+                    + "checksum TEXT NULL, "
+                    + "script TEXT NULL, "
+                    + "execution_ms INTEGER NULL, "
+                    + "applied_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))"
+                    + ")");
         }
     }
 
@@ -225,8 +269,9 @@ public final class MigrationService {
 
     /**
      * Découpe un script en instructions SQL : respecte les chaînes entre
-     * apostrophes ('') et les échappements, ignore les commentaires
-     * {@code -- ...} et {@code /* ... *}{@code /}.
+     * apostrophes, guillemets et backticks, ignore les commentaires
+     * {@code -- ...} et {@code /* ... *}{@code /}, et ne coupe pas à
+     * l'intérieur d'un corps de trigger {@code BEGIN ... END}.
      */
     static List<String> splitStatements(String script) {
         List<String> instructions = new ArrayList<>();
@@ -234,9 +279,11 @@ public final class MigrationService {
         boolean dansChaine = false;
         boolean dansLigne = false;
         boolean dansBloc = false;
+        boolean dansTrigger = false;
+        int profondeurBloc = 0;
         char quote = 0;
 
-        for (int i = 0; i < script.length(); i++) {
+        for (int i = 0; i < script.length(); ) {
             char ch = script.charAt(i);
             char suivant = i + 1 < script.length() ? script.charAt(i + 1) : '\0';
 
@@ -245,11 +292,14 @@ public final class MigrationService {
                     dansLigne = false;
                     courante.append('\n');
                 }
+                i++;
                 continue;
             }
             if (dansBloc) {
                 if (ch == '*' && suivant == '/') {
                     dansBloc = false;
+                    i += 2;
+                } else {
                     i++;
                 }
                 continue;
@@ -258,40 +308,75 @@ public final class MigrationService {
                 courante.append(ch);
                 if (ch == '\\' && suivant != '\0') {
                     courante.append(suivant);
-                    i++;
+                    i += 2;
                 } else if (ch == quote) {
                     if (suivant == quote) { // apostrophe doublée
                         courante.append(suivant);
-                        i++;
+                        i += 2;
                     } else {
                         dansChaine = false;
+                        i++;
                     }
+                } else {
+                    i++;
                 }
                 continue;
             }
             // Hors chaîne / commentaire
             if (ch == '-' && suivant == '-') {
                 dansLigne = true;
-                i++;
+                i += 2;
                 continue;
             }
             if (ch == '/' && suivant == '*') {
                 dansBloc = true;
-                i++;
+                i += 2;
                 continue;
             }
             if (ch == '\'' || ch == '"' || ch == '`') {
                 dansChaine = true;
                 quote = ch;
                 courante.append(ch);
+                i++;
+                continue;
+            }
+            if (Character.isLetter(ch) || ch == '_') {
+                int debut = i;
+                while (i < script.length()) {
+                    char c = script.charAt(i);
+                    if (!Character.isLetterOrDigit(c) && c != '_') {
+                        break;
+                    }
+                    i++;
+                }
+                String mot = script.substring(debut, i).toUpperCase(Locale.ROOT);
+                courante.append(script, debut, i);
+                if (dansTrigger) {
+                    if ("BEGIN".equals(mot) || "CASE".equals(mot)) {
+                        profondeurBloc++;
+                    } else if ("END".equals(mot)) {
+                        profondeurBloc = Math.max(0, profondeurBloc - 1);
+                    }
+                } else if ("TRIGGER".equals(mot)) {
+                    dansTrigger = true;
+                    profondeurBloc = 0;
+                }
                 continue;
             }
             if (ch == ';') {
-                instructions.add(courante.toString());
-                courante.setLength(0);
+                if (dansTrigger && profondeurBloc > 0) {
+                    courante.append(';');
+                } else {
+                    instructions.add(courante.toString());
+                    courante.setLength(0);
+                    dansTrigger = false;
+                    profondeurBloc = 0;
+                }
+                i++;
                 continue;
             }
             courante.append(ch);
+            i++;
         }
         if (!courante.toString().isBlank()) {
             instructions.add(courante.toString());

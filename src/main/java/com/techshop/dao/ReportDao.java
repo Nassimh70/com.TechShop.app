@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -22,12 +21,12 @@ public class ReportDao {
     public List<DayPoint> salesByDay(LocalDate from, LocalDate to) throws SQLException {
         String sql = "SELECT DATE(s.sale_date) d, COUNT(*) c, COALESCE(SUM(s.total),0) t, COALESCE(AVG(s.total),0) a FROM sales s WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY d ORDER BY d";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(from));
-            ps.setDate(2, Date.valueOf(to));
+            ps.setString(1, from.toString());
+            ps.setString(2, to.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<DayPoint> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add(new DayPoint(rs.getDate(1).toLocalDate(), rs.getLong(2), rs.getBigDecimal(3), rs.getBigDecimal(4)));
+                    list.add(new DayPoint(LocalDate.parse(rs.getString(1).substring(0, 10)), rs.getLong(2), rs.getBigDecimal(3), rs.getBigDecimal(4)));
                 }
                 return list;
             }
@@ -35,10 +34,10 @@ public class ReportDao {
     }
 
     public List<ProdPoint> topProducts(LocalDate from, LocalDate to) throws SQLException {
-        String sql = "SELECT p.name, p.ref, SUM(si.qty) q, COALESCE(SUM(si.line_total),0) t FROM sale_items si JOIN products p ON p.id=si.product_id JOIN sales s ON s.id=si.sale_id WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY p.id,p.name,p.ref ORDER BY q DESC LIMIT 10";
+        String sql = "SELECT p.name, p.ref, SUM(si.quantity) q, COALESCE(SUM(si.total),0) t FROM sale_items si JOIN products p ON p.id=si.product_id JOIN sales s ON s.id=si.sale_id WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY p.id,p.name,p.ref ORDER BY q DESC LIMIT 10";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(from));
-            ps.setDate(2, Date.valueOf(to));
+            ps.setString(1, from.toString());
+            ps.setString(2, to.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<ProdPoint> list = new ArrayList<>();
                 while (rs.next()) {
@@ -52,8 +51,8 @@ public class ReportDao {
     public List<UserPoint> salesByUser(LocalDate from, LocalDate to) throws SQLException {
         String sql = "SELECT COALESCE(u.full_name,u.username,'—') un, COUNT(*) c, COALESCE(SUM(s.total),0) t FROM sales s LEFT JOIN users u ON u.id=s.user_id WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY un ORDER BY t DESC";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(from));
-            ps.setDate(2, Date.valueOf(to));
+            ps.setString(1, from.toString());
+            ps.setString(2, to.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<UserPoint> list = new ArrayList<>();
                 while (rs.next()) {
@@ -73,8 +72,8 @@ public class ReportDao {
                 + "WHERE DATE(sm.movement_date) BETWEEN ? AND ? "
                 + "GROUP BY p.id,p.name,p.ref,p.quantity ORDER BY p.name";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(from));
-            ps.setDate(2, Date.valueOf(to));
+            ps.setString(1, from.toString());
+            ps.setString(2, to.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<StockMv> list = new ArrayList<>();
                 while (rs.next()) {
@@ -90,8 +89,8 @@ public class ReportDao {
                 + "COALESCE(SUM(rt.total),0) f FROM repair_tickets rt "
                 + "WHERE DATE(rt.created_at) BETWEEN ? AND ? GROUP BY rt.status ORDER BY c DESC";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(from));
-            ps.setDate(2, Date.valueOf(to));
+            ps.setString(1, from.toString());
+            ps.setString(2, to.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<RepSum> list = new ArrayList<>();
                 while (rs.next()) {
@@ -105,8 +104,8 @@ public class ReportDao {
     public List<CustPoint> topCustomers(LocalDate from, LocalDate to) throws SQLException {
         String sql = "SELECT c.full_name, c.phone, COUNT(DISTINCT s.id) ord, COALESCE(SUM(s.total),0) st, c.balance FROM sales s JOIN customers c ON c.id=s.customer_id WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY c.id,c.full_name,c.phone,c.balance ORDER BY st DESC LIMIT 20";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(from));
-            ps.setDate(2, Date.valueOf(to));
+            ps.setString(1, from.toString());
+            ps.setString(2, to.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<CustPoint> list = new ArrayList<>();
                 while (rs.next()) {
@@ -118,7 +117,7 @@ public class ReportDao {
     }
 
     public List<FinPoint> financesDaily(LocalDate from, LocalDate to) throws SQLException {
-        String sql = "SELECT d.dt, COALESCE(inv.inm,0) inm, COALESCE(outv.outm,0) outm, "
+        String sql = "SELECT inv.dt AS dt, COALESCE(inv.inm,0) inm, COALESCE(outv.outm,0) outm, "
                 + "COALESCE(inv.inm,0)-COALESCE(outv.outm,0) net "
                 + "FROM (SELECT DATE(s.sale_date) dt, SUM(s.total) inm FROM sales s "
                 + "WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY dt) inv "
@@ -136,20 +135,20 @@ public class ReportDao {
                 + "AND cm.type='SORTIE' GROUP BY dt) outv "
                 + "LEFT JOIN (SELECT DATE(s.sale_date) dt, SUM(s.total) inm FROM sales s "
                 + "WHERE DATE(s.sale_date) BETWEEN ? AND ? GROUP BY dt) inv ON outv.dt=inv.dt "
-                + "WHERE inv.dt IS NULL ORDER BY dt";
+                + "WHERE inv.dt IS NULL ORDER BY 1";
         try (Connection c = DatabaseManager.connection(); PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(from));
-            ps.setDate(2, Date.valueOf(to));
-            ps.setDate(3, Date.valueOf(from));
-            ps.setDate(4, Date.valueOf(to));
-            ps.setDate(5, Date.valueOf(from));
-            ps.setDate(6, Date.valueOf(to));
-            ps.setDate(7, Date.valueOf(from));
-            ps.setDate(8, Date.valueOf(to));
+            ps.setString(1, from.toString());
+            ps.setString(2, to.toString());
+            ps.setString(3, from.toString());
+            ps.setString(4, to.toString());
+            ps.setString(5, from.toString());
+            ps.setString(6, to.toString());
+            ps.setString(7, from.toString());
+            ps.setString(8, to.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<FinPoint> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add(new FinPoint(rs.getDate(1).toLocalDate(), rs.getBigDecimal(2), rs.getBigDecimal(3), rs.getBigDecimal(4)));
+                    list.add(new FinPoint(LocalDate.parse(rs.getString(1).substring(0, 10)), rs.getBigDecimal(2), rs.getBigDecimal(3), rs.getBigDecimal(4)));
                 }
                 return list;
             }

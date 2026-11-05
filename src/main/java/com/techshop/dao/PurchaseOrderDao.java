@@ -94,7 +94,7 @@ public class PurchaseOrderDao {
 
     public long nextNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
-             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTRING(number,3) AS UNSIGNED)), 0)+1 FROM purchase_orders WHERE number LIKE 'A-%'")) {
+             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTR(number,3) AS INTEGER)), 0)+1 FROM purchase_orders WHERE number LIKE 'A-%'")) {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getLong(1) : 1;
             }
@@ -107,8 +107,8 @@ public class PurchaseOrderDao {
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, po.getNumber() == null ? "A-" + String.format("%06d", nextNumber()) : po.getNumber());
             ps.setInt(2, po.getSupplierId());
-            ps.setDate(3, po.getOrderDate() == null ? java.sql.Date.valueOf(LocalDate.now()) : java.sql.Date.valueOf(po.getOrderDate()));
-            ps.setDate(4, po.getExpectedDate() == null ? null : java.sql.Date.valueOf(po.getExpectedDate()));
+            ps.setString(3, (po.getOrderDate() == null ? LocalDate.now() : po.getOrderDate()).toString());
+            ps.setString(4, po.getExpectedDate() == null ? null : po.getExpectedDate().toString());
             ps.setString(5, po.getStatus().name());
             ps.setBigDecimal(6, po.getSubtotal());
             ps.setBigDecimal(7, po.getDiscount());
@@ -169,8 +169,9 @@ public class PurchaseOrderDao {
         po.setNumber(rs.getString("number"));
         po.setSupplierId(rs.getInt("supplier_id"));
         po.setSupplierName(rs.getString("supplier_name"));
-        po.setOrderDate(rs.getDate("order_date").toLocalDate());
-        if (rs.getDate("expected_date") != null) po.setExpectedDate(rs.getDate("expected_date").toLocalDate());
+        po.setOrderDate(LocalDate.parse(rs.getString("order_date").substring(0, 10)));
+        String expected = rs.getString("expected_date");
+        if (expected != null) po.setExpectedDate(LocalDate.parse(expected.substring(0, 10)));
         po.setStatus(PurchaseOrder.Status.valueOf(rs.getString("status")));
         po.setSubtotal(rs.getBigDecimal("subtotal"));
         po.setDiscount(rs.getBigDecimal("discount"));

@@ -203,7 +203,7 @@ public class ProductDao {
     public long nextRefNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(
-                     "SELECT COALESCE(MAX(CAST(SUBSTRING(ref, 3) AS UNSIGNED)), 0) + 1 "
+                     "SELECT COALESCE(MAX(CAST(SUBSTR(ref, 3) AS INTEGER)), 0) + 1 "
                              + "FROM products WHERE ref LIKE 'P-%'");
              ResultSet rs = ps.executeQuery()) {
             rs.next();
@@ -333,12 +333,16 @@ public class ProductDao {
         }
     }
 
-    /** Verrouille la ligne produit et renvoie ses données de stock (SELECT ... FOR UPDATE). */
+    /**
+     * Renvoie les données de stock d'un produit dans la transaction courante.
+     * SQLite sérialise les écritures : la transaction appelante suffit à garantir
+     * la cohérence, aucun verrou explicite ({@code FOR UPDATE}) n'est nécessaire.
+     */
     public Optional<Product> lockForUpdate(int id) throws SQLException {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(
                      "SELECT id, ref, name, quantity, avg_cost, purchase_price, alert_threshold, "
-                             + "track_imei, sale_price FROM products WHERE id = ? FOR UPDATE")) {
+                             + "track_imei, sale_price FROM products WHERE id = ?")) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {

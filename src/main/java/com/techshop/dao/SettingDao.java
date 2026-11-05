@@ -41,7 +41,7 @@ public class SettingDao {
 
     public void set(String cle, String valeur) throws SQLException {
         String sql = "INSERT INTO settings (cle, valeur) VALUES (?, ?) "
-                + "ON DUPLICATE KEY UPDATE valeur = VALUES(valeur)";
+                + "ON CONFLICT(cle) DO UPDATE SET valeur = excluded.valeur";
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, cle);

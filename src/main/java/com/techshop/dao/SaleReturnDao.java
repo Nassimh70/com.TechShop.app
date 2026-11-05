@@ -23,7 +23,7 @@ public class SaleReturnDao {
     public long nextNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(
-                     "SELECT COALESCE(MAX(CAST(SUBSTRING(number, 4) AS UNSIGNED)), 0) + 1 "
+                     "SELECT COALESCE(MAX(CAST(SUBSTR(number, 4) AS INTEGER)), 0) + 1 "
                              + "FROM sale_returns WHERE number LIKE 'RT-%'")) {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getLong(1) : 1;

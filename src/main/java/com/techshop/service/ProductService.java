@@ -362,7 +362,10 @@ public final class ProductService {
             return;
         }
         for (Product existant : products.findByName(nom)) {
-            if (memeProduit(existant, p)) {
+            // Un produit désactivé (suppression logique) ne doit pas empêcher
+            // de recréer un produit du même nom : il est masqué de la liste
+            // par défaut et reste accessible via « Afficher les inactifs ».
+            if (existant.isActive() && memeProduit(existant, p)) {
                 throw new ValidationException("name",
                         "Ce produit existe déjà (« " + existant.getName() + " », réf. "
                                 + existant.getRef() + "). Pour l'ajouter comme nouveau produit, "

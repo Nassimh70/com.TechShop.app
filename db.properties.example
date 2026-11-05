@@ -1,14 +1,18 @@
-# TechShop Manager - configuration de la base de données
-# Copier ce fichier dans config/db.properties à côté de TechShopManager.exe
-# puis adapter l'hôte, le port, le nom de la base et les identifiants.
+# TechShop Manager - configuration de la base de données SQLite
+# Copier ce fichier dans config/db.properties à côté de l'application
+# uniquement si vous devez déplacer le fichier de base ou les sauvegardes.
+#
+# Par défaut, aucune configuration n'est nécessaire :
+#   base        : %APPDATA%/TechShopManager/data/techshop.db
+#   sauvegardes : %APPDATA%/TechShopManager/backups
 
-db.host=localhost
-db.port=3306
-db.name=techshop
-db.user=root
-db.password=
+# Emplacement facultatif du fichier SQLite (absolu, ou relatif au dossier de données).
+#db.path=data/techshop.db
+
+# Dossier facultatif des sauvegardes.
+#backup.dir=backups
 
 # --- Pool de connexions HikariCP ---
-db.pool.size=10
-db.pool.minIdle=2
+db.pool.size=4
+db.pool.minIdle=1
 db.pool.timeoutMs=30000

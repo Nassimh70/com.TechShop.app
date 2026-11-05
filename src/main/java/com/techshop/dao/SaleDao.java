@@ -28,8 +28,8 @@ public class SaleDao {
             + "s.subtotal, s.discount, s.tax, s.total, s.paid_amount, s.due_amount, s.profit, "
             + "s.payment_status, s.status, s.note, s.created_at, "
             + "(SELECT COUNT(*) FROM sale_items si WHERE si.sale_id = s.id) AS item_count, "
-            + "(SELECT GROUP_CONCAT(DISTINCT sp.method ORDER BY sp.method) "
-            + "   FROM sale_payments sp WHERE sp.sale_id = s.id) AS methods, "
+            + "(SELECT group_concat(method, ',') FROM (SELECT DISTINCT sp.method "
+            + "   FROM sale_payments sp WHERE sp.sale_id = s.id ORDER BY sp.method)) AS methods, "
             + "(SELECT COALESCE(SUM(sri.quantity), 0) FROM sale_return_items sri "
             + "   JOIN sale_returns sr ON sr.id = sri.return_id WHERE sr.sale_id = s.id) AS returned_qty "
             + "FROM sales s "
@@ -56,7 +56,7 @@ public class SaleDao {
     public long nextNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(
-                     "SELECT COALESCE(MAX(CAST(SUBSTRING(number, 3) AS UNSIGNED)), 0) + 1 "
+                     "SELECT COALESCE(MAX(CAST(SUBSTR(number, 3) AS INTEGER)), 0) + 1 "
                              + "FROM sales WHERE number LIKE 'V-%'")) {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getLong(1) : 1;
@@ -287,7 +287,7 @@ public class SaleDao {
             try (ResultSet rs = ps.executeQuery()) {
                 List<DayPoint> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add(new DayPoint(rs.getDate("d").toLocalDate(),
+                    list.add(new DayPoint(LocalDate.parse(rs.getString("d").substring(0, 10)),
                             rs.getBigDecimal("t"), rs.getLong("n")));
                 }
                 return list;

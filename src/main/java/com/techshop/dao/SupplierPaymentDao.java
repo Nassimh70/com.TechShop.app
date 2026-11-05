@@ -43,7 +43,7 @@ public class SupplierPaymentDao {
 
     public long nextNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
-             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTRING(number,3) AS UNSIGNED)), 0)+1 FROM supplier_payments WHERE number LIKE 'PF-%'")) {
+             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTR(number,4) AS INTEGER)), 0)+1 FROM supplier_payments WHERE number LIKE 'PF-%'")) {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getLong(1) : 1;
             }

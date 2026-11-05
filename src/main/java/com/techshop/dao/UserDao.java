@@ -120,7 +120,7 @@ public class UserDao {
     public void recordLoginSuccess(int id) throws SQLException {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement("UPDATE users SET failed_attempts = 0, "
-                     + "locked_until = NULL, last_login = CURRENT_TIMESTAMP WHERE id = ?")) {
+                     + "locked_until = NULL, last_login = datetime('now','localtime') WHERE id = ?")) {
             ps.setInt(1, id);
             ps.executeUpdate();
         }

@@ -44,7 +44,7 @@ public class RepairTicketDao {
     public long nextNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(
-                     "SELECT COALESCE(MAX(CAST(SUBSTRING(number, 3) AS UNSIGNED)), 0) + 1 "
+                     "SELECT COALESCE(MAX(CAST(SUBSTR(number, 3) AS INTEGER)), 0) + 1 "
                              + "FROM repair_tickets WHERE number LIKE 'R-%'")) {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getLong(1) : 1;
@@ -79,7 +79,7 @@ public class RepairTicketDao {
             ps.setObject(13, t.getTechnicianId());
             ps.setTimestamp(14, Timestamp.valueOf(
                     t.getReceivedAt() == null ? LocalDateTime.now() : t.getReceivedAt()));
-            ps.setDate(15, t.getPromisedDate() == null ? null : java.sql.Date.valueOf(t.getPromisedDate()));
+            ps.setString(15, t.getPromisedDate() == null ? null : t.getPromisedDate().toString());
             ps.setTimestamp(16, t.getCompletedAt() == null ? null : Timestamp.valueOf(t.getCompletedAt()));
             ps.setBigDecimal(17, nz(t.getLaborCost()));
             ps.setBigDecimal(18, nz(t.getPartsTotal()));
@@ -120,7 +120,7 @@ public class RepairTicketDao {
             ps.setString(9, t.getDiagnosis());
             ps.setBigDecimal(10, nz(t.getQuotedAmount()));
             ps.setObject(11, t.getTechnicianId());
-            ps.setDate(12, t.getPromisedDate() == null ? null : java.sql.Date.valueOf(t.getPromisedDate()));
+            ps.setString(12, t.getPromisedDate() == null ? null : t.getPromisedDate().toString());
             ps.setInt(13, t.getWarrantyDays());
             ps.setString(14, t.getInternalNotes());
             ps.setInt(15, t.getId());
@@ -266,7 +266,7 @@ public class RepairTicketDao {
                 .append("ORDER BY r.promised_date ASC LIMIT 50");
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(sql.toString())) {
-            ps.setDate(1, java.sql.Date.valueOf(today));
+            ps.setString(1, today.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 List<RepairTicket> list = new ArrayList<>();
                 while (rs.next()) {
@@ -334,7 +334,7 @@ public class RepairTicketDao {
             params.add(Timestamp.valueOf(f.to().plusDays(1).atStartOfDay()));
         }
         if (Boolean.TRUE.equals(f.late())) {
-            sql.append("AND r.promised_date IS NOT NULL AND r.promised_date < CURDATE() ")
+            sql.append("AND r.promised_date IS NOT NULL AND date(r.promised_date) < date('now','localtime') ")
                     .append("AND r.status NOT IN ('").append(RepairStatus.LIVREE).append("', '")
                     .append(RepairStatus.ANNULEE).append("') ");
         }
@@ -369,8 +369,8 @@ public class RepairTicketDao {
         t.setTechnicianName(rs.getString("technician_name"));
         Timestamp received = rs.getTimestamp("received_at");
         t.setReceivedAt(received == null ? null : received.toLocalDateTime());
-        java.sql.Date promised = rs.getDate("promised_date");
-        t.setPromisedDate(promised == null ? null : promised.toLocalDate());
+        String promised = rs.getString("promised_date");
+        t.setPromisedDate(promised == null ? null : LocalDate.parse(promised.substring(0, 10)));
         Timestamp completed = rs.getTimestamp("completed_at");
         t.setCompletedAt(completed == null ? null : completed.toLocalDateTime());
         t.setLaborCost(nz(rs.getBigDecimal("labor_cost")));

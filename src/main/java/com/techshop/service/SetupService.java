@@ -156,7 +156,7 @@ public final class SetupService {
         try (Connection c = DatabaseManager.connection();
              PreparedStatement ps = c.prepareStatement(
                      "INSERT INTO settings (cle, valeur) VALUES (?, ?) "
-                             + "ON DUPLICATE KEY UPDATE valeur = VALUES(valeur)")) {
+                             + "ON CONFLICT(cle) DO UPDATE SET valeur = excluded.valeur")) {
             ps.setString(1, key);
             ps.setString(2, value == null ? "" : value);
             ps.executeUpdate();

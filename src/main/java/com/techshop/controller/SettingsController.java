@@ -93,7 +93,6 @@ public class SettingsController {
 
     // --- Sauvegarde ---
     private FormField fBackupDir;
-    private FormField fMysqlBin;
     private ToggleSwitch tAutoBackup;
     private Label lblBackup;
     private Button btnBackup;
@@ -268,16 +267,12 @@ public class SettingsController {
     }
 
     private Node contenuSauvegarde() {
-        fBackupDir = Fields.text("Dossier des sauvegardes", "Ex. data/backups");
-        fMysqlBin = Fields.text("Dossier MySQL (bin)", "Ex. C:\\xampp\\mysql\\bin");
+        fBackupDir = Fields.text("Dossier des sauvegardes", "Ex. %APPDATA%\\TechShopManager\\backups");
 
         Button parcourirDossier = Buttons.secondary("Parcourir");
         parcourirDossier.setOnAction(e -> choisirDossier(fBackupDir, "Dossier des sauvegardes"));
-        Button parcourirBin = Buttons.secondary("Parcourir");
-        parcourirBin.setOnAction(e -> choisirDossier(fMysqlBin, "Dossier MySQL (bin)"));
 
         HBox ligneDossier = ligneChampBouton(fBackupDir, parcourirDossier);
-        HBox ligneBin = ligneChampBouton(fMysqlBin, parcourirBin);
 
         tAutoBackup = new ToggleSwitch();
 
@@ -291,9 +286,8 @@ public class SettingsController {
         lblBackup.setWrapText(true);
 
         VBox carte = carte("Sauvegarde de la base de données",
-                "Les sauvegardes utilisent mysqldump. La restauration remplace toutes les données actuelles.",
+                "La sauvegarde copie le fichier SQLite de façon cohérente. La restauration remplace toutes les données actuelles.",
                 ligneDossier,
-                ligneBin,
                 ligneToggle("Sauvegarde automatique",
                         "Créer une sauvegarde à la fermeture de l'application.", tAutoBackup),
                 new HBox(8, btnBackup, btnRestore),
@@ -433,11 +427,11 @@ public class SettingsController {
     private Node contenuAPropos() {
         Label application = new Label("TechShop Manager 1.0.0");
         application.getStyleClass().add("card-title");
-        Label stack = new Label("JavaFX 21 · MariaDB/MySQL · HikariCP · OpenPDF");
+        Label stack = new Label("JavaFX 21 · SQLite · HikariCP · OpenPDF");
         stack.getStyleClass().add("muted");
-        Label base = new Label("Base : " + AppConfig.dbHost() + ":" + AppConfig.dbPort()
-                + " / " + AppConfig.dbName() + " (utilisateur " + AppConfig.dbUser() + ")");
+        Label base = new Label("Base de données : " + AppConfig.databasePath());
         base.getStyleClass().add("muted");
+        base.setWrapText(true);
         Label droits = new Label("© 2026 TechShop Manager");
         droits.getStyleClass().add("muted");
         return new VBox(16, carte("À propos", null, new VBox(6, application, stack, base, droits)));
@@ -464,7 +458,6 @@ public class SettingsController {
 
             tDark.setSelected(bool(valeurs, "theme.dark", ThemeManager.isDark()));
             fBackupDir.setValue(premier(valeurs, dossierParDefaut(), "backup.dir"));
-            fMysqlBin.setValue(premier(valeurs, dossierMysqlParDefaut(), "backup.mysql_bin"));
             tAutoBackup.setSelected(bool(valeurs, "backup.auto_on_exit", false));
 
             lblEtat.setText("Paramètres chargés");
@@ -477,7 +470,7 @@ public class SettingsController {
 
     private void ecouterModifications() {
         for (FormField champ : List.of(fShopName, fShopPhone, fShopEmail, fShopAddress,
-                fShopTaxId, fFooter, fBackupDir, fMysqlBin)) {
+                fShopTaxId, fFooter, fBackupDir)) {
             if (champ.styledControl() instanceof TextField tf) {
                 tf.textProperty().addListener((o, ancien, nouveau) -> marquerModifie());
             }
@@ -518,7 +511,6 @@ public class SettingsController {
         valeurs.put("shop.logo", logoPath == null ? "" : logoPath);
         valeurs.put("theme.dark", String.valueOf(tDark.isSelected()));
         valeurs.put("backup.dir", fBackupDir.textValue().trim());
-        valeurs.put("backup.mysql_bin", fMysqlBin.textValue().trim());
         valeurs.put("backup.auto_on_exit", String.valueOf(tAutoBackup.isSelected()));
         // Anciennes clés de l'écran Paramètres : vidées après migration vers shop.*
         for (String ancienne : List.of("store.name", "store.address", "store.phone",
@@ -569,18 +561,12 @@ public class SettingsController {
             fBackupDir.styledControl().requestFocus();
             return false;
         }
-        if (fMysqlBin.textValue() == null || fMysqlBin.textValue().isBlank()) {
-            afficherSection("sauvegarde");
-            fMysqlBin.setError("Indiquez le dossier MySQL (bin).");
-            fMysqlBin.styledControl().requestFocus();
-            return false;
-        }
         return true;
     }
 
     private void clearErrors() {
         for (FormField champ : List.of(fShopName, fShopPhone, fShopEmail, fShopAddress,
-                fShopTaxId, fFooter, fBackupDir, fMysqlBin)) {
+                fShopTaxId, fFooter, fBackupDir)) {
             champ.clearError();
         }
     }
@@ -659,12 +645,11 @@ public class SettingsController {
         if (dossier == null) {
             return;
         }
-        String bin = fMysqlBin.textValue();
         setBackupBusy(true, "Sauvegarde en cours…");
         Task<Path> tache = new Task<>() {
             @Override
             protected Path call() throws Exception {
-                return BackupService.get().backupNow(dossier, bin);
+                return BackupService.get().backupNow(dossier);
             }
         };
         tache.setOnSucceeded(e -> {
@@ -686,9 +671,11 @@ public class SettingsController {
 
     private void lancerRestauration() {
         FileChooser choix = new FileChooser();
-        choix.setTitle("Choisir une sauvegarde SQL");
+        choix.setTitle("Choisir une sauvegarde SQLite");
         choix.getExtensionFilters().add(new FileChooser.ExtensionFilter(
-                "Sauvegardes SQL", "*.sql"));
+                "Sauvegardes SQLite", "*.db", "*.sqlite", "*.sqlite3"));
+        choix.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+                "Tous les fichiers", "*.*"));
         Path dossier = dossierSauvegarde();
         if (dossier != null && Files.isDirectory(dossier)) {
             choix.setInitialDirectory(dossier.toFile());
@@ -709,12 +696,11 @@ public class SettingsController {
     }
 
     private void restaurer(Path fichier, Path dossierSecurite) {
-        String bin = fMysqlBin.textValue();
         setBackupBusy(true, "Restauration en cours…");
         Task<BackupService.RestoreResult> tache = new Task<>() {
             @Override
             protected BackupService.RestoreResult call() throws Exception {
-                return BackupService.get().restore(fichier, bin, dossierSecurite);
+                return BackupService.get().restore(fichier, dossierSecurite);
             }
         };
         tache.setOnSucceeded(e -> {
@@ -741,7 +727,7 @@ public class SettingsController {
         String texte = fBackupDir.textValue();
         try {
             Path dossier = texte == null || texte.isBlank()
-                    ? Path.of(System.getProperty("user.dir"), "data", "backups")
+                    ? AppConfig.backupDirectory()
                     : Path.of(texte.trim());
             Files.createDirectories(dossier);
             return dossier;
@@ -819,12 +805,7 @@ public class SettingsController {
     }
 
     private static String dossierParDefaut() {
-        return Path.of(System.getProperty("user.dir"), "data", "backups").toString();
-    }
-
-    private static String dossierMysqlParDefaut() {
-        return System.getProperty("os.name", "").toLowerCase().contains("win")
-                ? "C:\\xampp\\mysql\\bin" : "/usr/bin";
+        return AppConfig.backupDirectory().toString();
     }
 
     private static String message(Throwable erreur) {

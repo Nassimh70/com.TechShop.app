@@ -5,16 +5,23 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
 /**
- * Configuration de l'application : chargée depuis un fichier externe
- * config/db.properties (prioritaire, modifiable sans recompilation) avec repli
- * sur la configuration embarquée /config/db.properties (SPEC §1).
- * L'écran d'erreur de connexion permet de modifier et d'enregistrer ces valeurs.
+ * Configuration de l'application.
+ *
+ * <p>La base de données est un fichier SQLite persistant, indépendant du
+ * programme d'installation et du dossier de l'application. Son emplacement par
+ * défaut est {@code %APPDATA%/TechShopManager/data/techshop.db} (ou
+ * {@code ~/.techshop-manager/data/techshop.db} hors Windows). Il peut être
+ * surchargé par la propriété système {@code techshop.db.path}, utilisée
+ * notamment par les tests, ou par la clé {@code db.path} du fichier externe
+ * facultatif {@code config/db.properties}.</p>
+ *
+ * <p>Le fichier de configuration embarqué ne contient aucun secret. Les
+ * réglages de pool restent modifiables sans recompilation.</p>
  */
 public final class AppConfig {
 
@@ -56,32 +63,6 @@ public final class AppConfig {
         }
     }
 
-    /**
-     * Enregistre les réglages de connexion dans le fichier externe
-     * config/db.properties, puis recharge la configuration en mémoire.
-     */
-    public static synchronized void saveConnection(String host, int port, String name,
-                                                   String user, String password) {
-        props.setProperty("db.host", host);
-        props.setProperty("db.port", String.valueOf(port));
-        props.setProperty("db.name", name);
-        props.setProperty("db.user", user);
-        props.setProperty("db.password", password == null ? "" : password);
-        try {
-            Path parent = FICHIER_EXTERNE.getParent();
-            if (parent != null) {
-                Files.createDirectories(parent);
-            }
-            try (OutputStream out = Files.newOutputStream(FICHIER_EXTERNE)) {
-                props.store(out, "TechShop Manager - configuration de la base (modifiée depuis l'application)");
-            }
-            log.info("Configuration enregistrée dans {}", FICHIER_EXTERNE.toAbsolutePath());
-        } catch (IOException e) {
-            log.error("Enregistrement de {} impossible", FICHIER_EXTERNE, e);
-        }
-        reload();
-    }
-
     public static String get(String key, String defaut) {
         String v = props.getProperty(key);
         return (v == null || v.isBlank()) ? defaut : v.trim();
@@ -95,25 +76,56 @@ public final class AppConfig {
         }
     }
 
-    // --- Accès base de données ---
-    public static String dbHost() {
-        return get("db.host", "localhost");
+    // ------------------------------------------------------- emplacements
+
+    /**
+     * Répertoire de données persistant de l'application. Jamais le dossier
+     * temporaire, les ressources du JAR ni le dossier d'installation.
+     */
+    public static Path appDataDirectory() {
+        String override = System.getProperty("techshop.data.dir");
+        if (override != null && !override.isBlank()) {
+            return Path.of(override.trim()).toAbsolutePath().normalize();
+        }
+        String appData = System.getenv("APPDATA");
+        if (appData != null && !appData.isBlank()) {
+            return Path.of(appData, "TechShopManager").toAbsolutePath().normalize();
+        }
+        return Path.of(System.getProperty("user.home", "."), ".techshop-manager")
+                .toAbsolutePath().normalize();
     }
 
-    public static int dbPort() {
-        return getInt("db.port", 3306);
+    /** Fichier SQLite persistant (jamais créé dans les ressources ou le JAR). */
+    public static Path databasePath() {
+        String override = System.getProperty("techshop.db.path");
+        if (override != null && !override.isBlank()) {
+            return Path.of(override.trim()).toAbsolutePath().normalize();
+        }
+        String configured = get("db.path", "");
+        if (!configured.isBlank()) {
+            Path p = Path.of(configured.trim());
+            return (p.isAbsolute() ? p : appDataDirectory().resolve(p)).toAbsolutePath().normalize();
+        }
+        return appDataDirectory().resolve("data").resolve("techshop.db");
     }
 
-    public static String dbName() {
-        return get("db.name", "techshop");
+    /** Dossier des sauvegardes par défaut. */
+    public static Path backupDirectory() {
+        String override = System.getProperty("techshop.backup.dir");
+        if (override != null && !override.isBlank()) {
+            return Path.of(override.trim()).toAbsolutePath().normalize();
+        }
+        String configured = get("backup.dir", "");
+        if (!configured.isBlank()) {
+            Path p = Path.of(configured.trim());
+            return (p.isAbsolute() ? p : appDataDirectory().resolve(p)).toAbsolutePath().normalize();
+        }
+        return appDataDirectory().resolve("backups");
     }
 
-    public static String dbUser() {
-        return get("db.user", "root");
-    }
-
-    public static String dbPassword() {
-        return get("db.password", "");
+    /** URL JDBC SQLite (le fichier est créé automatiquement s'il est absent). */
+    public static String jdbcUrl() {
+        return "jdbc:sqlite:" + databasePath().toString().replace('\\', '/');
     }
 
     /**
@@ -129,25 +141,18 @@ public final class AppConfig {
         return "demo".equals(profile());
     }
 
-    /** URL JDBC sans base précisée (sert à créer la base si absente). */
-    public static String jdbcUrlServer() {
-        return "jdbc:mariadb://" + dbHost() + ":" + dbPort() + "/";
-    }
+    // ------------------------------------------------------------- pool
 
-    /** URL JDBC complète. */
-    public static String jdbcUrl() {
-        return jdbcUrlServer() + dbName() + "?useUnicode=true&characterEncoding=utf8";
-    }
-
+    /** SQLite supporte quelques connexions simultanées en lecture (mode WAL). */
     public static int poolSize() {
-        return getInt("db.pool.size", 10);
+        return Math.max(1, getInt("db.pool.size", 4));
     }
 
     public static int poolMinIdle() {
-        return getInt("db.pool.minIdle", 2);
+        return Math.max(0, Math.min(poolSize(), getInt("db.pool.minIdle", 1)));
     }
 
     public static long poolTimeoutMs() {
-        return getInt("db.pool.timeoutMs", 30000);
+        return Math.max(1000, getInt("db.pool.timeoutMs", 30000));
     }
 }

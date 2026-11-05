@@ -18,11 +18,11 @@
         <Label fx:id="messageLabel" styleClass="conn-msg" wrapText="true" maxWidth="560"/>
         <Label fx:id="attemptsLabel" styleClass="conn-hint" wrapText="true" maxWidth="560"/>
         <Label styleClass="conn-hint" wrapText="true" maxWidth="560"
-               text="Si vous utilisez XAMPP, démarrez le module « MySQL » depuis le panneau de contrôle, puis réessayez."/>
+               text="Vérifiez que le dossier des données est accessible en écriture et qu'aucune autre instance de TechShop Manager n'utilise la base."/>
         <HBox spacing="10" alignment="CENTER">
             <Button fx:id="retryBtn" styleClass="btn,btn-primary" text="Réessayer"/>
             <Button fx:id="settingsBtn" styleClass="btn,btn-outline"
-                    text="Réglages de connexion"/>
+                    text="Ouvrir le dossier des données"/>
         </HBox>
     </VBox>
 

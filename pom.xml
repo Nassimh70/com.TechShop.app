@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   TechShop Manager - Gestion commerciale pour magasin de téléphones / accessoires / outils informatiques.
-  Java 21 + JavaFX 21 + MySQL (XAMPP/MariaDB) - JDBC pur avec HikariCP.
+  Java 21 + JavaFX 21 + SQLite (Xerial) - JDBC pur avec HikariCP.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -22,14 +22,24 @@
         <!-- Plateforme des modules JavaFX (win / linux / mac / mac-aarch64) -->
         <javafx.platform>win</javafx.platform>
         <hikaricp.version>5.1.0</hikaricp.version>
+        <sqlite.version>3.54.1.0</sqlite.version>
+        <!-- Uniquement pour l'outil ponctuel de migration (profil mysql-migration) -->
         <mariadb.version>3.3.3</mariadb.version>
         <slf4j.version>2.0.13</slf4j.version>
         <logback.version>1.5.6</logback.version>
         <junit.version>5.10.2</junit.version>
         <main.class>com.techshop.app.Launcher</main.class>
-        <!-- APP_IMAGE : dossier portable avec TechShopManager.exe (sans WiX).
-             Sur une machine équipée de WiX, utiliser -Djpackage.type=EXE ou MSI. -->
+        <!-- APP_IMAGE : dossier portable avec "TechShop Manager.exe" (sans WiX).
+             Pour un installateur EXE/MSI (WiX requis), utiliser le profil
+             "installer" : mvn -Pjpackage,installer verify
+             (ou -Djpackage.type=MSI avec le même profil). -->
         <jpackage.type>APP_IMAGE</jpackage.type>
+        <!-- Options spécifiques aux installateurs Windows. Elles doivent rester
+             désactivées pour APP_IMAGE, sinon jpackage refuse l'option. -->
+        <jpackage.winShortcut>false</jpackage.winShortcut>
+        <jpackage.winMenu>false</jpackage.winMenu>
+        <jpackage.winDirChooser>false</jpackage.winDirChooser>
+        <jpackage.winUpgradeUuid></jpackage.winUpgradeUuid>
     </properties>
 
     <!-- licence-core est fourni dans lib/repo : le projet se construit sans
@@ -72,11 +82,11 @@
         <!-- Remarque : javafx.scene.chart (courbes, anneaux) est inclus dans
              le module javafx.controls — aucun artefact « javafx-charts » séparé. -->
 
-        <!-- ============ Base de données : driver MariaDB compatible XAMPP/MySQL ============ -->
+        <!-- ============ Base de données : SQLite embarqué (aucun serveur requis) ============ -->
         <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>${mariadb.version}</version>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>${sqlite.version}</version>
         </dependency>
         <!-- Pool de connexions JDBC -->
         <dependency>
@@ -186,7 +196,40 @@
     </build>
 
     <profiles>
-        <!-- Packaging Windows : mvn -Pjpackage package
+        <!--
+          Migration ponctuelle MySQL/MariaDB vers SQLite. Le pilote MariaDB n'est
+          présent que dans ce profil : il n'est jamais embarqué dans
+          l'installateur client.
+          Voir la section « Migration depuis MySQL/MariaDB » du README pour la
+          commande complète et les options source-url, source-user,
+          source-password et target.
+        -->
+        <profile>
+            <id>mysql-migration</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.mariadb.jdbc</groupId>
+                    <artifactId>mariadb-java-client</artifactId>
+                    <version>${mariadb.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <mainClass>com.techshop.tools.MySqlToSqliteMigrator</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Packaging Windows : mvn -Pjpackage verify
+             Produit une image applicative autonome (target/dist) sans WiX.
              Nécessite un JDK complet (pas seulement JRE) avec jpackage disponible. -->
         <profile>
             <id>jpackage</id>
@@ -236,7 +279,7 @@
                         <artifactId>jpackage-maven-plugin</artifactId>
                         <version>1.6.5</version>
                         <configuration>
-                            <name>TechShopManager</name>
+                            <name>TechShop Manager</name>
                             <vendor>TechShop</vendor>
                             <description>Gestion commerciale TechShop Manager</description>
                             <copyright>© 2026 TechShop</copyright>
@@ -247,6 +290,12 @@
                             <destination>${project.build.directory}/dist</destination>
                             <mainJar>${project.build.finalName}.jar</mainJar>
                             <mainClass>${main.class}</mainClass>
+                            <!-- Raccourcis et désinstalleur Windows (uniquement EXE/MSI) -->
+                            <winShortcut>${jpackage.winShortcut}</winShortcut>
+                            <winMenu>${jpackage.winMenu}</winMenu>
+                            <winDirChooser>${jpackage.winDirChooser}</winDirChooser>
+                            <winUpgradeUuid>${jpackage.winUpgradeUuid}</winUpgradeUuid>
+                            <!-- Les données restent dans %APPDATA% : une mise à jour ne les supprime pas. -->
                             <!-- Options JavaFX / encodage / ouverture de modules (classpath) -->
                             <javaOptions>
                                 <option>--add-opens</option>
@@ -265,6 +314,21 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <!-- Installateur Windows (EXE par défaut, MSI via -Djpackage.type=MSI).
+             Prérequis : WiX Toolset 3.x installé (candle.exe / light.exe dans le PATH).
+             Les données restent dans %APPDATA%\TechShopManager : désinstaller ou
+             mettre à jour l'application ne supprime pas la base du client. -->
+        <profile>
+            <id>installer</id>
+            <properties>
+                <jpackage.type>EXE</jpackage.type>
+                <jpackage.winShortcut>true</jpackage.winShortcut>
+                <jpackage.winMenu>true</jpackage.winMenu>
+                <jpackage.winDirChooser>true</jpackage.winDirChooser>
+                <jpackage.winUpgradeUuid>7c8f2f1e-9a2b-4a6e-8f3c-1d2e3f4a5b6c</jpackage.winUpgradeUuid>
+            </properties>
         </profile>
     </profiles>
 </project>

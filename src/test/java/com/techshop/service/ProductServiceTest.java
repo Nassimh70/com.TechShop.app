@@ -89,6 +89,20 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("Un produit inactif ne bloque pas la recréation d'un produit identique")
+    void creationAutoriseeSiLeDoublonEstInactif() {
+        Product ancien = produit("Écran 24 pouces");
+        ancien.setActive(false);
+        dao.existants.add(ancien);
+
+        int id = service.create(produit("Écran 24 pouces"));
+
+        assertEquals(1, id);
+        assertEquals(1, dao.inseres.size());
+        assertTrue(dao.inseres.get(0).isActive());
+    }
+
+    @Test
     @DisplayName("Un produit dont une information diffère est bien créé")
     void creationAutoriseeSiUneInformationDiffere() {
         dao.existants.add(produit("Écran 24 pouces"));

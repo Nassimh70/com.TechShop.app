@@ -50,7 +50,7 @@ public class GoodsReceiptDao {
 
     public long nextNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
-             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTRING(number,3) AS UNSIGNED)), 0)+1 FROM goods_receipts WHERE number LIKE 'B-%'")) {
+             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTR(number,3) AS INTEGER)), 0)+1 FROM goods_receipts WHERE number LIKE 'B-%'")) {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getLong(1) : 1;
             }
@@ -65,7 +65,7 @@ public class GoodsReceiptDao {
             if (gr.getOrderId() == null) ps.setNull(2, Types.INTEGER);
             else ps.setInt(2, gr.getOrderId());
             ps.setInt(3, gr.getSupplierId());
-            ps.setDate(4, gr.getReceiptDate() == null ? java.sql.Date.valueOf(LocalDate.now()) : java.sql.Date.valueOf(gr.getReceiptDate()));
+            ps.setString(4, (gr.getReceiptDate() == null ? LocalDate.now() : gr.getReceiptDate()).toString());
             ps.setBigDecimal(5, gr.getTotal());
             ps.setString(6, gr.getNotes());
             ps.setInt(7, gr.getUserId());
@@ -103,7 +103,7 @@ public class GoodsReceiptDao {
         gr.setOrderId(rs.wasNull() ? null : oid);
         gr.setSupplierId(rs.getInt("supplier_id"));
         gr.setSupplierName(rs.getString("supplier_name"));
-        gr.setReceiptDate(rs.getDate("receipt_date").toLocalDate());
+        gr.setReceiptDate(LocalDate.parse(rs.getString("receipt_date").substring(0, 10)));
         gr.setTotal(rs.getBigDecimal("total"));
         gr.setNotes(rs.getString("notes"));
         gr.setUserId(rs.getInt("user_id"));

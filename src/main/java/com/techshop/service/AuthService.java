@@ -122,7 +122,7 @@ public final class AuthService {
         } catch (SQLException e) {
             log.error("Erreur d'authentification", e);
             return new Result(Status.ERROR, null,
-                    "Base de données indisponible. Vérifiez la connexion MySQL.", 0, 0);
+                    "Base de données indisponible. Vérifiez le fichier SQLite et ses droits d'accès.", 0, 0);
         }
     }
 

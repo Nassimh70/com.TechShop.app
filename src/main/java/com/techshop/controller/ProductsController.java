@@ -13,6 +13,7 @@ import com.techshop.service.StockService;
 import com.techshop.ui.Icons;
 import com.techshop.ui.components.Badge;
 import com.techshop.ui.components.Buttons;
+import com.techshop.ui.components.DialogService;
 import com.techshop.ui.components.EmptyState;
 import com.techshop.ui.components.Fields;
 import com.techshop.ui.components.FormField;
@@ -30,6 +31,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -88,6 +90,7 @@ public class ProductsController {
     private ComboBox<Category> filtreCategorie;
     private ComboBox<Brand> filtreMarque;
     private ComboBox<String> filtreStatut;
+    private CheckBox filtreInactifs;
 
     private StatCard carteTotal;
     private StatCard carteValeur;
@@ -219,6 +222,13 @@ public class ProductsController {
             charger();
         });
 
+        filtreInactifs = new CheckBox("Afficher les inactifs");
+        filtreInactifs.getStyleClass().add("check");
+        filtreInactifs.selectedProperty().addListener((o, a, b) -> {
+            page = 1;
+            charger();
+        });
+
         Button basculer = Buttons.outline("Grille", "grid");
         basculer.setOnAction(e -> {
             vueGrille = !vueGrille;
@@ -231,7 +241,7 @@ public class ProductsController {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         HBox barre = new HBox(10, recherche, filtreCategorie, filtreMarque, filtreStatut,
-                spacer, basculer);
+                filtreInactifs, spacer, basculer);
         barre.setAlignment(Pos.CENTER_LEFT);
         return barre;
     }
@@ -261,9 +271,14 @@ public class ProductsController {
                 }
                 Label nom = new Label(p.getName());
                 nom.getStyleClass().add("user-fullname");
+                HBox ligneNom = new HBox(6, nom);
+                ligneNom.setAlignment(Pos.CENTER_LEFT);
+                if (!p.isActive()) {
+                    ligneNom.getChildren().add(Badge.of("Inactif", Badge.BadgeType.NEUTRAL));
+                }
                 Label ref = new Label(p.getRef() + (p.getBarcode() == null ? "" : "  ·  " + p.getBarcode()));
                 ref.getStyleClass().add("muted");
-                VBox textes = new VBox(0, nom, ref);
+                VBox textes = new VBox(0, ligneNom, ref);
                 HBox boite = new HBox(10, vignette(p), textes);
                 boite.setAlignment(Pos.CENTER_LEFT);
                 setGraphic(boite);
@@ -413,8 +428,10 @@ public class ProductsController {
 
     private void charger() {
         try {
+            Boolean actifs = filtreInactifs != null && filtreInactifs.isSelected()
+                    ? null : Boolean.TRUE;
             ProductDao.Filter filtre = new ProductDao.Filter(
-                    texteOuNull(recherche), idCategorie(), idMarque(), statutFiltre(), Boolean.TRUE);
+                    texteOuNull(recherche), idCategorie(), idMarque(), statutFiltre(), actifs);
             ProductService.Page resultat = produits.search(filtre, page, TAILLE_PAGE, tri, ascendant);
             if (page > resultat.pageCount()) {
                 page = resultat.pageCount();
@@ -473,6 +490,9 @@ public class ProductsController {
         Badge badge = Badge.of(p.stockStatus().getLabel(), badgeDe(p.stockStatus()));
         HBox piedTuile = new HBox(8, prix, badge);
         piedTuile.setAlignment(Pos.CENTER_LEFT);
+        if (!p.isActive()) {
+            piedTuile.getChildren().add(Badge.of("Inactif", Badge.BadgeType.NEUTRAL));
+        }
 
         VBox tuile = new VBox(6, cadre, nom, ref, piedTuile);
         tuile.getStyleClass().add("product-tile");
@@ -511,6 +531,21 @@ public class ProductsController {
     }
 
     private void basculerActivation(Product p) {
+        if (p.isActive()) {
+            DialogService.get().confirm("Désactiver le produit",
+                    "« " + p.getName() + " » sera masqué de la liste par défaut. "
+                            + "Vous pourrez le retrouver en cochant « Afficher les inactifs ».",
+                    "Désactiver", false).thenAccept(ok -> {
+                        if (ok) {
+                            appliquerActivation(p);
+                        }
+                    });
+            return;
+        }
+        appliquerActivation(p);
+    }
+
+    private void appliquerActivation(Product p) {
         try {
             p.setActive(!p.isActive());
             produits.update(p);

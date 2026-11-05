@@ -5,20 +5,28 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Properties;
 
 /**
- * Point d'accès unique à la base MySQL/MariaDB (XAMPP) via HikariCP.
- * Crée la base « techshop » si absente, démarre le pool puis applique les
- * migrations versionnées ({@link MigrationService}). Toute défaillance est
- * journalisée et exposée à l'écran d'erreur de connexion (SPEC §1, §5, §7).
+ * Point d'accès unique à la base SQLite via HikariCP.
+ *
+ * <p>Au premier démarrage, le dossier de données et le fichier
+ * {@code techshop.db} sont créés automatiquement. Le fichier existant n'est
+ * jamais réinitialisé. Les migrations versionnées sont appliquées ensuite par
+ * {@link MigrationService}. Les clés étrangères sont activées sur chaque
+ * connexion du pool.</p>
+ *
+ * <p>Toute défaillance est journalisée et exposée à l'écran d'erreur de
+ * connexion. L'application reste utilisable en mode dégradé.</p>
  */
 public final class DatabaseManager {
 
@@ -51,7 +59,7 @@ public final class DatabaseManager {
      * (tests unitaires), l'appel est neutre : {@link #inTransaction()} reste faux.
      */
     public static void beginTransaction() throws SQLException {
-        if (pool == null || !initialized) {
+        if (pool == null || !initialized || TRANSACTION.get() != null) {
             return;
         }
         Connection c = pool.getConnection();
@@ -158,9 +166,10 @@ public final class DatabaseManager {
     }
 
     /**
-     * Initialisation complète : création de la base si absente, pool HikariCP,
-     * application des migrations. En cas d'échec, {@link #getLastError()} est
-     * renseigné et l'application reste utilisable (mode dégradé).
+     * Initialisation complète : création du dossier et du fichier SQLite si
+     * absents, configuration WAL, pool HikariCP, application des migrations.
+     * En cas d'échec, {@link #getLastError()} est renseigné et l'application
+     * reste utilisable (mode dégradé).
      */
     public static void init() {
         synchronized (LOCK) {
@@ -168,22 +177,25 @@ public final class DatabaseManager {
                 return;
             }
             try {
-                createDatabaseIfMissing();
+                Path fichier = AppConfig.databasePath();
+                preparerDossier(fichier);
+                configurerFichier(fichier);
                 createPool();
                 lastMigrations = MigrationService.apply(pool);
                 initialized = true;
                 lastError = null;
-                log.info("Base « {} » prête ({} migration(s) appliquée(s))",
-                        AppConfig.dbName(), lastMigrations.size());
+                log.info("Base SQLite « {} » prête ({} migration(s) appliquée(s))",
+                        fichier, lastMigrations.size());
             } catch (Exception e) {
                 lastError = messageUtilisateur(e);
                 log.error("Base de données indisponible : {}", lastError, e);
                 closeQuietly();
+                initialized = false;
             }
         }
     }
 
-    /** Réessaie après un échec (bouton « Réessayer » / réglages modifiés). */
+    /** Réessaie après un échec (bouton « Réessayer » / dossier modifié). */
     public static void reinit() {
         shutdown();
         init();
@@ -192,80 +204,149 @@ public final class DatabaseManager {
     /** Ferme proprement le pool (arrêt de l'application). */
     public static void shutdown() {
         synchronized (LOCK) {
+            endTransaction();
             closeQuietly();
             initialized = false;
         }
     }
 
     /**
-     * Teste une configuration de connexion sans démarrer le pool applicatif.
+     * Teste l'ouverture du fichier SQLite sans démarrer le pool applicatif.
      *
      * @return null si la connexion réussit, sinon le message d'erreur
      */
-    public static String testConnection(String host, int port, String user, String password) {
-        String url = "jdbc:mariadb://" + host + ":" + port + "/?connectTimeout=4000";
-        Properties p = new Properties();
-        p.setProperty("user", user == null ? "" : user);
-        p.setProperty("password", password == null ? "" : password);
-        try (Connection c = DriverManager.getConnection(url, p)) {
-            return c.isValid(3) ? null : "Connexion établie mais invalide";
-        } catch (SQLException e) {
+    public static String testConnection() {
+        try {
+            Path fichier = AppConfig.databasePath();
+            preparerDossier(fichier);
+            try (Connection c = DriverManager.getConnection(AppConfig.jdbcUrl());
+                 Statement st = c.createStatement()) {
+                st.execute("PRAGMA foreign_keys = ON");
+                return c.isValid(3) ? null : "Connexion établie mais invalide";
+            }
+        } catch (Exception e) {
             return messageUtilisateur(e);
         }
     }
 
     // ------------------------------------------------------------------ privés
 
-    private static void createDatabaseIfMissing() throws SQLException {
-        HikariConfig cfg = new HikariConfig();
-        cfg.setJdbcUrl(AppConfig.jdbcUrlServer() + "?connectTimeout=4000");
-        cfg.setUsername(AppConfig.dbUser());
-        cfg.setPassword(AppConfig.dbPassword());
-        cfg.setMaximumPoolSize(1);
-        cfg.setConnectionTimeout(4000);
-        try (HikariDataSource ds = new HikariDataSource(cfg);
-             Connection c = ds.getConnection();
+    /** Crée le dossier de données et vérifie que le chemin est utilisable. */
+    private static void preparerDossier(Path fichier) throws SQLException {
+        Path dossier = fichier.getParent();
+        if (dossier != null) {
+            try {
+                Files.createDirectories(dossier);
+            } catch (IOException e) {
+                throw new SQLException("Impossible de créer le dossier de données « "
+                        + dossier.toAbsolutePath() + " ».", e);
+            }
+            if (!Files.isDirectory(dossier) || !Files.isWritable(dossier)) {
+                throw new SQLException("Le dossier de données « " + dossier.toAbsolutePath()
+                        + " » n'est pas accessible en écriture.");
+            }
+        }
+        if (Files.exists(fichier) && !Files.isRegularFile(fichier)) {
+            throw new SQLException("Le chemin de la base « " + fichier.toAbsolutePath()
+                    + " » existe mais n'est pas un fichier.");
+        }
+    }
+
+    /**
+     * Ouvre une première connexion directe pour créer le fichier si besoin et
+     * fixer les réglages persistants (WAL, synchronisation, délai d'attente).
+     */
+    private static void configurerFichier(Path fichier) throws SQLException {
+        try (Connection c = DriverManager.getConnection(AppConfig.jdbcUrl());
              Statement st = c.createStatement()) {
-            // Compatible MySQL et MariaDB (pas de fonction exclusive MySQL 8)
-            st.executeUpdate("CREATE DATABASE IF NOT EXISTS `" + AppConfig.dbName()
-                    + "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+            st.execute("PRAGMA journal_mode = WAL");
+            st.execute("PRAGMA synchronous = NORMAL");
+            st.execute("PRAGMA busy_timeout = 5000");
+            st.execute("PRAGMA foreign_keys = ON");
+        }
+        if (!Files.isRegularFile(fichier)) {
+            throw new SQLException("Le fichier SQLite n'a pas pu être créé : "
+                    + fichier.toAbsolutePath());
         }
     }
 
     private static void createPool() {
         HikariConfig cfg = new HikariConfig();
         cfg.setJdbcUrl(AppConfig.jdbcUrl());
-        cfg.setUsername(AppConfig.dbUser());
-        cfg.setPassword(AppConfig.dbPassword());
+        cfg.setDriverClassName("org.sqlite.JDBC");
         cfg.setMaximumPoolSize(AppConfig.poolSize());
         cfg.setMinimumIdle(AppConfig.poolMinIdle());
         cfg.setConnectionTimeout(AppConfig.poolTimeoutMs());
-        cfg.setPoolName("techshop-pool");
-        cfg.addDataSourceProperty("cachePrepStmts", "true");
-        cfg.addDataSourceProperty("prepStmtCacheSize", "250");
+        cfg.setPoolName("techshop-sqlite-pool");
+        cfg.setAutoCommit(true);
+        // Les clés étrangères sont propres à chaque connexion SQLite.
+        cfg.setConnectionInitSql("PRAGMA foreign_keys = ON");
+        cfg.addDataSourceProperty("foreign_keys", "true");
+        cfg.addDataSourceProperty("busy_timeout", "5000");
+        cfg.addDataSourceProperty("date_class", "TEXT");
+        cfg.addDataSourceProperty("date_string_format", "yyyy-MM-dd HH:mm:ss");
         pool = new HikariDataSource(cfg);
     }
 
     /** Message clair pour l'utilisateur (écran d'erreur de connexion). */
-    private static String messageUtilisateur(Exception e) {
-        String brut = e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage();
-        String bas = brut.toLowerCase();
-        if (bas.contains("connection refused") || bas.contains("connectex") || bas.contains("getsockopt")) {
-            return "Impossible de joindre MySQL sur " + AppConfig.dbHost() + ":"
-                    + AppConfig.dbPort() + ". Vérifiez que le module MySQL (ou MariaDB) de XAMPP est démarré.";
+    private static String messageUtilisateur(Throwable e) {
+        Path fichier = AppConfig.databasePath();
+        int code = sqliteCode(e);
+        String bas = messageBrut(e).toLowerCase();
+
+        if (code == 5 || code == 6 || bas.contains("sqlite_busy")
+                || bas.contains("database is locked")) {
+            return "La base de données est momentanément verrouillée. Fermez les autres "
+                    + "instances de TechShop Manager puis réessayez.";
         }
-        if (bas.contains("access denied") || bas.contains("authentication")) {
-            return "Accès refusé par le serveur pour l'utilisateur « " + AppConfig.dbUser()
-                    + " ». Vérifiez l'identifiant et le mot de passe dans les réglages de connexion.";
+        if (code == 8 || bas.contains("readonly") || bas.contains("read-only")) {
+            return "Le fichier de base de données est en lecture seule : " + fichier
+                    + ". Vérifiez les droits du dossier de données.";
         }
-        if (bas.contains("unknown database")) {
-            return "La base « " + AppConfig.dbName() + " » est introuvable et n'a pas pu être créée.";
+        if (code == 11 || code == 26 || bas.contains("malformed")
+                || bas.contains("not a database")) {
+            return "Le fichier de base de données est corrompu ou n'est pas une base SQLite "
+                    + "valide : " + fichier + ". Restaurez une sauvegarde récente.";
         }
-        if (bas.contains("timeout") || bas.contains("timed out")) {
-            return "Délai de connexion dépassé vers " + AppConfig.dbHost() + ":"
-                    + AppConfig.dbPort() + ". Vérifiez le serveur et le pare-feu.";
+        if (code == 13 || bas.contains("disk is full") || bas.contains("disk i/o error")) {
+            return "Espace disque insuffisant ou erreur d'écriture pour la base : " + fichier + ".";
         }
-        return brut;
+        if (code == 14 || bas.contains("unable to open database")
+                || bas.contains("cannot open")) {
+            return "Impossible d'ouvrir le fichier de base de données : " + fichier
+                    + ". Vérifiez que le dossier existe et est accessible en écriture.";
+        }
+        if (bas.contains("no such table") || bas.contains("no such column")) {
+            return "Le schéma de la base est incomplet : " + fichier
+                    + ". Redémarrez l'application pour appliquer les migrations.";
+        }
+        if (bas.contains("foreign key constraint failed")) {
+            return "Une contrainte d'intégrité a été violée. Aucune modification n'a été "
+                    + "conservée. Vérifiez les données saisies.";
+        }
+        return messageBrut(e);
+    }
+
+    private static int sqliteCode(Throwable e) {
+        Throwable courant = e;
+        while (courant != null) {
+            if (courant instanceof SQLException sql && sql.getErrorCode() != 0) {
+                return sql.getErrorCode();
+            }
+            courant = courant.getCause();
+        }
+        return 0;
+    }
+
+    private static String messageBrut(Throwable e) {
+        Throwable courant = e;
+        while (courant != null) {
+            if (courant.getMessage() != null && !courant.getMessage().isBlank()) {
+                return courant.getMessage();
+            }
+            courant = courant.getCause();
+        }
+        return e.getClass().getSimpleName();
     }
 
     private static void closeQuietly() {

@@ -55,7 +55,7 @@ public class CustomerDao {
 
     public long nextCodeNumber() throws SQLException {
         try (Connection c = DatabaseManager.connection();
-             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTRING(code,3) AS UNSIGNED)), 0)+1 FROM customers WHERE code LIKE 'C-%'")) {
+             PreparedStatement ps = c.prepareStatement("SELECT COALESCE(MAX(CAST(SUBSTR(code,3) AS INTEGER)), 0)+1 FROM customers WHERE code LIKE 'C-%'")) {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getLong(1) : 1;
             }
